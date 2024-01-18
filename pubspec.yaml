@@ -30,6 +30,56 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #img
+  extended_image: ^8.1.1
+  smooth_page_indicator: ^1.1.0
+  image_picker: ^1.0.0
+  cached_network_image: ^3.3.0
+
+  #font
+  google_fonts: ^5.1.0
+
+  #comma
+  intl: ^0.18.1
+
+  #router
+  go_router: ^8.1.0
+
+  #provider
+  provider: ^6.0.5
+
+  #textsize
+  auto_size_text: ^3.0.0
+
+  #device사이즈
+  device_screen_size: ^0.0.2
+
+  #modal 창 bottom
+  modal_bottom_sheet: ^2.1.2
+
+  #api
+  dio: ^5.2.1+1
+  connectivity_plus: ^4.0.1
+  shared_preferences: ^2.2.0
+  http: ^1.1.0
+  http_parser: ^4.0.2
+
+  #Store 이동
+  store_redirect: ^2.0.1
+  package_info_plus: ^4.0.2
+
+  #format
+  flutter_multi_formatter: ^2.11.5
+
+  #firebase
+  firebase_core: ^2.15.1
+  firebase_messaging: ^14.6.4
+  flutter_local_notifications: ^15.1.0+1
+
+  #device id
+  platform_device_id: ^1.0.1
+  flutter_udid: ^2.0.1
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -38,6 +88,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -58,8 +109,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

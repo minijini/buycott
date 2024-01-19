@@ -26,9 +26,9 @@ class UserApiRepo {
   }
 
   /*
-  * 로그인 요청 / 출석체크
+  * 로그인 요청
   * */
-  Future<BaseModel?> login(String email , String pwd) async {
+  Future<BaseModel?> login(String id , String pwd) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -37,17 +37,14 @@ class UserApiRepo {
 
     String url = Api.baseUrl + ApiEndPoints.login;
 
-
-    // Map<String, dynamic>? queryParameters = {PARAM_FD_EMAIL: email, PARAM_FD_PWD :pwd , PARAM_FK_APPCODE:appCode };
-
     var formData = FormData.fromMap({
-      PARAM_FD_EMAIL: email,
-      PARAM_FD_PWD: pwd,
+      PARAM_USERID: id,
+      PARAM_PASSWORD: pwd,
+      PARAM_EXPIRE: "30d"
     });
 
     try {
-      // final response = await apiUtils.post(url: url,data: jsonEncode(json));
-      final response = await apiUtils.post(url: url,data: formData);
+      final response = await apiUtils.put(url: url,data: formData);
 
       if (response != null) {
 
@@ -65,71 +62,71 @@ class UserApiRepo {
   /*
   * 앱 버전 정보 조회
   * */
-  Future<BaseModel?> appVersion(String type) async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      return BaseModel.withError(
-          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
-    }
-
-    String url = Api.baseUrl + ApiEndPoints.appVersion;
-
-    Map<String, dynamic>? queryParameters = {PARAM_FK_APPCODE: appCode,PARAM_SEARCHTYPE: type};
-
-
-    try {
-      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
-
-      if (response != null) {
-
-        return BaseModel.fromJson(response.data);
-      }
-
-      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
-    } catch (e) {
-      return BaseModel.withError(
-          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
-    }
-  }
+  // Future<BaseModel?> appVersion(String type) async {
+  //   final connectivityResult = await (Connectivity().checkConnectivity());
+  //   if (connectivityResult == ConnectivityResult.none) {
+  //     return BaseModel.withError(
+  //         statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+  //   }
+  //
+  //   String url = Api.baseUrl + ApiEndPoints.appVersion;
+  //
+  //   Map<String, dynamic>? queryParameters = {PARAM_FK_APPCODE: appCode,PARAM_SEARCHTYPE: type};
+  //
+  //
+  //   try {
+  //     final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+  //
+  //     if (response != null) {
+  //
+  //       return BaseModel.fromJson(response.data);
+  //     }
+  //
+  //     return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+  //   } catch (e) {
+  //     return BaseModel.withError(
+  //         statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+  //   }
+  // }
 
 
 /*
   * file 업로드 gubun(P: 프로필, B: 게시글)
   * */
-  Future<BaseModel?> uploadFile(String fileGubun, XFile file ) async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      return BaseModel.withError(
-          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
-    }
-
-    String url = Api.baseUrl + ApiEndPoints.upload_file;
-
-    final image = MultipartFile.fromFileSync(file.path,filename:file.name,contentType: MediaType("image", "jpg"));
-
-    var formData = FormData.fromMap({
-      PARAM_FILE_GUBUN: fileGubun,
-      PARAM_FILE : image,
-    });
-
-    try {
-
-      final response = await apiUtils.post(url: url,data : formData,options: Options(
-          headers: {
-            "Access_Token" : token
-          }
-      ));
-
-      if (response != null) {
-
-        return BaseModel.fromJson(response.data);
-      }
-
-      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
-    } catch (e) {
-      return BaseModel.withError(
-          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
-    }
-  }
+  // Future<BaseModel?> uploadFile(String fileGubun, XFile file ) async {
+  //   final connectivityResult = await (Connectivity().checkConnectivity());
+  //   if (connectivityResult == ConnectivityResult.none) {
+  //     return BaseModel.withError(
+  //         statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+  //   }
+  //
+  //   String url = Api.baseUrl + ApiEndPoints.upload_file;
+  //
+  //   final image = MultipartFile.fromFileSync(file.path,filename:file.name,contentType: MediaType("image", "jpg"));
+  //
+  //   var formData = FormData.fromMap({
+  //     PARAM_FILE_GUBUN: fileGubun,
+  //     PARAM_FILE : image,
+  //   });
+  //
+  //   try {
+  //
+  //     final response = await apiUtils.post(url: url,data : formData,options: Options(
+  //         headers: {
+  //           "Access_Token" : token
+  //         }
+  //     ));
+  //
+  //     if (response != null) {
+  //
+  //       return BaseModel.fromJson(response.data);
+  //     }
+  //
+  //     return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+  //   } catch (e) {
+  //     return BaseModel.withError(
+  //         statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+  //   }
+  // }
 
 }

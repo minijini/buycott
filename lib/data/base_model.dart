@@ -6,21 +6,23 @@
 
 class BaseModel {
   String? message;
-  int? code;
+  int? statusCode;
+  String? error;
   dynamic data;
   dynamic translations;
   String? langCode;
 
   BaseModel({
     this.message,
-    this.code,
+    this.statusCode,
+    this.error,
     this.data,
     this.translations,
     this.langCode
   });
 
   bool isSuccess(){
-    if(code == 200){
+    if(statusCode == 200){
       return true;
     }else{
       return false;
@@ -31,13 +33,14 @@ class BaseModel {
     required int statusCode,
     String? error,
     required String msg,
-  })  : this.code = statusCode,
+  })  : this.statusCode = statusCode,
         this.message = msg;
 
 
   BaseModel.fromJson(dynamic json) {
     message = json['message'];
-    code = json['code'];
+    statusCode = json['statusCode'];
+    error = json['error'];
     data = json['data'];
     translations = json['translations'];
     langCode = json['langCode'];
@@ -47,7 +50,8 @@ class BaseModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['message'] = message;
-    map['code'] = code;
+    map['statusCode'] = statusCode;
+    map['error'] = error;
     map['data'] = data;
     map['translations'] = translations;
     map['langCode'] = langCode;

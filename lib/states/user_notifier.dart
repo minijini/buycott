@@ -1,10 +1,12 @@
 
+import 'package:buycott/utils/log_util.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../api/repository/user_api_repository.dart';
 import '../constants/sharedpreference_key.dart';
 import '../constants/status.dart';
 import '../router/constants.dart';
@@ -51,9 +53,6 @@ class UserNotifier extends ChangeNotifier{
         notifyListeners();
     }
 
-    void profileCall(){
-      profile();
-    }
 
     Future logout() async{
 
@@ -70,45 +69,49 @@ class UserNotifier extends ChangeNotifier{
       notifyListeners();
     }
 
-    void checkToken(BuildContext context) async{
-      final result = await UserApiRepo().checkToken();
-
-      if (result != null) {
-        if (result.isSuccess()) {
-
-        } else {
-          _token = '';
-          logout();
-          _authStatus = AuthStatus.signout;
-          CustomDialog(funcAction: dialogPop).normalDialog(context, 'login_session_expire', '확인');
-        }
-      }
-    }
-    //
-    // Future login(BuildContext context , String email, String pwd) async{
-    //   final result = await UserApiRepo().login(email, pwd);
+    // void checkToken(BuildContext context) async{
+    //   final result = await UserApiRepo().checkToken();
     //
     //   if (result != null) {
+    //     if (result.isSuccess()) {
     //
-    //       if (result.isSuccess()) {
-    //         _token = result.data ?? '';
-    //         Utility().setSharedPreference(TOKEN_KEY, _token!);
-    //
-    //         _authStatus = AuthStatus.signin;
-    //
-    //         profileCall();
-    //       } else {
-    //         _token = '';
-    //         Utility().setSharedPreference(TOKEN_KEY, _token!);
-    //         _authStatus = AuthStatus.signout;
-    //
-    //         CodeDialog().result_error_code(result.code,context,dialog_text: data_error);
-    //
-    //
-    //       }
+    //     } else {
+    //       _token = '';
+    //       logout();
+    //       _authStatus = AuthStatus.signout;
+    //       CustomDialog(funcAction: dialogPop).normalDialog(context, 'login_session_expire', '확인');
+    //     }
     //   }
-    //   notifyListeners();
     // }
+    //
+
+
+
+    Future login(BuildContext context , String email, String pwd) async{
+      final result = await UserApiRepo().login(email, pwd);
+
+      if (result != null) {
+
+          if (result.isSuccess()) {
+            _token = result.data ?? '';
+            Utility().setSharedPreference(TOKEN_KEY, _token!);
+
+            Log.logs("token", _token!);
+
+            _authStatus = AuthStatus.signin;
+
+          } else {
+            _token = '';
+            Utility().setSharedPreference(TOKEN_KEY, _token!);
+            _authStatus = AuthStatus.signout;
+
+            // CodeDialog().result_error_code(result.statusCode,context,dialog_text: result.error);
+
+
+          }
+      }
+      notifyListeners();
+    }
     //
     //
     // Future<bool?> join(BuildContext context , String birthdate,String di, String email,String hp, String nicknm, String nm, String pwd ,int marital,String mbti,int region , int regiondetail, String gender, List<XFile> fileList,String fdMarketingYn, {int? height, String? hobby} )async{

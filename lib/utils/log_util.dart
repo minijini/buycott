@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class Log {
   static void logs(String title, String msg) {
-    debugPrint('TAG:: $title :: $msg');
+    debugPrint('$title :: $msg');
   }
 
   static void loga(String title, var msg) {

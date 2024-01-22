@@ -43,5 +43,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+
+	<key>CFBundleURLTypes</key>
+        <array>
+          <dict>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <!-- kakao login -->
+            <string>36819280f2245ae1a969dd8de2dda219</string>
+          </array>
+          </dict>
+        </array>
+
+
 </dict>
 </plist>

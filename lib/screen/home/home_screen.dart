@@ -63,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (size == null) size = MediaQuery.of(context).size;
+    size ??= MediaQuery.of(context).size;
+
 
     return Scaffold(
       body: Container(),

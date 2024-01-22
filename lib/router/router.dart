@@ -1,3 +1,4 @@
+import 'package:buycott/screen/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,7 +26,7 @@ class MyRouter {
           path: '/login',
           name: loginRouteName,
           builder: (context, state) {
-            return const HomeScreen();
+            return const LoginScreen();
           },
           routes: [
             // GoRoute(

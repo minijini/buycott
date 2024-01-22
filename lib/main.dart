@@ -3,12 +3,16 @@ import 'package:buycott/states/user_notifier.dart';
 import 'package:buycott/utils/theme/basic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/basic_text.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //kakao Login 설정
+  KakaoSdk.init(nativeAppKey: '36819280f2245ae1a969dd8de2dda219');
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

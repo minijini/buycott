@@ -1,5 +1,5 @@
 class ApiEndPoints {
-  static const login = "login";
+  static const signin = "signin";
   static const signup = "signup";
 
 

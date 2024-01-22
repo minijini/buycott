@@ -1,4 +1,4 @@
-package com.example.buycott
+package com.minijini.buycott
 
 import io.flutter.embedding.android.FlutterActivity
 

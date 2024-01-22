@@ -35,7 +35,7 @@ class UserApiRepo {
           statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
     }
 
-    String url = Api.baseUrl + ApiEndPoints.login;
+    String url = Api.baseUrl + ApiEndPoints.signin;
 
     var formData = FormData.fromMap({
       PARAM_USERID: id,
@@ -43,8 +43,12 @@ class UserApiRepo {
       PARAM_EXPIRE: "30d"
     });
 
+    Map<String, dynamic>? queryParameters = { PARAM_USERID: id,
+      PARAM_PASSWORD: pwd,
+      PARAM_EXPIRE: "30d" };
+
     try {
-      final response = await apiUtils.put(url: url,data: formData);
+      final response = await apiUtils.put(url: url,data: queryParameters);
 
       if (response != null) {
 

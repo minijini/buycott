@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       FCMProvider.setContext(context);
     });
 
-    Provider.of<UserNotifier>(context,listen: false).login(context,"seongijin","1234");
+    Provider.of<UserNotifier>(context,listen: false).login(context,"admin","1234");
 
 
     super.initState();

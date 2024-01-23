@@ -56,6 +56,43 @@
           </dict>
         </array>
 
+    <!-- naver client_id -->
+    <key>naverConsumerKey</key>
+    <string>jzvySeEWcqsNSckV_nby</string>
+
+    <!-- naver client_secret -->
+    <key>naverConsumerSecret</key>
+    <string>Ek7JqXY4cz</string>
+
+    <key>naverServiceAppName</key>
+    <string>buycott</string>
+
+    <key>naverServiceAppUrlScheme</key>
+    <string>naver</string>
+
+    <!-- http allows configurations -->
+        <key>NSAppTransportSecurity</key>
+        <dict>
+           <key>NSAllowsArbitraryLoads</key>
+           <true/>
+           <key>NSExceptionDomains</key>
+           <dict>
+              <key>naver.com</key>
+              <dict>
+                 <key>NSExceptionRequiresForwardSecrecy</key>
+                 <false/>
+                 <key>NSIncludesSubdomains</key>
+                 <true/>
+              </dict>
+              <key>naver.net</key>
+              <dict>
+                 <key>NSExceptionRequiresForwardSecrecy</key>
+                 <false/>
+                 <key>NSIncludesSubdomains</key>
+                 <true/>
+              </dict>
+            </dict>
+        </dict>
 
 </dict>
 </plist>

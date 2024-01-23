@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:buycott/utils/log_util.dart';
 import 'package:device_screen_size/device_screen_size.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -37,6 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
       _isKaKaoTalkInstalled = installed;
     });
   }
+
+
   @override
   Widget build(BuildContext context) {
     size ??= MediaQuery.of(context).size;
@@ -46,13 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         child: Column(
           children: [
-            GestureDetector(
-              onTap: kakaoLogin,
-              child: SizedBox(
-                  width: double.infinity,
-                  height: 60,
-                  child: Image.asset("assets/login/kakao_login.png")),
-            )
+            _snsLoginButton("kakao_login",signInWithKakao),
+            _snsLoginButton("naver_login",signInWithNaver),
 
           ],
         ),
@@ -60,7 +58,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void kakaoLogin() async {
+  GestureDetector _snsLoginButton(String path, VoidCallback onTap) {
+    return GestureDetector(
+            onTap: onTap,
+            child: SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: Image.asset("assets/login/$path.png")),
+          );
+  }
+
+  void signInWithKakao() async {
     if (await isKakaoTalkInstalled()) {
       try {
         await UserApi.instance.loginWithKakaoTalk();
@@ -103,6 +111,22 @@ class _LoginScreenState extends State<LoginScreen> {
           '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
     } catch (error) {
       Log.logs(TAG,'사용자 정보 요청 실패 $error');
+    }
+  }
+
+  void signInWithNaver() async {
+    final NaverLoginResult result = await FlutterNaverLogin.logIn();
+
+    if (result.status == NaverLoginStatus.loggedIn) {
+      Log.logs(TAG,'accessToken = ${result.accessToken}');
+      Log.logs(TAG,'id = ${result.account.id}');
+      Log.logs(TAG,'email = ${result.account.email}');
+      Log.logs(TAG,'birthday = ${result.account.birthday}');
+      Log.logs(TAG,'gender = ${result.account.gender}');
+
+      setState(() {
+        _loginPlatform = LoginPlatform.naver;
+      });
     }
   }
 

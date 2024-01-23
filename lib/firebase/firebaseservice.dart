@@ -5,10 +5,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../constants/basic_text.dart';
+import '../utils/log_util.dart';
 import 'fcmprovider.dart';
 import 'firebase_options.dart';
 
+const String TAG = "FirebaseService";
+
 class FirebaseService {
+
   static FirebaseMessaging? _firebaseMessaging;
   static FirebaseMessaging get firebaseMessaging => FirebaseService._firebaseMessaging ?? FirebaseMessaging.instance;
 
@@ -32,7 +36,7 @@ class FirebaseService {
 
     // firebase token 발급
     String? firebaseToken = await FirebaseMessaging.instance.getToken();
-    print("firebaseToken : ${firebaseToken}");
+    Log.logs(TAG,"firebaseToken : ${firebaseToken}");
     pushtoken = firebaseToken;
 
   }
@@ -77,7 +81,7 @@ sound - 알림 소리 권한 요청 (default true)
       sound: true,
     );
 
-    print('User granted permission: ${settings.authorizationStatus}');
+    Log.logs(TAG,'User granted permission: ${settings.authorizationStatus}');
 
 
     // foreground에서의 푸시 알림 표시를 위한 알림 중요도 설정 (안드로이드)
@@ -108,11 +112,11 @@ sound - 알림 소리 권한 요청 (default true)
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
 
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-      print('Message notification hashCode: ${notification.hashCode}');
-      print('Message notification title: ${notification?.title}');
-      print('Message notification body: ${notification?.body}');
+      Log.logs(TAG,'Got a message whilst in the foreground!');
+      Log.logs(TAG,'Message data: ${message.data}');
+      Log.logs(TAG,'Message notification hashCode: ${notification.hashCode}');
+      Log.logs(TAG,'Message notification title: ${notification?.title}');
+      Log.logs(TAG,'Message notification body: ${notification?.body}');
 
       if (message.notification != null && android != null) {
         await FirebaseService._localNotificationsPlugin.show(
@@ -133,12 +137,12 @@ sound - 알림 소리 권한 요청 (default true)
 
         FCMProvider.callChatList();
 
-        print('Message also contained a notification: ${message.notification}');
+        Log.logs(TAG,'Message also contained a notification: ${message.notification}');
         // 데이터 유무 확인
-        print('Message data: ${message.data}');
+        Log.logs(TAG,'Message data: ${message.data}');
         // notification 유무 확인
         if (message.notification != null) {
-          print('Message also contained a notification: ${message.notification!.body}');
+          Log.logs(TAG,'Message also contained a notification: ${message.notification!.body}');
         }
       }else{
         FCMProvider.callChatList();
@@ -156,9 +160,6 @@ sound - 알림 소리 권한 요청 (default true)
 
     FirebaseMessaging.onBackgroundMessage(FCMProvider.backgroundHandler);
 
-
   }
-
-
 
 }

@@ -13,7 +13,9 @@ class FirebaseService {
   static FirebaseMessaging get firebaseMessaging => FirebaseService._firebaseMessaging ?? FirebaseMessaging.instance;
 
    static Future<void> initializeFirebase() async {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+     //TODO:options 제거함
+    // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp();
     FirebaseService._firebaseMessaging = FirebaseMessaging.instance;
     await FirebaseService.initializeLocalNotifications();
     await FirebaseService.onBackgroundMsg();

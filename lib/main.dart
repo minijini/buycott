@@ -7,6 +7,8 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/basic_text.dart';
+import 'firebase/fcm_setting.dart';
+import 'firebase/firebaseservice.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,7 @@ void main() async {
   // notification 설정
   // String? firebaseToken = await fcmSetting();
 
-  // await FirebaseService.initializeFirebase();
+  await FirebaseService.initializeFirebase();
 
   runApp( MyApp(userNotifier: user_State));
 }

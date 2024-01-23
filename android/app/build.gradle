@@ -21,7 +21,15 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// start of Gradle 서명 구성
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('app/key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -50,11 +58,38 @@ android {
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output->
+            def apk = output.outputFile
+            def packageName = defaultConfig.applicationId
+            def versionName = defaultConfig.versionName
+            def dateStr = new Date().format("yyyyMMdd")
+            def newName
+            if (apk != null && apk.name.startsWith('app-release')) {
+                newName = apk.name.replace("app-release",  packageName + "_" + versionName + "_" + dateStr);
+            }else{
+                newName = apk.name.replace("app-debug", packageName + "_" + versionName + "_" + dateStr);
+            }
+            outputFileName = newName
         }
     }
 }
@@ -65,4 +100,9 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
+    // Add the dependency for the Firebase SDK for Google Analytics
+    implementation("com.google.firebase:firebase-analytics")
 }

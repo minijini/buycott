@@ -1,4 +1,5 @@
 
+import 'package:buycott/data/result_model.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -86,14 +87,19 @@ class UserNotifier extends ChangeNotifier{
     //
 
 
-
+    /*
+    * 로그인
+    * */
     Future login(BuildContext context , String email, String pwd) async{
       final result = await UserApiRepo().login(email, pwd);
 
       if (result != null) {
 
-          if (result.isSuccess()) {
-            _token = result.data ?? '';
+          if (result.isSuccess(context)) {
+
+            var dataResult = ResultModel.fromJson(result.data);
+
+            _token = dataResult.token ?? '';
             Utility().setSharedPreference(TOKEN_KEY, _token!);
 
             Log.logs("token", _token!);
@@ -107,11 +113,62 @@ class UserNotifier extends ChangeNotifier{
 
             // CodeDialog().result_error_code(result.statusCode,context,dialog_text: result.error);
 
-
           }
       }
       notifyListeners();
     }
+
+
+
+  /*
+    * 가입여부체크
+    * */
+  Future<int?> memberCheck(BuildContext context , String userId) async{
+    final result = await UserApiRepo().memberCheck(userId);
+
+    if (result != null) {
+
+      if (result.isSuccess(context)) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+
+        return dataResult.code;
+
+      }
+    }
+
+    return null;
+  }
+
+  /*
+    * 닉네임중복체크
+    * */
+  Future<bool> nicknameCheck(BuildContext context , String nickName) async{
+    final result = await UserApiRepo().nicknameCheck(nickName);
+
+    if (result != null) {
+
+      if (result.isSuccess(context)) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+
+        if(dataResult.code == 2002){ //2002 : 사용 가능한 닉네임
+          _resultDialog(context, dataResult);
+          return true;
+        }else{//2003 : 중복된 닉네임
+          _resultDialog(context, dataResult);
+          return false;
+        }
+
+      }
+    }
+
+    return false;
+  }
+
+
+
+
     //
     //
     // Future<bool?> join(BuildContext context , String birthdate,String di, String email,String hp, String nicknm, String nm, String pwd ,int marital,String mbti,int region , int regiondetail, String gender, List<XFile> fileList,String fdMarketingYn, {int? height, String? hobby} )async{
@@ -172,6 +229,7 @@ class UserNotifier extends ChangeNotifier{
     //
     //
 
+    Future<void> _resultDialog(BuildContext context, ResultModel resultModel) => CustomDialog(funcAction: dialogPop).normalDialog(context, resultModel.msg!, '확인');
 
     void dialogPop(BuildContext context) async {
       Navigator.pop(context);

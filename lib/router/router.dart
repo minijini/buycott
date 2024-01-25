@@ -26,7 +26,7 @@ class MyRouter {
           path: '/login',
           name: loginRouteName,
           builder: (context, state) {
-            return const LoginScreen();
+            return const HomeScreen();
           },
           routes: [
             // GoRoute(

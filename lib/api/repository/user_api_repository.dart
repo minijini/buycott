@@ -37,12 +37,6 @@ class UserApiRepo {
 
     String url = Api.baseUrl + ApiEndPoints.signin;
 
-    var formData = FormData.fromMap({
-      PARAM_USERID: id,
-      PARAM_PASSWORD: pwd,
-      PARAM_EXPIRE: "30d"
-    });
-
     Map<String, dynamic>? queryParameters = { PARAM_USERID: id,
       PARAM_PASSWORD: pwd,
       PARAM_EXPIRE: "30d" };
@@ -64,6 +58,69 @@ class UserApiRepo {
 
 
   /*
+  * 가입여부체크
+  * */
+  Future<BaseModel?> memberCheck(String id) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.checkMember;
+
+    Map<String, dynamic>? queryParameters = { PARAM_USERID: id};
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+
+  /*
+  * 가입여부체크
+  * */
+  Future<BaseModel?> nicknameCheck(String nickName) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.checkNickname;
+
+    Map<String, dynamic>? queryParameters = { PARAM_NICKNAME: nickName};
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+
+
+
+
+/*
   * 앱 버전 정보 조회
   * */
   // Future<BaseModel?> appVersion(String type) async {

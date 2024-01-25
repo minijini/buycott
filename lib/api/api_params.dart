@@ -12,6 +12,7 @@ String PARAM_TOKEN = "token";
 String PARAM_USERID = "userId"; //아이디
 String PARAM_PASSWORD = "password"; //비밀번호
 String PARAM_EXPIRE = "expire"; //토큰 만료시간
+String PARAM_NICKNAME = "nickname"; //닉네임
 
 
 

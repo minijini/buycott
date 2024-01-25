@@ -1,5 +1,9 @@
 
 
+import 'package:flutter/material.dart';
+
+import '../utils/code_dialog.dart';
+
 /// message : "SUCCESS"
 /// code : 200
 /// data : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5Y1RlREx1TytzRFBBaXptbWVoOVhnPT06QTAwMDAwMToxIiwiZXhwIjoxNjg5MDU1MDcyfQ.CqqXlNo2zeP9zkwJR8L4ZzKMsEz5raSLrdlQFTuurVQ"
@@ -21,10 +25,11 @@ class BaseModel {
     this.langCode
   });
 
-  bool isSuccess(){
+  bool isSuccess(BuildContext context){
     if(statusCode == 200){
       return true;
     }else{
+      CodeDialog().response_error(context);
       return false;
     }
   }

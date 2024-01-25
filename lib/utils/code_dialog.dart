@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../router/constants.dart';
 import '../widgets/dialog/custom_dialog.dart';
 
 class CodeDialog {
@@ -11,6 +12,12 @@ class CodeDialog {
         CustomDialog(funcAction: dialogPop).normalDialog(
           context,dialog_text ?? "", '확인');
     }
+  }
+
+  void response_error(BuildContext context) {
+    CustomDialog(funcAction: dialogPop).normalDialog(
+          context,api_error, '확인');
+
   }
 
   void dialogPop(BuildContext context) async {

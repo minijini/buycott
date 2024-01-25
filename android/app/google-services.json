@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "215711687829",
+    "project_id": "buycott-df7fa",
+    "storage_bucket": "buycott-df7fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215711687829:android:5b6b03b31a5e596b59679c",
+        "android_client_info": {
+          "package_name": "com.minijini.buycott"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWE7MBEKIP4zNgXMXMw2h8eHgRtS_xOPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../router/constants.dart';
+import '../constants/constants.dart';
 import '../widgets/dialog/custom_dialog.dart';
 
 class CodeDialog {

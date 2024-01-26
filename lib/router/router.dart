@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../screen/home/home_screen.dart';
 import '../states/user_notifier.dart';
-import 'constants.dart';
+import '../constants/constants.dart';
 
 
 class MyRouter {

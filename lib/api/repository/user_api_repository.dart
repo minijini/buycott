@@ -57,6 +57,47 @@ class UserApiRepo {
   }
 
 
+ /*
+  * 회원가입
+  * */
+  Future<BaseModel?> signUp(String id , String pwd, String name, String nickname,String email, String address, String birth, String gender, String signType) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.signup;
+
+    Map<String, dynamic>? queryParameters = {
+      PARAM_USERID: id,
+      PARAM_PASSWORD: pwd,
+      PARAM_USERNAME: nickname,
+      PARAM_NICKNAME:nickname,
+      PARAM_EMAIL: email,
+      PARAM_ADDRESS: address,
+      PARAM_BIRTH:birth,
+      PARAM_GENDER: gender,
+      PARAM_SIGHTYPE: signType };
+
+    try {
+      final response = await apiUtils.post(url: url,data: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+
+
+
   /*
   * 가입여부체크
   * */

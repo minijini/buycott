@@ -1,5 +1,5 @@
 
-import '../constants/basic_text.dart';
+import 'basic_text.dart';
 
 const String loginRouteName = 'login';
 const String signUpRouteName = 'signup';

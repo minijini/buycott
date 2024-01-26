@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 
-import '../router/constants.dart';
+import '../constants/constants.dart';
 import 'firebase_options.dart';
 
 

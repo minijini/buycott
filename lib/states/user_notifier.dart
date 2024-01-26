@@ -8,9 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/repository/user_api_repository.dart';
+import '../constants/response_code.dart';
 import '../constants/sharedpreference_key.dart';
 import '../constants/status.dart';
-import '../router/constants.dart';
+import '../constants/constants.dart';
 import '../utils/code_dialog.dart';
 import '../utils/utility.dart';
 import '../widgets/dialog/custom_dialog.dart';
@@ -118,6 +119,28 @@ class UserNotifier extends ChangeNotifier{
       notifyListeners();
     }
 
+/*
+    * 회원가입
+    * */
+    Future signUp(BuildContext context , String id , String pwd, String name, String nickname,String email, String address, String birth, String gender, String signType) async{
+      final result = await UserApiRepo().signUp(id,pwd,name,nickname,email,address,birth,gender,signType);
+
+      if (result != null) {
+
+          if (result.isSuccess(context)) {
+
+            var dataResult = ResultModel.fromJson(result.data);
+
+            if(dataResult.code == signupSuccess){
+              _resultDialog(context, dataResult);
+              return true;
+            }
+
+          }
+      }
+      notifyListeners();
+    }
+
 
 
   /*
@@ -131,9 +154,7 @@ class UserNotifier extends ChangeNotifier{
       if (result.isSuccess(context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
-
         return dataResult.code;
-
       }
     }
 
@@ -152,7 +173,7 @@ class UserNotifier extends ChangeNotifier{
 
         var dataResult = ResultModel.fromJson(result.data);
 
-        if(dataResult.code == 2002){ //2002 : 사용 가능한 닉네임
+        if(dataResult.code == nicknameSuccess){ //2002 : 사용 가능한 닉네임
           _resultDialog(context, dataResult);
           return true;
         }else{//2003 : 중복된 닉네임
@@ -242,6 +263,7 @@ class UserNotifier extends ChangeNotifier{
 
 
     String? get token => _token;
+    AuthStatus get authStatus => _authStatus;
     // MemberInfo? get memberInfo => _memberInfo;
 
 

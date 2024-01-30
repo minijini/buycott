@@ -21,6 +21,10 @@ String PARAM_GENDER = "gender"; //성별
 String PARAM_SIGHTYPE = "sighType"; //로그인타입
 String PARAM_EXPIRE = "expire"; //토큰 만료시간
 
+String PARAM_QUERY = "query"; //검색 질의어
+String PARAM_PAGE = "page"; //결과 페이지 번호
+String PARAM_SIZE = "size"; //한 페이지에 보여질 문서의 개수
+
 
 
 

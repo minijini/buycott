@@ -1,4 +1,5 @@
 import 'package:buycott/router/router.dart';
+import 'package:buycott/states/shop_notifier.dart';
 import 'package:buycott/states/user_notifier.dart';
 import 'package:buycott/utils/theme/basic_theme.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ void main() async {
   ]); //세로고정
 
   final user_State = UserNotifier();
+  final shop_State = ShopNotifier();
 
 
   // notification 설정
@@ -29,14 +31,15 @@ void main() async {
 
   await FirebaseService.initializeFirebase();
 
-  runApp( MyApp(userNotifier: user_State));
+  runApp( MyApp(userNotifier: user_State, shopNotifier: shop_State,));
 }
 
 class MyApp extends StatefulWidget {
   final UserNotifier userNotifier;
+  final ShopNotifier shopNotifier;
 
 
-  const MyApp({super.key,required this.userNotifier});
+  const MyApp({super.key,required this.userNotifier, required this.shopNotifier});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -49,16 +52,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: app_name,
-      home:  MainApp(userNotifier: widget.userNotifier),
+      home:  MainApp(userNotifier: widget.userNotifier,shopNotifier: widget.shopNotifier,),
     );
   }
 }
 
 class MainApp extends StatelessWidget {
   final UserNotifier userNotifier;
+  final ShopNotifier shopNotifier;
 
 
-  const MainApp({Key? key,required this.userNotifier}) : super(key: key);
+  const MainApp({Key? key,required this.userNotifier, required this.shopNotifier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +72,11 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider<UserNotifier>(
           lazy: false,
           create: (BuildContext createContext) => userNotifier,
+        ), 
+        
+        ChangeNotifierProvider<ShopNotifier>(
+          lazy: false,
+          create: (BuildContext createContext) => shopNotifier,
         ),
 
 

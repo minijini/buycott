@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../constants/basic_text.dart';
 import '../utils/log_util.dart';
 import 'custom_log_interceptor.dart';
 
@@ -37,11 +38,12 @@ class ApiUtils  {
     required String url,
     Map<String, dynamic>? queryParameters,
     Options? options,
+    bool userTokenHeader = true
   }) async {
     var result = await _dio.get(
       url,
       queryParameters: queryParameters,
-        options: options
+        options: userTokenHeader ? Options(headers: {"" : ""} ): Options(headers: {"Authorization" : kakao_response_key})
     );
     return result;
   }

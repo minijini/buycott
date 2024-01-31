@@ -21,30 +21,40 @@ import '../widgets/dialog/custom_dialog.dart';
 class PlaceNotifier extends ChangeNotifier{
   final String TAG = "ShopNotifier";
   String? _token ;
+  List<Place>? _placeList;
+  bool _endYn = false;
 
 
   /*
     * 장소 검색
     * */
-  Future placeSearch(BuildContext context , String query) async{
-    final result = await PlaceApiRepo().placeSearch(query);
+  Future<List<Place>?> placeSearch(BuildContext context , String query, int pageIndex) async{
+    final result = await PlaceApiRepo().placeSearch(query,pageIndex);
 
     if (result != null) {
 
         if(result.documents != null) {
+          if(_placeList!=null) {
+            _placeList!.clear();
+          }
 
           final _dataResult = result.documents!;
+          _placeList = _dataResult;
+
+          _endYn = result.meta!.isEnd!;
 
           //TODO:: 리스트 로그
-          for (var place in _dataResult) {
-            Log.logs(TAG, "place name :: ${place.placeName}");
-          }
+          // for (var place in _dataResult) {
+          //   Log.logs(TAG, "place name :: ${place.placeName}");
+          // }
 
         }
 
     }
 
-    return false;
+    notifyListeners();
+
+    return _placeList;
   }
 
 
@@ -53,6 +63,9 @@ class PlaceNotifier extends ChangeNotifier{
     void dialogPop(BuildContext context) async {
       Navigator.pop(context);
     }
+
+  List<Place>? get placeList  => _placeList;
+  bool get endYn  => _endYn;
 
 
 }

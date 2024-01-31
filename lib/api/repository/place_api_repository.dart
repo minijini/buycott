@@ -23,11 +23,11 @@ class PlaceApiRepo {
   /*
   * 장소 검색(kakao)
   * */
-  Future<PlaceResultModel?> placeSearch(String query) async {
+  Future<PlaceResultModel?> placeSearch(String query,int pageIndex) async {
 
     String url = Api.placeUrl;
 
-    Map<String, dynamic>? queryParameters = { PARAM_QUERY: query};
+    Map<String, dynamic>? queryParameters = { PARAM_QUERY: query,PARAM_PAGE : pageIndex};
 
     try {
       final response = await apiUtils.get(url: url,queryParameters: queryParameters,userTokenHeader: false);

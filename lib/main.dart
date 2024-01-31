@@ -1,5 +1,5 @@
 import 'package:buycott/router/router.dart';
-import 'package:buycott/states/shop_notifier.dart';
+import 'package:buycott/states/place_notifier.dart';
 import 'package:buycott/states/user_notifier.dart';
 import 'package:buycott/utils/theme/basic_theme.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ void main() async {
   ]); //세로고정
 
   final user_State = UserNotifier();
-  final shop_State = ShopNotifier();
+  final place_State = PlaceNotifier();
 
 
   // notification 설정
@@ -31,15 +31,15 @@ void main() async {
 
   await FirebaseService.initializeFirebase();
 
-  runApp( MyApp(userNotifier: user_State, shopNotifier: shop_State,));
+  runApp( MyApp(userNotifier: user_State, placeNotifier: place_State,));
 }
 
 class MyApp extends StatefulWidget {
   final UserNotifier userNotifier;
-  final ShopNotifier shopNotifier;
+  final PlaceNotifier placeNotifier;
 
 
-  const MyApp({super.key,required this.userNotifier, required this.shopNotifier});
+  const MyApp({super.key,required this.userNotifier, required this.placeNotifier});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -52,17 +52,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: app_name,
-      home:  MainApp(userNotifier: widget.userNotifier,shopNotifier: widget.shopNotifier,),
+      home:  MainApp(userNotifier: widget.userNotifier,placeNotifier: widget.placeNotifier,),
     );
   }
 }
 
 class MainApp extends StatelessWidget {
   final UserNotifier userNotifier;
-  final ShopNotifier shopNotifier;
+  final PlaceNotifier placeNotifier;
 
 
-  const MainApp({Key? key,required this.userNotifier, required this.shopNotifier}) : super(key: key);
+  const MainApp({Key? key,required this.userNotifier, required this.placeNotifier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +74,9 @@ class MainApp extends StatelessWidget {
           create: (BuildContext createContext) => userNotifier,
         ), 
         
-        ChangeNotifierProvider<ShopNotifier>(
+        ChangeNotifierProvider<PlaceNotifier>(
           lazy: false,
-          create: (BuildContext createContext) => shopNotifier,
+          create: (BuildContext createContext) => placeNotifier,
         ),
 
 

@@ -15,9 +15,9 @@ import '../api_params.dart';
 import '../api_url.dart';
 import '../api_utils.dart';
 
-class ShopApiRepo {
+class PlaceApiRepo {
 
-  ShopApiRepo(){
+  PlaceApiRepo(){
   }
 
   /*

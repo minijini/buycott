@@ -1,6 +1,6 @@
 
 
-import 'package:buycott/states/shop_notifier.dart';
+import 'package:buycott/states/place_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Provider.of<UserNotifier>(context,listen: false).login(context,"admin","1234");
     // Provider.of<UserNotifier>(context,listen: false).nicknameCheck(context,"admin");
-    Provider.of<ShopNotifier>(context,listen: false).placeSearch(context,"옛가");
+    Provider.of<PlaceNotifier>(context,listen: false).placeSearch(context,"옛가");
 
 
     super.initState();

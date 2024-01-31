@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../api/repository/shop_api_repository.dart';
+import '../api/repository/place_api_repository.dart';
 import '../api/repository/user_api_repository.dart';
 import '../constants/response_code.dart';
 import '../constants/sharedpreference_key.dart';
@@ -18,7 +18,7 @@ import '../utils/code_dialog.dart';
 import '../utils/utility.dart';
 import '../widgets/dialog/custom_dialog.dart';
 
-class ShopNotifier extends ChangeNotifier{
+class PlaceNotifier extends ChangeNotifier{
   final String TAG = "ShopNotifier";
   String? _token ;
 
@@ -27,7 +27,7 @@ class ShopNotifier extends ChangeNotifier{
     * 장소 검색
     * */
   Future placeSearch(BuildContext context , String query) async{
-    final result = await ShopApiRepo().placeSearch(query);
+    final result = await PlaceApiRepo().placeSearch(query);
 
     if (result != null) {
 
@@ -35,6 +35,7 @@ class ShopNotifier extends ChangeNotifier{
 
           final _dataResult = result.documents!;
 
+          //TODO:: 리스트 로그
           for (var place in _dataResult) {
             Log.logs(TAG, "place name :: ${place.placeName}");
           }

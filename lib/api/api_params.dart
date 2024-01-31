@@ -18,6 +18,9 @@ String PARAM_ADDRESS = "address"; //주소
 String PARAM_BIRTH = "birth"; //생일
 String PARAM_GENDER = "gender"; //성별
 
+String PARAM_USERSRNO = "userSrno"; //userindex
+String PARAM_FILES = "files"; //파일
+
 String PARAM_SIGHTYPE = "sighType"; //로그인타입
 String PARAM_EXPIRE = "expire"; //토큰 만료시간
 

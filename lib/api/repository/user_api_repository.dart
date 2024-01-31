@@ -157,6 +157,41 @@ class UserApiRepo {
     }
   }
 
+/*
+  * 프로필 이미지 업로드
+  * */
+  Future<BaseModel?> userImg(String userSrno, XFile file) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.userImg;
+
+    final image = MultipartFile.fromFileSync(file.path,filename:file.name,contentType: MediaType("image", "jpg"));
+
+
+    var formData = FormData.fromMap({
+      PARAM_USERSRNO: userSrno,
+      PARAM_FILES:image
+      });
+
+    try {
+      final response = await apiUtils.post(url: url,data : formData);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
 
 
 

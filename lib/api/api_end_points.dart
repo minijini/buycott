@@ -1,4 +1,7 @@
 class ApiEndPoints {
+  static const kakao_keyword = "keyword.json";
+  static const kakao_address = "address.json";
+
   static const signin = "signin";
   static const signup = "signup";
 

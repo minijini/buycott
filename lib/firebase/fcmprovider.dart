@@ -37,15 +37,15 @@ class FCMProvider extends ChangeNotifier {
 
     final  _data = FCMProvider.convertPayload(response!.payload!);
     print('onDidReceiveNotificationResponse - parsedJson type: ${_data['type']}');
-    if (_data['type'] == fcm_chat){
-      FCMProvider._context!.goNamed(
-        chatRouteName,
-        pathParameters: {
-          'pkChat': '${_data['pkChat']}',
-          'pkMember': '${_data['pkMember']}',
-        },
-      );
-    }
+    // if (_data['type'] == fcm_chat){
+    //   FCMProvider._context!.goNamed(
+    //     chatRouteName,
+    //     pathParameters: {
+    //       'pkChat': '${_data['pkChat']}',
+    //       'pkMember': '${_data['pkMember']}',
+    //     },
+    //   );
+    // }
   }
 
 
@@ -67,15 +67,15 @@ class FCMProvider extends ChangeNotifier {
     print('handleMessage data= ${message.data}');
     print('handleMessage data type= ${message.data['type']}');
 
-    if (message.data['type'] == fcm_chat){
-      FCMProvider._context!.goNamed(
-        chatRouteName,
-        pathParameters: {
-          'pkChat': '${message.data['pkChat']}',
-          'pkMember': '${message.data['pkMember']}',
-        },
-      );
-    }
+    // if (message.data['type'] == fcm_chat){
+    //   FCMProvider._context!.goNamed(
+    //     chatRouteName,
+    //     pathParameters: {
+    //       'pkChat': '${message.data['pkChat']}',
+    //       'pkMember': '${message.data['pkMember']}',
+    //     },
+    //   );
+    // }
 
     FCMProvider.callChatList();
 

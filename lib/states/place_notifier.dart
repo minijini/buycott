@@ -13,6 +13,7 @@ import '../constants/response_code.dart';
 import '../constants/sharedpreference_key.dart';
 import '../constants/status.dart';
 import '../constants/constants.dart';
+import '../data/address_result_model.dart';
 import '../data/place_result_model.dart';
 import '../utils/code_dialog.dart';
 import '../utils/utility.dart';
@@ -22,6 +23,7 @@ class PlaceNotifier extends ChangeNotifier{
   final String TAG = "ShopNotifier";
   String? _token ;
   List<Place>? _placeList;
+  List<Documents>? _addressList;
   bool _endYn = false;
 
 
@@ -58,7 +60,34 @@ class PlaceNotifier extends ChangeNotifier{
   }
 
 
-    Future<void> _resultDialog(BuildContext context, ResultModel resultModel) => CustomDialog(funcAction: dialogPop).normalDialog(context, resultModel.msg!, '확인');
+  /*
+    * 주소 검색
+    * */
+  Future<List<Documents>?> addressSearch(BuildContext context , String query, int pageIndex) async{
+    final result = await PlaceApiRepo().addressSearch(query,pageIndex);
+
+    if (result != null) {
+
+      if(result.documents != null) {
+        if(_addressList!=null) {
+          _addressList!.clear();
+        }
+
+        final _dataResult = result.documents!;
+        _addressList = _dataResult;
+        _endYn = result.meta!.isEnd!;
+      }
+
+    }
+
+    notifyListeners();
+
+    return _addressList;
+  }
+
+
+
+  Future<void> _resultDialog(BuildContext context, ResultModel resultModel) => CustomDialog(funcAction: dialogPop).normalDialog(context, resultModel.msg!, '확인');
 
     void dialogPop(BuildContext context) async {
       Navigator.pop(context);

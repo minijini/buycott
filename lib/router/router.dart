@@ -1,10 +1,12 @@
 import 'package:buycott/screen/login/login_screen.dart';
+import 'package:buycott/screen/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../screen/home/home_screen.dart';
 import '../states/user_notifier.dart';
 import '../constants/constants.dart';
+import '../widgets/UnanimatedPageRoute.dart';
 
 
 class MyRouter {
@@ -13,7 +15,7 @@ class MyRouter {
   MyRouter(this.userProvider);
 
   late final router = GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/home',
     //첫화면설정
     errorBuilder: (context, state) {
       return const Text('Error occur');
@@ -23,12 +25,121 @@ class MyRouter {
     // },
     routes: [
       GoRoute(
-          path: '/login',
-          name: loginRouteName,
+          path: '/home',
+          name: homeRouteName,
           builder: (context, state) {
             return const HomeScreen();
           },
           routes: [
+            GoRoute(
+              path: 'login',
+              name: loginRouteName,
+              builder: (context, state) {
+                return const LoginScreen();
+              },
+              pageBuilder: defaultPageBuilder(const LoginScreen()),
+              // routes: [
+              //
+              //   GoRoute(
+              //     path: 'profile',
+              //     name: myprofileRouteName,
+              //     pageBuilder: (context, state) {
+              //       return CustomTransitionPage(
+              //         key: state.pageKey,
+              //         child: MyProfileScreen(),
+              //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //           return FadeTransition(
+              //             opacity:
+              //             CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+              //             child: child,
+              //           );
+              //         },
+              //       );
+              //     },
+              //   ),
+              //
+              //   GoRoute(
+              //       path: 'notice',
+              //       name: noticeRouteName,
+              //       pageBuilder: (context, state) {
+              //         return CustomTransitionPage(
+              //           key: state.pageKey,
+              //           child: NoticeScreen(),
+              //           transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //             return FadeTransition(
+              //               opacity:
+              //               CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+              //               child: child,
+              //             );
+              //           },
+              //         );
+              //       },
+              //     routes: [
+              //       GoRoute(
+              //         path: 'detail/:seq',
+              //         name:noticeDetailRouteName,
+              //         pageBuilder: (context, state) {
+              //           return CustomTransitionPage(
+              //             key: state.pageKey,
+              //             child: NoticeDetailScreen(seq:state.pathParameters['seq']!,),
+              //             transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //               return FadeTransition(
+              //                 opacity:
+              //                 CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+              //                 child: child,
+              //               );
+              //             },
+              //           );
+              //         },
+              //       ),
+              //     ]
+              //   ),
+              //
+              //   GoRoute(
+              //     path: 'terms',
+              //     name: termsRouteName,
+              //     pageBuilder: (context, state) {
+              //       return CustomTransitionPage(
+              //         key: state.pageKey,
+              //         child: TermsScreen(),
+              //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //           return FadeTransition(
+              //             opacity:
+              //             CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+              //             child: child,
+              //           );
+              //         },
+              //       );
+              //     },
+              //     routes: [
+              //
+              //       GoRoute(
+              //         path: ':title/:content',
+              //         name: gotermsDetailRouteName,
+              //
+              //         pageBuilder: (context, state) {
+              //           return CustomTransitionPage(
+              //             key: state.pageKey,
+              //             child: TermsDetailScreen(
+              //                 title: state.pathParameters['title']!,
+              //                 content: state.pathParameters['content']!),
+              //             transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //               return FadeTransition(
+              //                 opacity:
+              //                 CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+              //                 child: child,
+              //               );
+              //             },
+              //           );
+              //         },
+              //       ),
+              //     ]
+              //   ),
+              //
+              //
+              // ]
+            ),
+
             // GoRoute(
             //   path: 'auth/:gubun',
             //   name: authRouteName,
@@ -89,113 +200,7 @@ class MyRouter {
 
           ]),
 
-      GoRoute(
-        path: '/home',
-        name: homeRouteName,
-        builder: (context, state) {
-          return const HomeScreen();
-        },
-        // routes: [
-        //
-        //   GoRoute(
-        //     path: 'profile',
-        //     name: myprofileRouteName,
-        //     pageBuilder: (context, state) {
-        //       return CustomTransitionPage(
-        //         key: state.pageKey,
-        //         child: MyProfileScreen(),
-        //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        //           return FadeTransition(
-        //             opacity:
-        //             CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-        //             child: child,
-        //           );
-        //         },
-        //       );
-        //     },
-        //   ),
-        //
-        //   GoRoute(
-        //       path: 'notice',
-        //       name: noticeRouteName,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           key: state.pageKey,
-        //           child: NoticeScreen(),
-        //           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        //             return FadeTransition(
-        //               opacity:
-        //               CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-        //               child: child,
-        //             );
-        //           },
-        //         );
-        //       },
-        //     routes: [
-        //       GoRoute(
-        //         path: 'detail/:seq',
-        //         name:noticeDetailRouteName,
-        //         pageBuilder: (context, state) {
-        //           return CustomTransitionPage(
-        //             key: state.pageKey,
-        //             child: NoticeDetailScreen(seq:state.pathParameters['seq']!,),
-        //             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        //               return FadeTransition(
-        //                 opacity:
-        //                 CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-        //                 child: child,
-        //               );
-        //             },
-        //           );
-        //         },
-        //       ),
-        //     ]
-        //   ),
-        //
-        //   GoRoute(
-        //     path: 'terms',
-        //     name: termsRouteName,
-        //     pageBuilder: (context, state) {
-        //       return CustomTransitionPage(
-        //         key: state.pageKey,
-        //         child: TermsScreen(),
-        //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        //           return FadeTransition(
-        //             opacity:
-        //             CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-        //             child: child,
-        //           );
-        //         },
-        //       );
-        //     },
-        //     routes: [
-        //
-        //       GoRoute(
-        //         path: ':title/:content',
-        //         name: gotermsDetailRouteName,
-        //
-        //         pageBuilder: (context, state) {
-        //           return CustomTransitionPage(
-        //             key: state.pageKey,
-        //             child: TermsDetailScreen(
-        //                 title: state.pathParameters['title']!,
-        //                 content: state.pathParameters['content']!),
-        //             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        //               return FadeTransition(
-        //                 opacity:
-        //                 CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-        //                 child: child,
-        //               );
-        //             },
-        //           );
-        //         },
-        //       ),
-        //     ]
-        //   ),
-        //
-        //
-        // ]
-      ),
+
 
       // GoRoute(
       //   path: '/splash',

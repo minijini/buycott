@@ -21,6 +21,7 @@ class BasicTheme{
         fillColor:  MaterialStateProperty.all(BasicColor.yellow),
       ),
 
+
       appBarTheme: const AppBarTheme(
         backgroundColor: BasicColor.primary,
       ),

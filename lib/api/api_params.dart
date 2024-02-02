@@ -21,6 +21,9 @@ String PARAM_GENDER = "gender"; //성별
 String PARAM_USERSRNO = "userSrno"; //userindex
 String PARAM_FILES = "files"; //파일
 
+String PARAM_PUSHTOKEN = "pushToken"; //푸시토큰
+String PARAM_PUSHYN = "pushYn"; //알림여부
+
 String PARAM_SIGHTYPE = "sighType"; //로그인타입
 String PARAM_EXPIRE = "expire"; //토큰 만료시간
 

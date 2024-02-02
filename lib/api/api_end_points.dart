@@ -10,8 +10,8 @@ class ApiEndPoints {
   static const checkMember = "check/member";
   static const checkNickname = "check/nickname";
 
-  static const pushToken = "check/nickname";
-  static const pushSetting = "check/nickname";
+  static const pushToken = "push/token";
+  static const pushSetting = "push/setting";
 
 
 

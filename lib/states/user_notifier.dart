@@ -187,6 +187,35 @@ class UserNotifier extends ChangeNotifier{
     return false;
   }
 
+ /*
+    * push 알림 yn
+    * */
+  Future pushSetting(BuildContext context , String pushYn) async{
+    final result = await UserApiRepo().pushSetting(pushYn);
+
+    if (result != null) {
+
+      if (result.isSuccess(context)) {
+
+      }
+    }
+  }
+
+
+/*
+    * pushtoken 등록
+    * */
+  Future pushToken(BuildContext context , String pushToken) async{
+    final result = await UserApiRepo().pushToken(pushToken);
+
+    if (result != null) {
+
+      if (result.isSuccess(context)) {
+
+      }
+    }
+  }
+
 
 
 

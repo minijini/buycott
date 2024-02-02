@@ -192,6 +192,70 @@ class UserApiRepo {
     }
   }
 
+  /*
+  * pushtoken 등록
+  * */
+  Future<BaseModel?> pushToken(String pushToken) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.pushToken;
+
+    Map<String, dynamic>? queryParameters = {
+      PARAM_USERSRNO: 1,
+      PARAM_PUSHTOKEN: pushToken,
+     };
+
+    try {
+      final response = await apiUtils.put(url: url,data: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+  /*
+  * push 알림 Yn
+  * */
+  Future<BaseModel?> pushSetting(String pushYn) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.pushSetting;
+
+    Map<String, dynamic>? queryParameters = {
+      PARAM_USERSRNO: 1,
+      PARAM_PUSHYN: pushYn,
+    };
+
+    try {
+      final response = await apiUtils.put(url: url,data: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
 
 
 

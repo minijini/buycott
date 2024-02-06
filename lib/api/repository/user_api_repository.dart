@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:buycott/utils/log_util.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
@@ -160,7 +161,7 @@ class UserApiRepo {
 /*
   * 프로필 이미지 업로드
   * */
-  Future<BaseModel?> userImg(String userSrno, XFile file) async {
+  Future<BaseModel?> userImg(int userSrno, XFile file,void Function(double) onProgress) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -169,8 +170,7 @@ class UserApiRepo {
 
     String url = Api.baseUrl + ApiEndPoints.userImg;
 
-    final image = MultipartFile.fromFileSync(file.path,filename:file.name,contentType: MediaType("image", "jpg"));
-
+    final image = MultipartFile.fromFileSync(file.path,filename:file.name,contentType: MediaType("image", "jpeg"));
 
     var formData = FormData.fromMap({
       PARAM_USERSRNO: userSrno,
@@ -178,7 +178,11 @@ class UserApiRepo {
       });
 
     try {
-      final response = await apiUtils.post(url: url,data : formData);
+      final response = await apiUtils.postWithProgress(url: url,data : formData,onSendProgress: (int sent, int total) {
+        final progress = sent / total;
+        Log.logs("userimg",'progress: $progress ($sent/$total)');
+        onProgress(progress);
+      });
 
       if (response != null) {
 

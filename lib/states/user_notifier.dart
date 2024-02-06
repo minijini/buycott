@@ -259,25 +259,19 @@ class UserNotifier extends ChangeNotifier{
     //   notifyListeners();
     // }
     //
-    //
-    // Future<String> uploadFile(String fileGubun, XFile file ) async{
-    //   final result = await UserApiRepo().uploadFile(fileGubun, file);
-    //
-    //   if (result != null) {
-    //     if (result.isSuccess()) {
-    //       _profileimg = result.data ;
-    //
-    //     } else {
-    //       _profileimg ='';
-    //     }
-    //   }
-    //   notifyListeners();
-    //
-    //   return _profileimg;
-    // }
-    //
-    //
-    //
+
+    Future userImg(BuildContext context, int userSrno, XFile file,void Function(double) onProgress ) async{
+      final result = await UserApiRepo().userImg( userSrno,  file,onProgress);
+
+      if (result != null) {
+        if (result.isSuccess(context)) {
+
+        }
+      }
+    }
+
+
+
 
     Future<void> _resultDialog(BuildContext context, ResultModel resultModel) => CustomDialog(funcAction: dialogPop).normalDialog(context, resultModel.msg!, '확인');
 

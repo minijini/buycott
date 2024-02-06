@@ -54,7 +54,7 @@ dependencies:
   #device사이즈
   device_screen_size: ^0.0.2
 
-  #modal 창 bottom
+  #modal 창 bottom , img선택
   modal_bottom_sheet: ^2.1.2
 
   #api
@@ -86,6 +86,9 @@ dependencies:
 
   #naverlogin
   flutter_naver_login: ^1.8.0
+
+  #progressbar
+  percent_indicator: ^4.2.3
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -3,7 +3,7 @@ import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/shop/shop_list_screen.dart';
 import 'package:buycott/states/place_notifier.dart';
 import 'package:buycott/utils/log_util.dart';
-import 'package:buycott/widgets/place_list_tile.dart';
+import 'package:buycott/widgets/list/place_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +19,7 @@ import '../../widgets/circle_image.dart';
 import '../../widgets/style/container.dart';
 import '../../widgets/style/divider.dart';
 import '../bottomScreen.dart';
+import '../login/sign_up_screen.dart';
 import '../map/bottom_sheet_screen.dart';
 import '../bottomScreen3.dart';
 
@@ -47,11 +48,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
         return ShopListScreen();
       },
     ),
-    Consumer<PlaceNotifier>(
-      builder: (context,notifier,child){
-        return ShopListScreen();
-      },
-    ),
+    SignUpScreen(),
     LoginScreen()
   ];
 

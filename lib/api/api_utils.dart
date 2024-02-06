@@ -8,13 +8,11 @@ final title = "ApiUtils";
 
 ApiUtils apiUtils = ApiUtils();
 
-class ApiUtils  {
+class ApiUtils {
   static ApiUtils _apiUtils = ApiUtils._i();
   final Dio _dio = Dio();
 
   ApiUtils._i() {
-
-
     _dio.interceptors.add(CustomLogInterceptor(
       requestHeader: true,
       requestBody: true,
@@ -23,28 +21,37 @@ class ApiUtils  {
     ));
   }
 
-
   factory ApiUtils() {
     return _apiUtils;
   }
 
   Map<String, String> header = {"Content-Type": "application/json"};
 
-  Map<String, String> headers = {"Content-Type": "application/json", "api-version": "1"};
+  Map<String, String> headers = {
+    "Content-Type": "application/json",
+    "api-version": "1"
+  };
 
-  Map<String, String> secureHeaders = {"Content-Type": "application/json", "api-version": "1", "Access_Token": ""}; //Access_Token
+  Map<String, String> secureHeaders = {
+    "Content-Type": "application/json",
+    "api-version": "1",
+    "Access_Token": ""
+  }; //Access_Token
 
-  Future<Response> get({
-    required String url,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    bool userTokenHeader = true
-  }) async {
-    var result = await _dio.get(
-      url,
-      queryParameters: queryParameters,
-        options: userTokenHeader ? Options(headers: {"" : ""} ): Options(headers: {"Authorization" : kakao_response_key})
-    );
+  String generateBoundary() {
+    return '------------------------${DateTime.now().millisecondsSinceEpoch}';
+  }
+
+  Future<Response> get(
+      {required String url,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      bool userTokenHeader = true}) async {
+    var result = await _dio.get(url,
+        queryParameters: queryParameters,
+        options: userTokenHeader
+            ? Options(headers: {"": ""})
+            : Options(headers: {"Authorization": kakao_response_key}));
     return result;
   }
 
@@ -65,6 +72,7 @@ class ApiUtils  {
     );
     return result;
   }
+
 
   Future<Response> postWithProgress({
     required String url,
@@ -121,12 +129,14 @@ class ApiUtils  {
     Log.loga(title, "handleError:: error >> $error");
 
     if (error is DioError) {
-      Log.loga(title, '************************ DioError ************************');
+      Log.loga(
+          title, '************************ DioError ************************');
 
       DioError dioError = error as DioError;
       Log.loga(title, 'dioError:: $dioError');
       if (dioError.response != null) {
-        Log.loga(title, "dioError:: response >> " + dioError.response.toString());
+        Log.loga(
+            title, "dioError:: response >> " + dioError.response.toString());
       }
 
       switch (dioError.type) {
@@ -146,13 +156,16 @@ class ApiUtils  {
           errorDescription = 'Caused by an incorrect certificate';
           break;
         case DioErrorType.badResponse:
-          errorDescription = "Received invalid status code: ${dioError.response?.statusCode}";
+          errorDescription =
+              "Received invalid status code: ${dioError.response?.statusCode}";
           break;
         case DioErrorType.connectionError:
-          errorDescription = 'Caused for example by a `xhr.onError` or SocketExceptions.';
+          errorDescription =
+              'Caused for example by a `xhr.onError` or SocketExceptions.';
           break;
         case DioErrorType.unknown:
-          errorDescription = "Connection to API server failed due to internet connection";
+          errorDescription =
+              "Connection to API server failed due to internet connection";
           break;
       }
     } else {

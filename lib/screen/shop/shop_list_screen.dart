@@ -7,7 +7,7 @@ import '../../data/place_result_model.dart';
 import '../../states/place_notifier.dart';
 import '../../utils/log_util.dart';
 import '../../widgets/UnanimatedPageRoute.dart';
-import '../../widgets/place_list_tile.dart';
+import '../../widgets/list/place_list_tile.dart';
 import '../../widgets/style/divider.dart';
 import '../login/login_screen.dart';
 

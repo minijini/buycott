@@ -21,6 +21,17 @@ String PARAM_GENDER = "gender"; //성별
 String PARAM_USERSRNO = "userSrno"; //userindex
 String PARAM_FILES = "files"; //파일
 
+//store
+String PARAM_APIID = "apiId";
+String PARAM_STORETYPE = "storeType";
+String PARAM_STORETYPENM = "storeTypeNm";
+String PARAM_STOREADDRESS = "storeAddress";
+String PARAM_STORENAME = "storeName";
+String PARAM_STOREPHONE = "storePhone";
+String PARAM_STOREDESC = "storeDesc";
+String PARAM_X = "x";
+String PARAM_Y = "y";
+
 String PARAM_PUSHTOKEN = "pushToken"; //푸시토큰
 String PARAM_PUSHYN = "pushYn"; //알림여부
 

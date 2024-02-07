@@ -1,6 +1,7 @@
 import 'package:buycott/firebase/firebaseservice.dart';
 import 'package:buycott/screen/login/login_screen.dart';
-import 'package:buycott/screen/shop/shop_list_screen.dart';
+import 'package:buycott/screen/map/map_screen.dart';
+import 'package:buycott/screen/place/shop_list_screen.dart';
 import 'package:buycott/states/place_notifier.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/widgets/list/place_list_tile.dart';
@@ -22,6 +23,7 @@ import '../bottomScreen.dart';
 import '../login/sign_up_screen.dart';
 import '../map/bottom_sheet_screen.dart';
 import '../bottomScreen3.dart';
+import '../store/store_add_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -43,11 +45,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
         return ShopListScreen();
       },
     ),
-    Consumer<PlaceNotifier>(
-      builder: (context,notifier,child){
-        return ShopListScreen();
-      },
-    ),
+    StoreAddScreen(),
     SignUpScreen(),
     LoginScreen()
   ];

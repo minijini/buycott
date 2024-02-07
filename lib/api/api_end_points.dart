@@ -6,12 +6,15 @@ class ApiEndPoints {
   static const signup = "signup";
 
   static const userImg = "img/user";
+  static const userProfile = "profile";
 
   static const checkMember = "check/member";
   static const checkNickname = "check/nickname";
 
   static const pushToken = "push/token";
   static const pushSetting = "push/setting";
+
+  static const store= "store";
 
 
 

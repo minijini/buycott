@@ -1,5 +1,7 @@
 
 import 'package:buycott/data/result_model.dart';
+import 'package:buycott/data/user_model.dart';
+import 'package:buycott/firebase/firebaseservice.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/repository/user_api_repository.dart';
+import '../constants/basic_text.dart';
 import '../constants/response_code.dart';
 import '../constants/sharedpreference_key.dart';
 import '../constants/status.dart';
@@ -17,7 +20,7 @@ import '../utils/utility.dart';
 import '../widgets/dialog/custom_dialog.dart';
 
 class UserNotifier extends ChangeNotifier{
-
+  final TAG = "UserNotifier";
     // MemberInfo? _memberInfo;
   String? _token ;
 
@@ -185,6 +188,43 @@ class UserNotifier extends ChangeNotifier{
     }
 
     return false;
+  }
+
+  /*
+    * 유저 이미지 조회
+    * */
+  Future<String?> getProfileImg(BuildContext context , int userSrno) async{
+    final result = await UserApiRepo().getProfileImg(userSrno);
+
+    if (result != null) {
+
+      if (result.isSuccess(context)) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+        return dataResult.signedUrl;
+      }
+    }
+
+    return null;
+  }
+
+  /*
+    * 유저 프로필 조회
+    * */
+  Future getProfile(BuildContext context , int userSrno) async{
+    final result = await UserApiRepo().getProfile(userSrno);
+
+    if (result != null) {
+
+      if (result.isSuccess(context)) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+        userModel = UserModel.fromJson(dataResult.body);
+
+        notifyListeners();
+
+      }
+    }
   }
 
  /*

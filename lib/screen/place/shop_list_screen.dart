@@ -1,5 +1,4 @@
 import 'package:buycott/data/address_result_model.dart';
-import 'package:buycott/screen/shop/address_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +9,8 @@ import '../../widgets/UnanimatedPageRoute.dart';
 import '../../widgets/list/place_list_tile.dart';
 import '../../widgets/style/divider.dart';
 import '../login/login_screen.dart';
+import '../store/store_add_screen.dart';
+import 'address_list_screen.dart';
 
 class ShopListScreen extends StatefulWidget {
   const ShopListScreen({super.key});
@@ -138,6 +139,8 @@ class _ShopListScreenState extends State<ShopListScreen> {
                 onTap: () {
                   Log.logs(
                       TAG, "list tile click :: ${placeModel.placeName!}");
+
+                  Navigator.of(context).pop(Arguments(place: placeModel));
                 },
                 child: PlaceListTile(
                     placeName:  placeModel.placeName!,

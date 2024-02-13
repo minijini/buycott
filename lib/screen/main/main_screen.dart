@@ -24,6 +24,7 @@ import '../bottomScreen.dart';
 import '../login/sign_up_screen.dart';
 import '../map/bottom_sheet_screen.dart';
 import '../bottomScreen3.dart';
+import '../myprofile/myprofile_screen.dart';
 import '../store/store_add_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -49,7 +50,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
     HomeScreen(),
     StoreAddScreen(),
     SignUpScreen(),
-    LoginScreen()
+    Consumer<UserNotifier>(
+      builder: (context,notifier,child){
+        return MyProfileScreen(userNotifier: notifier,);
+      },
+    ),
   ];
 
   DateTime? currentBackPressTime; //app종료

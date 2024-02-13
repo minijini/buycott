@@ -29,6 +29,7 @@ class BasicTheme {
               TextStyle(color: BasicColor.primary, fontSize: 10)),
       textTheme: BasicTextTheme.lightTextTheme,
       inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
         filled: true,
         fillColor: Colors.white,
         contentPadding:

@@ -9,5 +9,6 @@ String? pushtoken;
 String? apptype;
 String? packageName;
 String? deviceId;
+
 bool appUpdateYn = false;
 UserModel? userModel;

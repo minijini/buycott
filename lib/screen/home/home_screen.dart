@@ -6,6 +6,7 @@ import 'package:buycott/widgets/list/main_shop_list_tile.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/log_util.dart';
+import '../../widgets/style/container.dart';
 import '../../widgets/style/divider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,9 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView(
         children: [
           _placeSearchBar(),
-          _heightSizeBox(sized_30),
+          heightSizeBox(sized_30),
           _banner(),
-          _heightSizeBox(sized_30),
+          heightSizeBox(sized_30),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icon(Icons.chevron_right)
             ],
           ),
-          _heightSizeBox(sized_10),
+          heightSizeBox(sized_10),
           _todayBuyCott()
 
 
@@ -76,14 +77,15 @@ class _HomeScreenState extends State<HomeScreen> {
         );
   }
 
-  SizedBox _heightSizeBox(double size) => SizedBox(height: size,);
+
 
   Widget _placeSearchBar() {
     return TextField(
+      style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
       controller: _searchTextController,
       autofocus: true,
       keyboardType: TextInputType.text,
-      cursorColor: Colors.blueGrey,
+      cursorColor: BasicColor.primary,
       decoration: InputDecoration(
           hintText: "검색어를 입력하세요",
           suffixIcon: Padding(

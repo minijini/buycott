@@ -35,9 +35,14 @@ class BasicTextTheme{
       fontWeight: FontWeight.normal,
       color: Colors.white,
     ),
+    titleMedium: GoogleFonts.notoSans(
+      fontSize: 18.0,
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    ),
     titleLarge: GoogleFonts.notoSans(
-      fontSize: 22.0,
-      fontWeight: FontWeight.w600,
+      fontSize: 24.0,
+      fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
   );

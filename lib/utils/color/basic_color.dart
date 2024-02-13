@@ -5,7 +5,7 @@ class BasicColor{
   static const Color primary2 = Color(0xffAFBE00);
   static const Color yellow = Color(0xffffca66);
   static const Color salmon = Color(0xfffc7b64);
-  static const Color lightgrey = Color(0xffbdbdbd);
+  static const Color lightgrey = Color(0xffECECEC);
   static const Color lightgrey2 = Color(0xfff4f4f4);
   static const Color lightgrey3 = Color(0xfff2f2f2);
   static const Color linegrey = Color(0xffd2d2d2);

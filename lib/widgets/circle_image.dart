@@ -20,7 +20,7 @@ class CircleImage extends StatelessWidget {
     return ClipRRect(
       borderRadius:BorderRadius.circular(10000.0),
       child: CachedNetworkImage(
-        imageUrl: img!=null ?'${Api.baseUrl}$img':'',
+        imageUrl: img!=null ?'$img':'',
         width: size,
         height: size,
         fit: BoxFit.cover,

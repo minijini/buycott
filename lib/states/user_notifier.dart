@@ -23,6 +23,7 @@ class UserNotifier extends ChangeNotifier{
   final TAG = "UserNotifier";
     // MemberInfo? _memberInfo;
   String? _token ;
+  String? _profileImg;
 
 
   AuthStatus _authStatus = AuthStatus.autologin;
@@ -201,9 +202,17 @@ class UserNotifier extends ChangeNotifier{
       if (result.isSuccess(context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
+        _profileImg = dataResult.signedUrl;
+
+        notifyListeners();
+
         return dataResult.signedUrl;
+
+
       }
     }
+
+
 
     return null;
   }
@@ -326,6 +335,7 @@ class UserNotifier extends ChangeNotifier{
 
 
     String? get token => _token;
+    String? get profileImg => _profileImg;
     AuthStatus get authStatus => _authStatus;
     // MemberInfo? get memberInfo => _memberInfo;
 

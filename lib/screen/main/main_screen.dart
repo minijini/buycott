@@ -1,4 +1,5 @@
 import 'package:buycott/firebase/firebaseservice.dart';
+import 'package:buycott/screen/home/home_screen.dart';
 import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/map/map_screen.dart';
 import 'package:buycott/screen/place/shop_list_screen.dart';
@@ -40,11 +41,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
 
 
   final List<Widget> _screens = <Widget>[
-    Consumer<PlaceNotifier>(
-      builder: (context,notifier,child){
-        return ShopListScreen();
-      },
-    ),
+    // Consumer<PlaceNotifier>(
+    //   builder: (context,notifier,child){
+    //     return ShopListScreen();
+    //   },
+    // ),
+    HomeScreen(),
     StoreAddScreen(),
     SignUpScreen(),
     LoginScreen()
@@ -86,27 +88,27 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
-        body: _screens.elementAt(_bottomSelectedIndex),
-        appBar: AppBar(
-            elevation: 0,
-            actions: [
-              Consumer<UserNotifier>(
-                builder: (context, userNotifier, child) {
-                  return Row(
-                    children: [
-
-                    ],
-                  );
-                },
-              )
-            ],
-            centerTitle: false,
-            // title: Image.asset(
-            //   'assets/imgs/icon_title.png',
-            //   width: sized_40,
-            //   height: sized_30,
-            // )
-        ),
+        body: SafeArea(child: _screens.elementAt(_bottomSelectedIndex)),
+        // appBar: AppBar(
+        //     elevation: 0,
+        //     actions: [
+        //       Consumer<UserNotifier>(
+        //         builder: (context, userNotifier, child) {
+        //           return Row(
+        //             children: [
+        //
+        //             ],
+        //           );
+        //         },
+        //       )
+        //     ],
+        //     centerTitle: false,
+        //     // title: Image.asset(
+        //     //   'assets/imgs/icon_title.png',
+        //     //   width: sized_40,
+        //     //   height: sized_30,
+        //     // )
+        // ),
        bottomNavigationBar: Container(
            decoration: BoxDecoration(
              boxShadow: [

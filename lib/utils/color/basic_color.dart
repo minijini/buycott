@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 class BasicColor{
-  static const Color primary = Color(0xffff7c7c);
-  static const Color primary2 = Color(0xffFD7F7E);
+  static const Color primary = Color(0xffE4EF6B);
+  static const Color primary2 = Color(0xffAFBE00);
   static const Color yellow = Color(0xffffca66);
   static const Color salmon = Color(0xfffc7b64);
   static const Color lightgrey = Color(0xffbdbdbd);

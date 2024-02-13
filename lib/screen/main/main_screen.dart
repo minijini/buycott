@@ -25,14 +25,14 @@ import '../map/bottom_sheet_screen.dart';
 import '../bottomScreen3.dart';
 import '../store/store_add_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
+class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
   int _bottomSelectedIndex = 0;
 
   late UserNotifier _userNotifier;
@@ -109,34 +109,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
         ),
        bottomNavigationBar: Container(
            decoration: BoxDecoration(
-             borderRadius: BorderRadius.only(
-                 topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-             // boxShadow: [
-             //   BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 0.2),
-             // ],
+             boxShadow: [
+               BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 20,),
+             ],
            ),
            child: ClipRRect(
              borderRadius: BorderRadius.only(
-               topLeft: Radius.circular(30.0),
-               topRight: Radius.circular(30.0),
+               topLeft: Radius.circular(sized_13),
+               topRight: Radius.circular(sized_13),
              ),
              child:  BottomNavigationBar(
-               backgroundColor: Colors.green[200],
+               backgroundColor: BasicColor.primary,
              currentIndex: _bottomSelectedIndex,
              type: BottomNavigationBarType.fixed,
+               showSelectedLabels: false,
+               showUnselectedLabels: false,
              //icon&label 보여주는 타입 , fixed : 애니메이션 없음
              items: [
                BottomNavigationBarItem(
                    icon: Container(
                      padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: Icon(_bottomSelectedIndex == 0 ? Icons.location_pin: Icons.location_off),
+                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 0
+                         ? 'assets/icon/icon_home_off.png'
+                         : 'assets/icon/icon_home_off.png')),
                    ),
                    label: '추천'),
                //선택 될 때 채워진 이미지로 변경
                BottomNavigationBarItem(
                    icon: Container(
                      padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: Icon(_bottomSelectedIndex == 1 ? Icons.location_pin: Icons.location_off),
+                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 1
+                         ? 'assets/icon/icon_location_off.png'
+                         : 'assets/icon/icon_location_off.png')),
                    ),
                    backgroundColor: Colors.transparent,
                    label: '요청'),
@@ -145,7 +149,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                      children: [
                        Container(
                          padding: const EdgeInsets.symmetric(vertical: sized_2),
-                         child: Icon(_bottomSelectedIndex == 2 ? Icons.location_pin: Icons.location_off),
+                         child: ImageIcon(AssetImage(_bottomSelectedIndex == 2
+                             ? 'assets/icon/icon_favorite_off.png'
+                             : 'assets/icon/icon_favorite_off.png')),
                        ),
                      ],
                    ),
@@ -153,10 +159,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                BottomNavigationBarItem(
                    icon: Container(
                      padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: Icon(_bottomSelectedIndex == 3 ? Icons.location_pin: Icons.location_off),
-                     // child: ImageIcon(AssetImage(_bottomSelectedIndex == 3
-                     //     ? 'assets/imgs/icon_set_on.png'
-                     //     : 'assets/imgs/icon_set_off.png')),
+
+                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 3
+                         ? 'assets/icon/icon_my_off.png'
+                         : 'assets/icon/icon_my_off.png')),
                    ),
 
                    label: '설정'),

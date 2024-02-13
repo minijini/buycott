@@ -3,7 +3,7 @@ import 'package:buycott/screen/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../screen/home/home_screen.dart';
+import '../screen/main/main_screen.dart';
 import '../states/user_notifier.dart';
 import '../constants/constants.dart';
 import '../widgets/UnanimatedPageRoute.dart';
@@ -15,7 +15,7 @@ class MyRouter {
   MyRouter(this.userProvider);
 
   late final router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/main',
     //첫화면설정
     errorBuilder: (context, state) {
       return const Text('Error occur');
@@ -25,10 +25,10 @@ class MyRouter {
     // },
     routes: [
       GoRoute(
-          path: '/home',
-          name: homeRouteName,
+          path: '/main',
+          name: mainRouteName,
           builder: (context, state) {
-            return const HomeScreen();
+            return const MainScreen();
           },
           routes: [
             GoRoute(

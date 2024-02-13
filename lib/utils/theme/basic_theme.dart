@@ -26,7 +26,8 @@ class BasicTheme{
         backgroundColor: BasicColor.primary,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: BasicColor.primary,
+        selectedItemColor: BasicColor.primary2,
+        unselectedItemColor: Colors.white,
         selectedLabelStyle: TextStyle(color:BasicColor.primary,fontSize: 10)
       ),
       textTheme: BasicTextTheme.lightTextTheme,

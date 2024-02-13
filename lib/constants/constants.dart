@@ -5,6 +5,7 @@ const String loginRouteName = 'login';
 const String signUpRouteName = 'signup';
 
 
+const String mainRouteName = 'main';
 const String homeRouteName = 'home';
 const String splashRouteName = 'splash';
 

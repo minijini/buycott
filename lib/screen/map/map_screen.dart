@@ -1,5 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:buycott/constants/screen_size.dart';
+import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+
+import '../../constants/padding_size.dart';
+import '../../widgets/style/container.dart';
 import 'bottom_sheet_screen.dart';
 
 class MapScreen extends StatefulWidget {
@@ -40,8 +45,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
+      return Scaffold(
       body: Stack(
         children: [
           TextButton(onPressed: (){

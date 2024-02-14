@@ -21,6 +21,7 @@ const double sized_23 =23;
 const double sized_24 =24;
 const double sized_25 =25;
 const double sized_26 =26;
+const double sized_28 =28;
 const double sized_30 =30;
 const double sized_32 =32;
 const double sized_33 =33;

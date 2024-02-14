@@ -73,7 +73,7 @@ BoxDecoration grayDecor(){
   return BoxDecoration(
       color: BasicColor.lightgrey,
       shape: BoxShape.rectangle,
-      borderRadius: BorderRadius.all(Radius.circular(sized_15))
+      borderRadius: BorderRadius.all(Radius.circular(sized_10))
   );
 }
 
@@ -121,3 +121,4 @@ SizedBox heightSizeBox(double size) => SizedBox(height: size,);
 SizedBox widthSizeBox(double size) => SizedBox(width: size,);
 
 Divider  divider() => Divider(color: BasicColor.linegrey);
+Divider  customDivider(Color color,double height,double thickness) => Divider(color: color,height: height,thickness: thickness,);

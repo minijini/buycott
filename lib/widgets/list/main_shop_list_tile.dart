@@ -14,9 +14,9 @@ class MainShopListTile extends StatelessWidget {
         children: [
           SquareImage(img: 'https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg',width:sized_104,height: sized_50,),
           SizedBox(height: sized_10,),
-          Text('제목',style: Theme.of(context).textTheme.bodyLarge,),
+          Text('제목',style: Theme.of(context).textTheme.bodyMedium,),
           SizedBox(height: sized_6,),
-          Text('설명',style: Theme.of(context).textTheme.bodyMedium,),
+          Text('설명',style: Theme.of(context).textTheme.bodySmall,),
         ],
       ),
     );

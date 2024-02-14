@@ -55,7 +55,11 @@ dependencies:
   device_screen_size: ^0.0.2
 
   #modal 창 bottom , img선택
-  modal_bottom_sheet: ^2.1.2
+  modal_bottom_sheet:
+    git:
+      url: https://github.com/followthemoney1/modal_bottom_sheet.git
+      ref: main
+      path: modal_bottom_sheet
 
   #api
   dio: ^5.2.1+1

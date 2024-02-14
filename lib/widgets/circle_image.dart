@@ -24,9 +24,15 @@ class CircleImage extends StatelessWidget {
         width: size,
         height: size,
         fit: BoxFit.cover,
-        placeholder: (context, url) => const CircularProgressIndicator(color: BasicColor.primary,),
+        placeholder: (context, url) => Transform.scale(
+          scale: 0.6,
+          child:  CircularProgressIndicator(
+            color: BasicColor.primary,
+          ),
+
+        ),
         errorWidget: (context, url, error) =>  ExtendedImage.asset(
-          'assets/imgs/icon_rose.png',
+          'assets/icon/icon_error.png',
           fit: BoxFit.contain,
           width: size,
           height: size,

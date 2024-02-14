@@ -26,6 +26,7 @@ import '../map/bottom_sheet_screen.dart';
 import '../bottomScreen3.dart';
 import '../myprofile/myprofile_screen.dart';
 import '../store/store_add_screen.dart';
+import '../store/store_detail_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
     //   },
     // ),
     HomeScreen(),
-    StoreAddScreen(),
+    MapScreen(),
     SignUpScreen(),
     Consumer<UserNotifier>(
       builder: (context,notifier,child){

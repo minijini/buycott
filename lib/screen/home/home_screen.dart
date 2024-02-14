@@ -28,27 +28,42 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: sized_18,vertical: sized_18),
+      padding: EdgeInsets.only(left:sized_18,right: sized_18,top: sized_18),
       child: ListView(
         children: [
           _placeSearchBar(),
           heightSizeBox(sized_30),
           _banner(),
           heightSizeBox(sized_30),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('오늘의 돈쭐',style: Theme.of(context).textTheme.displayLarge,),
-              Icon(Icons.chevron_right)
-            ],
-          ),
+          _title(context,"오늘의 돈쭐"),
           heightSizeBox(sized_10),
-          _todayBuyCott()
-
-
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
+          _title(context,"인기 돈쭐"),
+          heightSizeBox(sized_10),
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
+          _title(context,"새로운 돈쭐"),
+          heightSizeBox(sized_10),
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
+          _title(context,"돈쭐 뉴스"),
+          heightSizeBox(sized_10),
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
         ],
       ),
     );
+  }
+
+  Row _title(BuildContext context,String title) {
+    return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(title,style: Theme.of(context).textTheme.displayLarge,),
+            Icon(Icons.chevron_right)
+          ],
+        );
   }
 
   Container _todayBuyCott() {
@@ -83,7 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return TextField(
       style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
       controller: _searchTextController,
-      autofocus: true,
       keyboardType: TextInputType.text,
       cursorColor: BasicColor.primary,
       decoration: InputDecoration(

@@ -1,5 +1,9 @@
 import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/map/map_screen.dart';
+import 'package:buycott/screen/myprofile/my_store_register_screen.dart';
+import 'package:buycott/screen/myprofile/my_review_screen.dart';
+import 'package:buycott/screen/store/store_detail_screen.dart';
+import 'package:buycott/screen/term/terms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,12 +35,41 @@ class MyRouter {
             return const MainScreen();
           },
           routes: [
+
             GoRoute(
-              path: 'login',
-              name: loginRouteName,
-              builder: (context, state) {
-                return const LoginScreen();
-              },
+              path: myStoreRegisterRouteName,
+              name: myStoreRegisterRouteName,
+              builder: (context, state) => const MyStoreRegisterScreen(),
+              pageBuilder: defaultPageBuilder(const MyStoreRegisterScreen()),
+            ),
+
+            GoRoute(
+              path: myReviewRouteName,
+              name: myReviewRouteName,
+              builder: (context, state) => const MyReviewScreen(),
+              pageBuilder: defaultPageBuilder(const MyReviewScreen()),
+            ),
+
+            GoRoute(
+                  path: '$termsRouteName/:title',
+                  name: termsRouteName,
+                  pageBuilder: (context, state) {
+                    return _customTransitionPage(state,TermsScreen(title: state.pathParameters['title']!));
+                  },
+                ),
+
+            GoRoute(
+              path: storeDetailRouteName,
+              name: storeDetailRouteName,
+              builder: (context, state) => const StoreDetailScreen(),
+              pageBuilder: defaultPageBuilder(const StoreDetailScreen()),
+            ),
+
+
+            GoRoute(
+              path: loginRouteName,
+              name:loginRouteName,
+              builder: (context, state) => const LoginScreen(),
               pageBuilder: defaultPageBuilder(const LoginScreen()),
               // routes: [
               //
@@ -226,4 +259,43 @@ class MyRouter {
     // refreshListenable: userProvider,
     debugLogDiagnostics: true, //개발할때만 true, 출시할땐 false
   );
+
+  CustomTransitionPage<dynamic> _customTransitionPage(GoRouterState state , Widget child) {
+    return CustomTransitionPage(
+                    key: state.pageKey,
+                    child: child,
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity:
+                        CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                        child: child,
+                      );
+                    },
+                  );
+  }
 }
+
+
+
+CustomTransitionPage buildPageWithDefaultTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        FadeTransition(opacity: animation, child: child),
+  );
+}
+
+Page<dynamic> Function(BuildContext, GoRouterState) defaultPageBuilder<T>(
+    Widget child) =>
+        (BuildContext context, GoRouterState state) {
+      return buildPageWithDefaultTransition<T>(
+        context: context,
+        state: state,
+        child: child,
+      );
+    };

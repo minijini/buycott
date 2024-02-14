@@ -1,8 +1,10 @@
 import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/widgets/circle_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
 import '../../states/user_notifier.dart';
 import '../../utils/color/basic_color.dart';
@@ -10,6 +12,7 @@ import '../../widgets/style/container.dart';
 
 class MyProfileScreen extends StatefulWidget {
   final UserNotifier userNotifier;
+
   const MyProfileScreen({super.key, required this.userNotifier});
 
   @override
@@ -17,12 +20,14 @@ class MyProfileScreen extends StatefulWidget {
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
+  late final GoRouter goRouter;
 
   @override
   void initState() {
     getProfileImg();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,20 +48,35 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             child: _myProfile(context),
           ),
           heightSizeBox(sized_30),
-          _menu(context, "내 가게 목록", true),
-          _menu(context, "내가 쓴 리뷰", true),
-          _menu(context, "공지사항", false),
-          _menu(context, "약관 및 정책", false),
+          _menu(context, "내 가게 목록", true, () {
+            context.goNamed(
+              myStoreRegisterRouteName,
+            );
+          }),
+          _menu(context, "내가 쓴 리뷰", true, () {
+            context.goNamed(myReviewRouteName);
+          }),
+          _menu(context, "공지사항", false, () {
+            context.goNamed(myReviewRouteName);
+          }),
+          _menu(context, "이용약관", false, () {
+            context.goNamed(termsRouteName, pathParameters: {'title': '이용약관'});
+          }),
+          _menu(context, "개인정보취급방침", false, () {
+            context
+                .goNamed(termsRouteName, pathParameters: {'title': '개인정보취급방침'});
+          }),
         ],
       ),
     );
   }
 
-  Column _menu(BuildContext context, String title, bool visible) {
+  Column _menu(
+      BuildContext context, String title, bool visible, void Function() onTap) {
     return Column(
       children: [
         ListTile(
-          dense:true,
+          dense: true,
           visualDensity: VisualDensity(horizontal: 0, vertical: -2),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: sized_18,
@@ -66,7 +86,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   .textTheme
                   .titleMedium!
                   .copyWith(fontWeight: FontWeight.w500)),
-          onTap: () {},
+          onTap: onTap,
           trailing: Visibility(
               visible: visible,
               child: Icon(
@@ -86,8 +106,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         Row(
           children: [
             CircleImage(
-              img:
-                  widget.userNotifier.profileImg ?? "https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg" ,
+              img: widget.userNotifier.profileImg,
               size: sized_60,
             ),
             widthSizeBox(sized_10),
@@ -100,21 +119,32 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         Expanded(
             child: Align(
           alignment: Alignment.centerRight,
-          child: Container(
-            width: sized_40,
-            height: sized_25,
-            decoration: grayDecor(),
-            child: Center(
-                child:
-                    Text('수정', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold))),
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              shadowColor: Colors.transparent,
+              backgroundColor: BasicColor.lightgrey,
+              shape: RoundedRectangleBorder(
+                  //모서리를 둥글게
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+            child: Container(
+              width: sized_30,
+              height: sized_15,
+              child: Center(
+                  child: Text('수정',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold))),
+            ),
           ),
         ))
       ],
     );
   }
 
-
-  void getProfileImg(){
-    Provider.of<UserNotifier>(context,listen: false).getProfileImg(context,1);
+  void getProfileImg() {
+    Provider.of<UserNotifier>(context, listen: false).getProfileImg(context, 1);
   }
 }

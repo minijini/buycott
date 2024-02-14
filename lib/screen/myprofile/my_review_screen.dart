@@ -15,25 +15,20 @@ class _MyReviewScreenState extends State<MyReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '내가 쓴 리뷰',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
       body: SafeArea(
         child: Container(
+          color: Colors.white,
           padding: EdgeInsets.symmetric(vertical: sized_18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: sized_18),
-                    child: Text(
-                      '내가 쓴 리뷰',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
-                ],
-              ),
-              heightSizeBox(sized_26),
+
               MyReviewListTile(),
 
             ],

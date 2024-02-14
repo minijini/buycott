@@ -15,20 +15,27 @@ class _MyStoreRegisterScreenState extends State<MyStoreRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '내가 등록한 가게',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
       body: SafeArea(
         child: Container(
+          color: Colors.white,
           padding: EdgeInsets.symmetric(vertical: sized_18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: sized_18),
-                child: Text(
-                  '내가 등록한 가게',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              heightSizeBox(sized_26),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: sized_18),
+              //   child: Text(
+              //     '내가 등록한 가게',
+              //     style: Theme.of(context).textTheme.titleLarge,
+              //   ),
+              // ),
+              // heightSizeBox(sized_26),
               MyShopRegisterListTile(),
 
             ],

@@ -36,8 +36,17 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('리뷰',style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),),
-                      Icon(Icons.chevron_right,size: sized_20,)
+                      Text(
+                        '리뷰',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      Icon(
+                        Icons.chevron_right,
+                        size: sized_20,
+                      )
                     ],
                   ),
                 ),
@@ -48,12 +57,8 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
               child: ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-
                     return GestureDetector(
-                        onTap: () {
-
-                        },
-                        child:  ReviewListTile());
+                        onTap: () {}, child: ReviewListTile());
                   },
                   separatorBuilder: (context, index) {
                     return divider();
@@ -70,33 +75,52 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     List<Widget> starIcons = buildStarRatingWithHalf(3.5, sized_10);
 
     return Padding(
-              padding: EdgeInsets.symmetric(horizontal: sized_18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '가게명',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  heightSizeBox(sized_24),
-                  Text(
-                    '영업시간 11:00~12:00',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  heightSizeBox(sized_8),
-                  Row(
-                    children: [
-                      Text('댓글 97', style: Theme.of(context).textTheme.titleSmall),
-                      widthSizeBox(sized_6),
-                      Row(children: starIcons,)
-                    ],
-                  ),
-                  heightSizeBox(sized_10),
-                  Text('주소', style: Theme.of(context).textTheme.displaySmall),
-                  heightSizeBox(sized_10),
-                  Text('설명', style: Theme.of(context).textTheme.displaySmall),
-                ],
+      padding: EdgeInsets.symmetric(horizontal: sized_18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '가게명',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            );
+              Expanded(
+                  child: Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        icon: Icon(Icons.close),
+                        color: BasicColor.primary2,
+                        iconSize: sized_30,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )))
+            ],
+          ),
+          heightSizeBox(sized_24),
+          Text(
+            '영업시간 11:00~12:00',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          heightSizeBox(sized_8),
+          Row(
+            children: [
+              Text('댓글 97', style: Theme.of(context).textTheme.titleSmall),
+              widthSizeBox(sized_6),
+              Row(
+                children: starIcons,
+              )
+            ],
+          ),
+          heightSizeBox(sized_10),
+          Text('주소', style: Theme.of(context).textTheme.displaySmall),
+          heightSizeBox(sized_10),
+          Text('설명', style: Theme.of(context).textTheme.displaySmall),
+        ],
+      ),
+    );
   }
 }

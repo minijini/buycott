@@ -20,7 +20,12 @@ class BasicTheme {
         fillColor: MaterialStateProperty.all(BasicColor.yellow),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: BasicColor.primary,
+        elevation: 0,
+        titleSpacing: 0,
+        iconTheme: IconThemeData(
+          color: BasicColor.primary,
+        ),
+        backgroundColor: Colors.white,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: BasicColor.primary2,

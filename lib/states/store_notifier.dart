@@ -8,7 +8,7 @@ class StoreNotifier extends ChangeNotifier {
   final String TAG = "StoreNotifier";
 
   /*
-    * 장소 검색
+    * 가게 등록
     * */
   Future registerStore(
     BuildContext context,

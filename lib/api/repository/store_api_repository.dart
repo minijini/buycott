@@ -56,4 +56,31 @@ class StoreApiRepo {
           statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
     }
   }
+
+  Future<BaseModel?> getStores(double x, double y) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.store;
+
+    Map<String, dynamic>? queryParameters = { PARAM_X: x,PARAM_Y : y};
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
 }

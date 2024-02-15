@@ -1,5 +1,6 @@
 import 'package:buycott/router/router.dart';
 import 'package:buycott/states/place_notifier.dart';
+import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/states/user_notifier.dart';
 import 'package:buycott/utils/theme/basic_theme.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ void main() async {
 
   final user_State = UserNotifier();
   final place_State = PlaceNotifier();
+  final store_State = StoreNotifier();
 
 
   // notification 설정
@@ -31,15 +33,16 @@ void main() async {
 
   await FirebaseService.initializeFirebase();
 
-  runApp( MyApp(userNotifier: user_State, placeNotifier: place_State,));
+  runApp( MyApp(userNotifier: user_State, placeNotifier: place_State,storeNotifier: store_State,));
 }
 
 class MyApp extends StatefulWidget {
   final UserNotifier userNotifier;
   final PlaceNotifier placeNotifier;
+  final StoreNotifier storeNotifier;
 
 
-  const MyApp({super.key,required this.userNotifier, required this.placeNotifier});
+  const MyApp({super.key,required this.userNotifier, required this.placeNotifier, required this.storeNotifier});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -52,7 +55,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: app_name,
-      home:  MainApp(userNotifier: widget.userNotifier,placeNotifier: widget.placeNotifier,),
+      home:  MainApp(userNotifier: widget.userNotifier,placeNotifier: widget.placeNotifier,storeNotifier: widget.storeNotifier,),
+      builder: (context, child) => MediaQuery( //앱 전체 글자 크기 고정
+        data: MediaQuery.of(context).copyWith(
+          textScaleFactor: 1.0,
+        ),
+        child: child!,
+      ),
     );
   }
 }
@@ -60,9 +69,9 @@ class _MyAppState extends State<MyApp> {
 class MainApp extends StatelessWidget {
   final UserNotifier userNotifier;
   final PlaceNotifier placeNotifier;
+  final StoreNotifier storeNotifier;
 
-
-  const MainApp({Key? key,required this.userNotifier, required this.placeNotifier}) : super(key: key);
+  const MainApp({Key? key,required this.userNotifier, required this.placeNotifier, required this.storeNotifier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +86,10 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider<PlaceNotifier>(
           lazy: false,
           create: (BuildContext createContext) => placeNotifier,
+        ),
+        ChangeNotifierProvider<StoreNotifier>(
+          lazy: false,
+          create: (BuildContext createContext) => storeNotifier,
         ),
 
 

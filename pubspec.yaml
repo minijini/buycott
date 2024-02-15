@@ -97,6 +97,10 @@ dependencies:
   #banner
   banner_carousel: ^1.2.1
 
+  #map
+  google_maps_flutter: ^2.5.3
+  location: ^5.0.3
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

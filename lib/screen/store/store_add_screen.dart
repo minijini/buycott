@@ -49,6 +49,10 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
                 storeModel = result.place;
               });
 
+              if(storeModel != null) {
+                registerStore(storeModel!);
+              }
+
             }
           }, child: Text('가게등록')),
           SizedBox(

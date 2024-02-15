@@ -12,7 +12,8 @@ import '../../constants/padding_size.dart';
 import '../../widgets/UnanimatedPageRoute.dart';
 
 class ShopBottomSheet extends StatefulWidget {
-  const ShopBottomSheet({super.key});
+  final String title;
+  const ShopBottomSheet({super.key, required this.title});
 
   @override
   State<ShopBottomSheet> createState() => _ShopBottomSheetState();
@@ -74,7 +75,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
     return LayoutBuilder(builder: (context, constraints) {
       return DraggableScrollableSheet(
         key: _sheet,
-        initialChildSize: 0.5,
+        initialChildSize:widget.title != "" ?0.5: 85 / constraints.maxHeight,
         maxChildSize: 1,
         minChildSize: 0,
         expand: true,
@@ -96,21 +97,37 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
             child: CustomScrollView(
               controller: scrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: _sliverTitle(context),
-                ),
-                SliverList.list(
-                  children: [
-                    _sliverContent(context),
-                  ],
-                ),
-              ],
+              slivers: widget.title != "" ? _dataSlivers(context) : _emptySlivers(context),
             ),
           );
         },
       );
     });
+  }
+
+  List<Widget> _dataSlivers(BuildContext context) {
+    return [
+              SliverToBoxAdapter(
+                child:  _sliverTitle(context)
+              ),
+              SliverList.list(
+                children: [
+                  _sliverContent(context)
+                ],
+              ),
+            ];
+  }
+
+  List<Widget> _emptySlivers(BuildContext context) {
+    return [
+              SliverToBoxAdapter(
+                child:  _sliverTitle(context)
+              ),
+              SliverList.list(
+                children: [
+                ],
+              ),
+            ];
   }
 
   Column _sliverTitle(BuildContext context) {
@@ -124,13 +141,13 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
                   width: sized_35,
                   child: customDivider(BasicColor.linegrey, sized_4, sized_5))),
         ),
-        Padding(
+        widget.title != "" ? Padding(
           padding: const EdgeInsets.symmetric(horizontal: sized_18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Title',
+                widget.title,
                 style: Theme.of(context).textTheme.displayLarge,
               ),
               heightSizeBox(sized_5),
@@ -140,7 +157,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
               ),
             ],
           ),
-        ),
+        ) : Container(),
       ],
     );
   }

@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
     // ),
     HomeScreen(),
     MapScreen(),
-    SignUpScreen(),
+    StoreAddScreen(),
     Consumer<UserNotifier>(
       builder: (context,notifier,child){
         return MyProfileScreen(userNotifier: notifier,);

@@ -1,70 +1,89 @@
+/// storeSrno : 1
+/// storeType : "CE7"
+/// storeAddress : "서울 마포구 월드컵로1길 14 스타벅스 합정점"
+/// storeLoc : {"x":126.9121929350555,"y":37.5499934909868}
+/// storeName : "스타벅스 합정점"
+/// distance : 0
+
 class StoreModel {
   StoreModel({
-    String? apiId,
-    String? storeType,
-    String? storeTypeNm,
-    String? storeAddress,
-    String? storeName,
-    String? storePhone,
-    String? storeDesc,
-    double? x,
-    double? y,
-  }) {
-    _apiId = apiId;
+      int? storeSrno,
+      String? storeType,
+      String? storeAddress,
+      StoreLoc? storeLoc,
+      String? storeName,
+    double? distance,}){
+    _storeSrno = storeSrno;
     _storeType = storeType;
-    _storeTypeNm = storeTypeNm;
     _storeAddress = storeAddress;
+    _storeLoc = storeLoc;
     _storeName = storeName;
-    _storePhone = storePhone;
-    _storeDesc = storeDesc;
-    _x = x;
-    _y = y;
-  }
+    _distance = distance;
+}
 
   StoreModel.fromJson(dynamic json) {
-    _apiId = json['apiId'];
+    _storeSrno = json['storeSrno'];
     _storeType = json['storeType'];
-    _storeTypeNm = json['storeTypeNm'];
     _storeAddress = json['storeAddress'];
+    _storeLoc = json['storeLoc'] != null ? StoreLoc.fromJson(json['storeLoc']) : null;
     _storeName = json['storeName'];
-    _storePhone = json['storePhone'];
-    _storeDesc = json['storeDesc'];
+    _distance = json['distance'];
+  }
+  int? _storeSrno;
+  String? _storeType;
+  String? _storeAddress;
+  StoreLoc? _storeLoc;
+  String? _storeName;
+  double? _distance;
+
+  int? get storeSrno => _storeSrno;
+  String? get storeType => _storeType;
+  String? get storeAddress => _storeAddress;
+  StoreLoc? get storeLoc => _storeLoc;
+  String? get storeName => _storeName;
+  double? get distance => _distance;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['storeSrno'] = _storeSrno;
+    map['storeType'] = _storeType;
+    map['storeAddress'] = _storeAddress;
+    if (_storeLoc != null) {
+      map['storeLoc'] = _storeLoc!.toJson();
+    }
+    map['storeName'] = _storeName;
+    map['distance'] = _distance;
+    return map;
+  }
+
+}
+
+/// x : 126.9121929350555
+/// y : 37.5499934909868
+
+class StoreLoc {
+  StoreLoc({
+      double? x,
+    double? y,}){
+    _x = x;
+    _y = y;
+}
+
+  StoreLoc.fromJson(dynamic json) {
     _x = json['x'];
     _y = json['y'];
   }
-
-  String? _apiId;
-  String? _storeType;
-  String? _storeTypeNm;
-  String? _storeAddress;
-  String? _storeName;
-  String? _storePhone;
-  String? _storeDesc;
   double? _x;
   double? _y;
 
-
-  String? get apiId => _apiId;
-  String? get storeType => _storeType;
-  String? get storeTypeNm => _storeTypeNm;
-  String? get storeAddress => _storeAddress;
-  String? get storeName => _storeName;
-  String? get storePhone => _storePhone;
-  String? get storeDesc => _storeDesc;
   double? get x => _x;
   double? get y => _y;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['apiId'] = _apiId;
-    map['storeType'] = _storeType;
-    map['storeTypeNm'] = _storeTypeNm;
-    map['storeAddress'] = _storeAddress;
-    map['storeName'] = _storeName;
-    map['storePhone'] = _storePhone;
-    map['storeDesc'] = _storeDesc;
     map['x'] = _x;
     map['y'] = _y;
     return map;
   }
+
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:buycott/constants/screen_size.dart';
 import 'package:buycott/firebase/firebaseservice.dart';
+import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
@@ -9,13 +10,15 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/padding_size.dart';
 import '../../widgets/style/container.dart';
 import 'bottom_sheet_screen.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  final StoreNotifier storeNotifier;
+  const MapScreen({super.key, required this.storeNotifier});
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -101,30 +104,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           },
           onCameraIdle: (){// 카메라 이동이 멈춘 경우
 
-            // setState(() {
-            //   _marker.clear();
-            //
-            // });
-            //
-            // setState(() {
-            //
-            //     _marker.add(Marker(
-            //         markerId: const MarkerId("marker_1"),
-            //         position: _kMapMarker,
-            //         icon: _markerIcon != null ? BitmapDescriptor.fromBytes(
-            //             _markerIcon!) : BitmapDescriptor.defaultMarker,
-            //         infoWindow: const InfoWindow(
-            //           title: "회사",
-            //         ),
-            //         onTap: () {
-            //           setState(() {
-            //             shopTitle = "회사";
-            //           });
-            //         }
-            //     ));
-            //
-            // });
-
+            _getStores(longitude!,latitude!);
           },
           onCameraMove: (object) => { //카메라 이동 시 좌표가져오기
             setState(() {
@@ -151,11 +131,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   }
 
   void _currentLocation() async {
-
-
     Location location = Location();
     final currentLocation = await location.getLocation();
-
 
     setState(() {
       latitude = currentLocation.latitude!;
@@ -172,7 +149,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       ),
     ));
 
-    _createMarker();
+    _getStores(longitude!,latitude!);
+
 
     Log.logs(TAG,
         "lat : ${currentLocation.latitude!}, lng: ${currentLocation.longitude!}");
@@ -191,30 +169,27 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
  void _createMarker() {
 
-   final List<Marker> _list =  [
-      Marker(
-        markerId:const MarkerId("marker_1"),
-        position: _kMapMarker,
-        icon: _markerIcon!= null ? BitmapDescriptor.fromBytes(_markerIcon!) : BitmapDescriptor.defaultMarker,
-        infoWindow: const InfoWindow(
-          title: "회사",
-        ),
-        onTap: (){
-          _setTitle("회사");
-        }
-      ),
-     Marker(
-         markerId:const MarkerId("marker_2"),
-         position: LatLng(37.4668787, 126.88837),
-         icon: _markerIcon!= null ? BitmapDescriptor.fromBytes(_markerIcon!) : BitmapDescriptor.defaultMarker,
-         infoWindow:const InfoWindow(
-           title: "가게",
+   setState(() {
+     _marker.clear();
+   });
+
+   final List<Marker> _list =  [];
+
+   for (var storeModel in widget.storeNotifier.storeList) {
+     Marker marker = Marker(
+         markerId: MarkerId("${storeModel.storeSrno}"),
+       position: LatLng(storeModel.storeLoc!.y!, storeModel.storeLoc!.x!),
+       icon: _markerIcon!= null ? BitmapDescriptor.fromBytes(_markerIcon!) : BitmapDescriptor.defaultMarker,
+         infoWindow: InfoWindow(
+           title: storeModel.storeName ,
          ),
          onTap: (){
-           _setTitle("가게");
+           _setTitle(storeModel.storeName ?? "");
          }
-     ),
-    ];
+     );
+
+     _list.add(marker);
+   }
 
    setState(() {
      _marker.addAll(_list);
@@ -225,6 +200,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
    return setState(() {
           shopTitle = title;
         });
+ }
+
+ void _getStores(double x, double y){
+   Provider.of<StoreNotifier>(context, listen: false).getStores(context, x,y).then((value){
+     _createMarker();
+   });
  }
 
 

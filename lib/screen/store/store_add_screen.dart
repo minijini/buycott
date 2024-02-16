@@ -1,6 +1,5 @@
 import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/data/place_result_model.dart';
-import 'package:buycott/data/store_model.dart';
 import 'package:buycott/screen/place/shop_list_screen.dart';
 import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/utils/log_util.dart';

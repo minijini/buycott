@@ -211,9 +211,6 @@ class UserNotifier extends ChangeNotifier{
 
       }
     }
-
-
-
     return null;
   }
 

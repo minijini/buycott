@@ -4,6 +4,7 @@ import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/map/map_screen.dart';
 import 'package:buycott/screen/place/shop_list_screen.dart';
 import 'package:buycott/states/place_notifier.dart';
+import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/widgets/list/place_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
     //   },
     // ),
     HomeScreen(),
-    MapScreen(),
+    Consumer<StoreNotifier>(
+      builder: (context,notifier,child){
+        return MapScreen(storeNotifier: notifier,);
+      },
+    ),
     StoreAddScreen(),
     Consumer<UserNotifier>(
       builder: (context,notifier,child){

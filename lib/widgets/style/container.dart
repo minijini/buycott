@@ -77,6 +77,15 @@ BoxDecoration grayDecor(){
   );
 }
 
+BoxDecoration categoryDecor(){
+  return BoxDecoration(
+      color: BasicColor.primary,
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(sized_20)),
+      border: Border.all(color: Colors.white, width: 1.6)
+  );
+}
+
 BoxDecoration chatOtherDecor(){
   return BoxDecoration(
     color: BasicColor.lightgrey3,

@@ -13,6 +13,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/padding_size.dart';
+import '../../data/category_map.dart';
 import '../../widgets/style/container.dart';
 import 'bottom_sheet_screen.dart';
 
@@ -26,6 +27,9 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   final TAG = "MapScreen";
+
+  final TextEditingController _searchTextController = TextEditingController();
+
   bool isVisible = true;
   late AnimationController _animationController;
   late Animation<Offset> _offsetAnimation;
@@ -82,6 +86,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+    _searchTextController.dispose();
     super.dispose();
   }
 
@@ -117,6 +122,17 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               bottom:MediaQuery.of(context).size.height*0.15),
         ),
       ) : Center(child: CircularProgressIndicator(color: BasicColor.primary,)),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: sized_20,bottom:sized_10,left: sized_18,right: sized_18),
+                child: _placeSearchBar(),
+              ),
+
+              _category(),
+            ],
+          ),
+
 
           SlideTransition(
             position: _offsetAnimation,
@@ -126,6 +142,44 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _placeSearchBar() {
+    return TextField(
+      style: const TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
+      controller: _searchTextController,
+      keyboardType: TextInputType.text,
+      cursorColor: BasicColor.primary,
+      decoration: const InputDecoration(
+          hintText: "장소를 입력하세요",
+          suffixIcon: Padding(
+              padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
+              child: Icon(Icons.search,size: sized_30,)))
+    );
+  }
+
+  Widget _category(){
+    return Container(
+      height: sized_35,
+      margin: EdgeInsets.symmetric(horizontal: sized_18),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: placeTypeMap.entries
+            .map(
+              (data) => Container(
+                margin: EdgeInsets.only(right: sized_10),
+                padding: EdgeInsets.symmetric(vertical: sized_10,horizontal: sized_8),
+                height: sized_35,
+                decoration: categoryDecor(),
+                constraints: BoxConstraints(
+                  minWidth: 62, // Set the minimum width
+                ),
+                child: Center(child: Text(data.value,style: Theme.of(context).textTheme.displaySmall,)),
+              ),
+        )
+            .toList(),
       ),
     );
   }

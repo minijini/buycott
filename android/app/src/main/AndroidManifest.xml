@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
    <application
         android:label="buycott"
@@ -80,6 +82,9 @@
            android:name="com.naver.sdk.clientName"
            android:value="@string/client_name" />
 
+       <!--구글지도 설정-->
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyAwoFJ4mZzQlxA3nFye_9O1AS5y4fyo0Ig"/>
 
     </application>
 </manifest>

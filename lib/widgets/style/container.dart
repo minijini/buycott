@@ -69,6 +69,23 @@ BoxDecoration chatMyDecor(){
   );
 }
 
+BoxDecoration grayDecor(){
+  return BoxDecoration(
+      color: BasicColor.lightgrey,
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(sized_10))
+  );
+}
+
+BoxDecoration categoryDecor(){
+  return BoxDecoration(
+      color: BasicColor.primary,
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(sized_20)),
+      border: Border.all(color: Colors.white, width: 1.6)
+  );
+}
+
 BoxDecoration chatOtherDecor(){
   return BoxDecoration(
     color: BasicColor.lightgrey3,
@@ -108,3 +125,9 @@ Container line({Color? color,double? height}) {
     color: color ?? Colors.white,
   );
 }
+
+SizedBox heightSizeBox(double size) => SizedBox(height: size,);
+SizedBox widthSizeBox(double size) => SizedBox(width: size,);
+
+Divider  divider() => Divider(color: BasicColor.linegrey);
+Divider  customDivider(Color color,double height,double thickness) => Divider(color: color,height: height,thickness: thickness,);

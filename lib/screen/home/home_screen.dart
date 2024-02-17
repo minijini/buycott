@@ -1,194 +1,145 @@
-import 'package:buycott/firebase/firebaseservice.dart';
-import 'package:buycott/screen/login/login_screen.dart';
-import 'package:buycott/screen/shop/shop_list_screen.dart';
-import 'package:buycott/states/place_notifier.dart';
-import 'package:buycott/utils/log_util.dart';
-import 'package:buycott/widgets/list/place_list_tile.dart';
+import 'package:banner_carousel/banner_carousel.dart';
+import 'package:buycott/constants/padding_size.dart';
+import 'package:buycott/constants/screen_size.dart';
+import 'package:buycott/utils/color/basic_color.dart';
+import 'package:buycott/widgets/list/main_shop_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_udid/flutter_udid.dart';
-import 'package:provider/provider.dart';
 
-import '../../constants/padding_size.dart';
-import '../../constants/screen_size.dart';
-import '../../data/place_result_model.dart';
-import '../../firebase/fcmprovider.dart';
-import '../../states/user_notifier.dart';
-import '../../utils/color/basic_color.dart';
-import '../../utils/utility.dart';
-import '../../widgets/circle_image.dart';
+import '../../utils/log_util.dart';
 import '../../widgets/style/container.dart';
 import '../../widgets/style/divider.dart';
-import '../bottomScreen.dart';
-import '../login/sign_up_screen.dart';
-import '../map/bottom_sheet_screen.dart';
-import '../bottomScreen3.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
-  int _bottomSelectedIndex = 0;
-
-  late UserNotifier _userNotifier;
-
-
-
-  final List<Widget> _screens = <Widget>[
-    Consumer<PlaceNotifier>(
-      builder: (context,notifier,child){
-        return ShopListScreen();
-      },
-    ),
-    Consumer<PlaceNotifier>(
-      builder: (context,notifier,child){
-        return ShopListScreen();
-      },
-    ),
-    SignUpScreen(),
-    LoginScreen()
-  ];
-
-  DateTime? currentBackPressTime; //app종료
+class _HomeScreenState extends State<HomeScreen> {
+  final TAG = "HomeScreen";
+  final TextEditingController _searchTextController = TextEditingController();
 
   @override
-  void initState() {
-    getDeviceId();
-
-    _userNotifier = UserNotifier();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FCMProvider.setContext(context);
-    });
-
-
-
-
-    // Provider.of<UserNotifier>(context,listen: false).login(context,"admin","1234");
-    // Provider.of<UserNotifier>(context,listen: false).nicknameCheck(context,"admin");
-
-    super.initState();
+  void dispose() {
+    _searchTextController.dispose();
+    super.dispose();
   }
-
-
-  void getDeviceId() async {
-    String deviceunique = await FlutterUdid.udid;
-
-    //pushtoken 등록
-  }
-
-
   @override
   Widget build(BuildContext context) {
-    size ??= MediaQuery.of(context).size;
-
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Scaffold(
-        body: _screens.elementAt(_bottomSelectedIndex),
-        appBar: AppBar(
-            elevation: 0,
-            actions: [
-              Consumer<UserNotifier>(
-                builder: (context, userNotifier, child) {
-                  return Row(
-                    children: [
-
-                    ],
-                  );
-                },
-              )
-            ],
-            centerTitle: false,
-            // title: Image.asset(
-            //   'assets/imgs/icon_title.png',
-            //   width: sized_40,
-            //   height: sized_30,
-            // )
-        ),
-       bottomNavigationBar: Container(
-           decoration: BoxDecoration(
-             borderRadius: BorderRadius.only(
-                 topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-             // boxShadow: [
-             //   BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 0.2),
-             // ],
-           ),
-           child: ClipRRect(
-             borderRadius: BorderRadius.only(
-               topLeft: Radius.circular(30.0),
-               topRight: Radius.circular(30.0),
-             ),
-             child:  BottomNavigationBar(
-               backgroundColor: Colors.green[200],
-             currentIndex: _bottomSelectedIndex,
-             type: BottomNavigationBarType.fixed,
-             //icon&label 보여주는 타입 , fixed : 애니메이션 없음
-             items: [
-               BottomNavigationBarItem(
-                   icon: Container(
-                     padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: Icon(_bottomSelectedIndex == 0 ? Icons.location_pin: Icons.location_off),
-                   ),
-                   label: '추천'),
-               //선택 될 때 채워진 이미지로 변경
-               BottomNavigationBarItem(
-                   icon: Container(
-                     padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: Icon(_bottomSelectedIndex == 1 ? Icons.location_pin: Icons.location_off),
-                   ),
-                   backgroundColor: Colors.transparent,
-                   label: '요청'),
-               BottomNavigationBarItem(
-                   icon: Stack(
-                     children: [
-                       Container(
-                         padding: const EdgeInsets.symmetric(vertical: sized_2),
-                         child: Icon(_bottomSelectedIndex == 2 ? Icons.location_pin: Icons.location_off),
-                       ),
-                     ],
-                   ),
-                   label: '대화'),
-               BottomNavigationBarItem(
-                   icon: Container(
-                     padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: Icon(_bottomSelectedIndex == 3 ? Icons.location_pin: Icons.location_off),
-                     // child: ImageIcon(AssetImage(_bottomSelectedIndex == 3
-                     //     ? 'assets/imgs/icon_set_on.png'
-                     //     : 'assets/imgs/icon_set_off.png')),
-                   ),
-
-                   label: '설정'),
-             ],
-             onTap: (index) {
-               setState(() {
-                 _bottomSelectedIndex = index;
-               });
-
-             },
-           ),
-           )
-       ),
+    return Container(
+      padding: EdgeInsets.only(left:sized_18,right: sized_18,top: sized_18),
+      child: ListView(
+        children: [
+          _placeSearchBar(),
+          heightSizeBox(sized_30),
+          _banner(),
+          heightSizeBox(sized_30),
+          _title(context,"오늘의 돈쭐"),
+          heightSizeBox(sized_10),
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
+          _title(context,"인기 돈쭐"),
+          heightSizeBox(sized_10),
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
+          _title(context,"새로운 돈쭐"),
+          heightSizeBox(sized_10),
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
+          _title(context,"돈쭐 뉴스"),
+          heightSizeBox(sized_10),
+          _todayBuyCott(),
+          heightSizeBox(sized_40),
+        ],
       ),
     );
   }
 
+  Row _title(BuildContext context,String title) {
+    return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(title,style: Theme.of(context).textTheme.displayLarge,),
+            Icon(Icons.chevron_right)
+          ],
+        );
+  }
 
-  Future<bool> onWillPop() {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      final msg = "'뒤로'버튼을 한 번 더 누르면 종료됩니다.";
+  Container _todayBuyCott() {
+    return Container(
+          constraints: BoxConstraints(
+            maxHeight: sized_100, // Set a maximum height as needed
+          ),
+          child: ListView.separated(
+              shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                BannerModel placeModel = BannerImages.listBanners[index];
 
-      Utility.customSnackBar(context, msg);
-      return Future.value(false);
-    }
-    return Future.value(true);
+                return GestureDetector(
+                    onTap: () {
+                      Log.logs(
+                          TAG, "list tile click :: ${placeModel.id}");
+
+                    },
+                    child: MainShopListTile());
+              },
+              separatorBuilder: (context, index) {
+                return list_divider();
+              },
+              itemCount: BannerImages.listBanners.length),
+        );
   }
 
 
+
+  Widget _placeSearchBar() {
+    return TextField(
+      style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
+      controller: _searchTextController,
+      keyboardType: TextInputType.text,
+      cursorColor: BasicColor.primary,
+      decoration: InputDecoration(
+          hintText: "검색어를 입력하세요",
+          suffixIcon: Padding(
+              padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
+              child: Icon(Icons.search,size: sized_30,))),
+    );
+  }
+
+  Widget _banner(){
+    return BannerCarousel(
+      banners: BannerImages.listBanners,
+      customizedIndicators: IndicatorModel.animation(
+          width: 10, height: 5, spaceBetween: 2, widthAnimation: 15),
+      height: sized_120,
+      activeColor: BasicColor.primary,
+      disableColor: Colors.white,
+      animation: true,
+      borderRadius: 10,
+      width: size!.width,
+      onTap: (id) => print(id),
+      indicatorBottom: false,
+      margin: EdgeInsets.zero,
+    );
+  }
+}
+
+
+class BannerImages {
+  static const String banner1 =
+      "https://picjumbo.com/wp-content/uploads/the-golden-gate-bridge-sunset-1080x720.jpg";
+  static const String banner2 =
+      "https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg";
+  static const String banner3 = "https://wallpaperaccess.com/full/19921.jpg";
+  static const String banner4 =
+      "https://images.pexels.com/photos/2635817/pexels-photo-2635817.jpeg?auto=compress&crop=focalpoint&cs=tinysrgb&fit=crop&fp-y=0.6&h=500&sharp=20&w=1400";
+
+  static List<BannerModel> listBanners = [
+    BannerModel(imagePath: banner1, id: "1"),
+    BannerModel(imagePath: banner2, id: "2"),
+    BannerModel(imagePath: banner3, id: "3"),
+    BannerModel(imagePath: banner4, id: "4"),
+  ];
 }

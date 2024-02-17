@@ -55,7 +55,7 @@ class CustomDialog {
               SizedBox(
                 width: 50,
                 height: 70,
-                child: Image.asset("assets/imgs/Dialog_flower_icon.png"),
+                child: Image.asset("assets/icon/icon_marker.png"),
               ),
               SizedBox(
                 height: sized_15,

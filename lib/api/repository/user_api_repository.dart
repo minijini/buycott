@@ -197,6 +197,63 @@ class UserApiRepo {
   }
 
   /*
+  * 유저 프로필 사진 조회
+  * */
+  Future<BaseModel?> getProfileImg(int userSrno) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.userImg;
+
+    Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno};
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+  /* 유저 프로필 조회
+  * */
+  Future<BaseModel?> getProfile(int userSrno) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.userProfile;
+
+    Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno};
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+  /*
   * pushtoken 등록
   * */
   Future<BaseModel?> pushToken(String pushToken) async {

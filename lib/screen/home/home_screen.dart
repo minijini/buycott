@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Container _todayBuyCott() {
     return Container(
           constraints: BoxConstraints(
-            maxHeight: sized_100, // Set a maximum height as needed
+            maxHeight: sized_120, // Set a maximum height as needed
           ),
           child: ListView.separated(
               shrinkWrap: true,

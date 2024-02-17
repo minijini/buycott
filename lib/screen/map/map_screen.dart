@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui' as ui;
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buycott/constants/screen_size.dart';
 import 'package:buycott/firebase/firebaseservice.dart';
 import 'package:buycott/states/store_notifier.dart';
@@ -162,7 +163,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   Widget _category(){
     return Container(
-      height: sized_35,
+      height: sized_40,
       margin: EdgeInsets.symmetric(horizontal: sized_18),
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -170,13 +171,14 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             .map(
               (data) => Container(
                 margin: EdgeInsets.only(right: sized_10),
-                padding: EdgeInsets.symmetric(vertical: sized_10,horizontal: sized_8),
-                height: sized_35,
+                padding: EdgeInsets.symmetric(vertical: sized_10,horizontal: sized_5),
+                height: sized_40,
                 decoration: categoryDecor(),
                 constraints: BoxConstraints(
                   minWidth: 62, // Set the minimum width
+                  minHeight: sized_40
                 ),
-                child: Center(child: Text(data.value,style: Theme.of(context).textTheme.displaySmall,)),
+                child: Center(child: AutoSizeText(data.value,style: Theme.of(context).textTheme.displaySmall,)),
               ),
         )
             .toList(),
@@ -204,7 +206,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     ));
 
     _getStores(longitude!,latitude!);
-
 
     Log.logs(TAG,
         "lat : ${currentLocation.latitude!}, lng: ${currentLocation.longitude!}");

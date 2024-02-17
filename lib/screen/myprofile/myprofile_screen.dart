@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/widgets/circle_image.dart';
 import 'package:flutter/material.dart';
@@ -130,9 +131,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             ),
             child: Container(
               width: sized_30,
-              height: sized_15,
+              height: sized_17,
               child: Center(
-                  child: Text('수정',
+                  child: AutoSizeText('수정',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

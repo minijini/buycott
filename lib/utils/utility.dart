@@ -187,7 +187,7 @@ class Utility {
       content: Text(
         msg,
         style: const TextStyle(
-          color: Colors.white,
+          color: Colors.black54,
         ),
       ),
     );

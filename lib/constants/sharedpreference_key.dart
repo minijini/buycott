@@ -1,2 +1,2 @@
 const String TOKEN_KEY = 'token_key';
-const String AUTO_LOGIN = 'auto_login';
+const String USER_SRNO = 'user_srno';

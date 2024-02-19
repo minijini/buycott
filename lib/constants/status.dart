@@ -1,4 +1,4 @@
-enum AuthStatus { signout, progress, signin , autologin, autologindone }
+enum AuthStatus { signout, progress, signin  }
 
 enum LoginPlatform {
   facebook,

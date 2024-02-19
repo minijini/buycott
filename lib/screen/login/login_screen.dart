@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:buycott/constants/constants.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:device_screen_size/device_screen_size.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -45,8 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
     size ??= MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('로그인',style: Theme.of(context).textTheme.titleLarge,),
+      ),
       body: Container(
+        color: Colors.white,
         child: Column(
           children: [
             _snsLoginButton("kakao_login",signInWithKakao),
@@ -129,5 +134,11 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
+
+  void loginStatus(String userId){
+    context.goNamed(signUpRouteName, pathParameters: {'userId': userId});
+  }
+
+
 
 }

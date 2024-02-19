@@ -41,7 +41,9 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
       //   UnanimatedPageRoute(builder: (context) => LoginScreen()),
       // );
 
-      context.goNamed(storeDetailRouteName);
+      if(widget.title != "") {
+        context.goNamed(storeDetailRouteName);
+      }
     }
   }
 

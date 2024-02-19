@@ -25,8 +25,7 @@ class UserNotifier extends ChangeNotifier{
   String? _token ;
   String? _profileImg;
 
-
-  AuthStatus _authStatus = AuthStatus.autologin;
+  AuthStatus _authStatus = AuthStatus.signout;
 
     UserNotifier(){
 
@@ -37,24 +36,16 @@ class UserNotifier extends ChangeNotifier{
 
         final pref = await SharedPreferences.getInstance();
         final _pref_token = pref.getString(TOKEN_KEY) ?? "";
-        final _pref_auto = pref.getBool(AUTO_LOGIN) ?? false;
 
-        // if(_pref_auto){
-        //   if(_pref_token != ''  && _pref_token != null){
-        //     checkToken(context);
-        //
-        //     _token = _pref_token;
-        //
-        //     profileCall();
-        //
-        //   }else{
-        //     _token = '';
-        //   }
-        // }else{
-        //   _token = '';
-        // }
 
-        _authStatus = AuthStatus.autologindone;
+          // if(_pref_token != ''  && _pref_token != null){
+          //   checkToken(context);
+          //   profileCall();
+          //
+          // }else{
+          //   _authStatus = AuthStatus.signout;
+          // }
+          //
 
         notifyListeners();
     }
@@ -63,14 +54,9 @@ class UserNotifier extends ChangeNotifier{
     Future logout() async{
 
       _authStatus = AuthStatus.signout;
-      _token = null;
-      _token = '';
-
 
       Utility().setSharedPreference(TOKEN_KEY, _token);
-      Utility().setSharedPreference_bool(AUTO_LOGIN, false);
       Utility().removeSharedPreference(TOKEN_KEY);
-      Utility().removeSharedPreference(AUTO_LOGIN);
 
       notifyListeners();
     }
@@ -100,7 +86,7 @@ class UserNotifier extends ChangeNotifier{
 
       if (result != null) {
 
-          if (result.isSuccess(context)) {
+          if (result.isSuccess(context: context)) {
 
             var dataResult = ResultModel.fromJson(result.data);
 
@@ -131,7 +117,7 @@ class UserNotifier extends ChangeNotifier{
 
       if (result != null) {
 
-          if (result.isSuccess(context)) {
+          if (result.isSuccess(context: context)) {
 
             var dataResult = ResultModel.fromJson(result.data);
 
@@ -155,7 +141,7 @@ class UserNotifier extends ChangeNotifier{
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
         return dataResult.code;
@@ -173,7 +159,7 @@ class UserNotifier extends ChangeNotifier{
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
 
@@ -199,7 +185,7 @@ class UserNotifier extends ChangeNotifier{
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
         _profileImg = dataResult.signedUrl;
@@ -222,7 +208,7 @@ class UserNotifier extends ChangeNotifier{
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
         userModel = UserModel.fromJson(dataResult.body);
@@ -241,7 +227,7 @@ class UserNotifier extends ChangeNotifier{
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
       }
     }
@@ -256,7 +242,7 @@ class UserNotifier extends ChangeNotifier{
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
       }
     }
@@ -310,7 +296,7 @@ class UserNotifier extends ChangeNotifier{
       final result = await UserApiRepo().userImg( userSrno,  file,onProgress);
 
       if (result != null) {
-        if (result.isSuccess(context)) {
+        if (result.isSuccess(context: context)) {
 
         }
       }

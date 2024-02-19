@@ -7,6 +7,7 @@ import 'package:buycott/screen/term/terms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../screen/login/sign_up_screen.dart';
 import '../screen/main/main_screen.dart';
 import '../states/user_notifier.dart';
 import '../constants/constants.dart';
@@ -51,12 +52,13 @@ class MyRouter {
             ),
 
             GoRoute(
-                  path: '$termsRouteName/:title',
-                  name: termsRouteName,
-                  pageBuilder: (context, state) {
-                    return _customTransitionPage(state,TermsScreen(title: state.pathParameters['title']!));
-                  },
-                ),
+              path: '$termsRouteName/:title',
+              name: termsRouteName,
+              pageBuilder: (context, state) {
+                return customTransitionPage(
+                    state, TermsScreen(title: state.pathParameters['title']!));
+              },
+            ),
 
             GoRoute(
               path: storeDetailRouteName,
@@ -65,174 +67,24 @@ class MyRouter {
               pageBuilder: defaultPageBuilder(const StoreDetailScreen()),
             ),
 
-
             GoRoute(
-              path: loginRouteName,
-              name:loginRouteName,
-              builder: (context, state) => const LoginScreen(),
-              pageBuilder: defaultPageBuilder(const LoginScreen()),
-              // routes: [
-              //
-              //   GoRoute(
-              //     path: 'profile',
-              //     name: myprofileRouteName,
-              //     pageBuilder: (context, state) {
-              //       return CustomTransitionPage(
-              //         key: state.pageKey,
-              //         child: MyProfileScreen(),
-              //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              //           return FadeTransition(
-              //             opacity:
-              //             CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-              //             child: child,
-              //           );
-              //         },
-              //       );
-              //     },
-              //   ),
-              //
-              //   GoRoute(
-              //       path: 'notice',
-              //       name: noticeRouteName,
-              //       pageBuilder: (context, state) {
-              //         return CustomTransitionPage(
-              //           key: state.pageKey,
-              //           child: NoticeScreen(),
-              //           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              //             return FadeTransition(
-              //               opacity:
-              //               CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-              //               child: child,
-              //             );
-              //           },
-              //         );
-              //       },
-              //     routes: [
-              //       GoRoute(
-              //         path: 'detail/:seq',
-              //         name:noticeDetailRouteName,
-              //         pageBuilder: (context, state) {
-              //           return CustomTransitionPage(
-              //             key: state.pageKey,
-              //             child: NoticeDetailScreen(seq:state.pathParameters['seq']!,),
-              //             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              //               return FadeTransition(
-              //                 opacity:
-              //                 CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-              //                 child: child,
-              //               );
-              //             },
-              //           );
-              //         },
-              //       ),
-              //     ]
-              //   ),
-              //
-              //   GoRoute(
-              //     path: 'terms',
-              //     name: termsRouteName,
-              //     pageBuilder: (context, state) {
-              //       return CustomTransitionPage(
-              //         key: state.pageKey,
-              //         child: TermsScreen(),
-              //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              //           return FadeTransition(
-              //             opacity:
-              //             CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-              //             child: child,
-              //           );
-              //         },
-              //       );
-              //     },
-              //     routes: [
-              //
-              //       GoRoute(
-              //         path: ':title/:content',
-              //         name: gotermsDetailRouteName,
-              //
-              //         pageBuilder: (context, state) {
-              //           return CustomTransitionPage(
-              //             key: state.pageKey,
-              //             child: TermsDetailScreen(
-              //                 title: state.pathParameters['title']!,
-              //                 content: state.pathParameters['content']!),
-              //             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              //               return FadeTransition(
-              //                 opacity:
-              //                 CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-              //                 child: child,
-              //               );
-              //             },
-              //           );
-              //         },
-              //       ),
-              //     ]
-              //   ),
-              //
-              //
-              // ]
+                path: loginRouteName,
+                name: loginRouteName,
+                builder: (context, state) => const LoginScreen(),
+                pageBuilder: defaultPageBuilder(const LoginScreen()),
+                routes: [
+                  GoRoute(
+                    path: '$signUpRouteName/:userId',
+                    name: signUpRouteName,
+                    pageBuilder: (context, state) {
+                      return customTransitionPage(
+                          state, SignUpScreen(userId:state.pathParameters['userId']!));
+                    },
+                  ),
+                ]
             ),
 
-            // GoRoute(
-            //   path: 'auth/:gubun',
-            //   name: authRouteName,
-            //   pageBuilder: (context, state) {
-            //     return CustomTransitionPage(
-            //       key: state.pageKey,
-            //       child: AuthScreen(gubun: state.pathParameters['gubun']!,),
-            //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            //         return FadeTransition(
-            //           opacity:
-            //           CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-            //           child: child,
-            //         );
-            //       },
-            //     );
-            //   },
-            //   routes: [
-            //     GoRoute(
-            //         path: 'signup/:name/:di/:phone/:gender/:age',
-            //         name: signUpRouteName,
-            //         pageBuilder: (context, state) {
-            //           return CustomTransitionPage(
-            //             key: state.pageKey,
-            //             child: SignUpScreen(name: state.pathParameters['name']!,di: state.pathParameters['di']!,phone: state.pathParameters['phone']!,gender: state.pathParameters['gender']!,age: state.pathParameters['age']!,),
-            //             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            //               return FadeTransition(
-            //                 opacity:
-            //                 CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-            //                 child: child,
-            //               );
-            //             },
-            //           );
-            //         },
-            //         routes: [
-            //           GoRoute(
-            //             path: 'termsdetail/:title/:content',
-            //             name: termsDetailRouteName,
-            //
-            //             pageBuilder: (context, state) {
-            //               return CustomTransitionPage(
-            //                 key: state.pageKey,
-            //                 child: TermsDetailScreen(
-            //                     title: state.pathParameters['title']!,
-            //                     content: state.pathParameters['content']!),
-            //                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            //                   return FadeTransition(
-            //                     opacity:
-            //                     CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-            //                     child: child,
-            //                   );
-            //                 },
-            //               );
-            //             },
-            //           ),
-            //         ]),
-            //   ]
-            // ),
-
           ]),
-
 
 
       // GoRoute(
@@ -243,7 +95,7 @@ class MyRouter {
       //   },
       // )
     ],
-    redirect: (context, state)  {
+    redirect: (context, state) {
       // final loggedIn = userProvider.token != null && userProvider.token != '';
       // final inLoginPages = state.matchedLocation.contains(loginRouteName);
       // final inProfileImagePages = state.matchedLocation.contains(profileImgRouteName);
@@ -260,42 +112,5 @@ class MyRouter {
     debugLogDiagnostics: true, //개발할때만 true, 출시할땐 false
   );
 
-  CustomTransitionPage<dynamic> _customTransitionPage(GoRouterState state , Widget child) {
-    return CustomTransitionPage(
-                    key: state.pageKey,
-                    child: child,
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity:
-                        CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                        child: child,
-                      );
-                    },
-                  );
-  }
+
 }
-
-
-
-CustomTransitionPage buildPageWithDefaultTransition<T>({
-  required BuildContext context,
-  required GoRouterState state,
-  required Widget child,
-}) {
-  return CustomTransitionPage<T>(
-    key: state.pageKey,
-    child: child,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-        FadeTransition(opacity: animation, child: child),
-  );
-}
-
-Page<dynamic> Function(BuildContext, GoRouterState) defaultPageBuilder<T>(
-    Widget child) =>
-        (BuildContext context, GoRouterState state) {
-      return buildPageWithDefaultTransition<T>(
-        context: context,
-        state: state,
-        child: child,
-      );
-    };

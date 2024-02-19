@@ -29,7 +29,7 @@ class StoreNotifier extends ChangeNotifier {
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
 
@@ -45,7 +45,7 @@ class StoreNotifier extends ChangeNotifier {
 
     if (result != null) {
 
-      if (result.isSuccess(context)) {
+      if (result.isSuccess(context: context)) {
 
         var dataResult = ResultModel.fromJson(result.data);
         final _result = dataResult.body.map<StoreModel>((json) {

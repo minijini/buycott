@@ -49,3 +49,18 @@ Page<dynamic> Function(BuildContext, GoRouterState) defaultPageBuilder<T>(
       );
     };
 
+
+CustomTransitionPage<dynamic> customTransitionPage(GoRouterState state , Widget child) {
+  return CustomTransitionPage(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity:
+        CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+        child: child,
+      );
+    },
+  );
+}
+

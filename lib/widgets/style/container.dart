@@ -77,9 +77,9 @@ BoxDecoration grayDecor(){
   );
 }
 
-BoxDecoration categoryDecor(){
+BoxDecoration categoryDecor(Color color){
   return BoxDecoration(
-      color: BasicColor.primary,
+      color: color,
       shape: BoxShape.rectangle,
       borderRadius: BorderRadius.all(Radius.circular(sized_20)),
       border: Border.all(color: Colors.white, width: 1.6)

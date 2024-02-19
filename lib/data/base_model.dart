@@ -25,11 +25,13 @@ class BaseModel {
     this.langCode
   });
 
-  bool isSuccess(BuildContext context){
+  bool isSuccess({BuildContext? context}){
     if(statusCode == 200){
       return true;
     }else{
-      CodeDialog().response_error(context);
+      if(context != null) {
+        CodeDialog().response_error(context);
+      }
       return false;
     }
   }

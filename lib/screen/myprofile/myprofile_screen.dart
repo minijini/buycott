@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buycott/constants/basic_text.dart';
+import 'package:buycott/constants/status.dart';
 import 'package:buycott/widgets/circle_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -38,25 +39,39 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: sized_18),
-            child: Text(
-              'MY',
-              style: Theme.of(context).textTheme.titleLarge,
+            child: GestureDetector(
+              onTap: (){
+                if(widget.userNotifier.authStatus == AuthStatus.signout){
+                  context.goNamed(loginRouteName);
+                }
+              },
+              child: Text(
+                widget.userNotifier.authStatus == AuthStatus.signin ? 'MY' : '로그인 해 주세요',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
           ),
-          heightSizeBox(sized_14),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: sized_18),
-            child: _myProfile(context),
+          heightSizeBox(widget.userNotifier.authStatus == AuthStatus.signin ? sized_14 : sized_50),
+          Visibility(
+            visible: widget.userNotifier.authStatus == AuthStatus.signin,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: sized_18),
+                  child: _myProfile(context),
+                ),
+                heightSizeBox(sized_30),
+                _menu(context, "내 가게 목록", true, () {
+                  context.goNamed(
+                    myStoreRegisterRouteName,
+                  );
+                }),
+                _menu(context, "내가 쓴 리뷰", true, () {
+                  context.goNamed(myReviewRouteName);
+                }),
+              ],
+            ),
           ),
-          heightSizeBox(sized_30),
-          _menu(context, "내 가게 목록", true, () {
-            context.goNamed(
-              myStoreRegisterRouteName,
-            );
-          }),
-          _menu(context, "내가 쓴 리뷰", true, () {
-            context.goNamed(myReviewRouteName);
-          }),
           _menu(context, "공지사항", false, () {
             context.goNamed(myReviewRouteName);
           }),

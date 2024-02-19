@@ -12,7 +12,8 @@ import '../../utils/color/basic_color.dart';
 import '../../widgets/list/shop_list_tile.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final String userId;
+  const SignUpScreen({super.key, required this.userId});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();

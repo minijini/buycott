@@ -46,6 +46,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   String? shopTitle;
 
+  String? categorySelectData;
+  String? categoryClickData;
+
   @override
   void initState() {
     // setState(() {
@@ -169,16 +172,34 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         scrollDirection: Axis.horizontal,
         children: placeTypeMap.entries
             .map(
-              (data) => Container(
-                margin: EdgeInsets.only(right: sized_10),
-                padding: EdgeInsets.symmetric(vertical: sized_10,horizontal: sized_5),
-                height: sized_40,
-                decoration: categoryDecor(),
-                constraints: BoxConstraints(
-                  minWidth: 62, // Set the minimum width
-                  minHeight: sized_40
+              (data) => GestureDetector(
+                onTap: (){
+                  setState(() {
+                    categoryClickData = data.key;
+                  });
+
+                  if(categorySelectData == categoryClickData){
+                    setState(() {
+                      categorySelectData = null;
+                    });
+                  }else{
+                    setState(() {
+                      categorySelectData = data.key;
+                    });
+                  }
+
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: sized_10),
+                  padding: EdgeInsets.symmetric(vertical: sized_10,horizontal: sized_5),
+                  height: sized_40,
+                  decoration: categoryDecor(  categorySelectData == data.key ? BasicColor.primary2 : BasicColor.primary),
+                  constraints: BoxConstraints(
+                    minWidth: 62, // Set the minimum width
+                    minHeight: sized_40
+                  ),
+                  child: Center(child: AutoSizeText(data.value,style: Theme.of(context).textTheme.displaySmall!.copyWith(color: categorySelectData == data.key ? Colors.white : Colors.black),)),
                 ),
-                child: Center(child: AutoSizeText(data.value,style: Theme.of(context).textTheme.displaySmall,)),
               ),
         )
             .toList(),

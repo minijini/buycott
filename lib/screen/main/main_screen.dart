@@ -8,6 +8,7 @@ import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/widgets/list/place_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:provider/provider.dart';
 
@@ -96,8 +97,14 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     size ??= MediaQuery.of(context).size;
 
-    return WillPopScope(
-      onWillPop: onWillPop,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) {
+          return;
+        }
+        onBackPop();
+      },
       child: Scaffold(
         body: SafeArea(child: _screens.elementAt(_bottomSelectedIndex)),
         // appBar: AppBar(
@@ -194,17 +201,19 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
   }
 
 
-  Future<bool> onWillPop() {
+  void onBackPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       final msg = "'뒤로'버튼을 한 번 더 누르면 종료됩니다.";
 
-      Utility.customSnackBar(context, msg);
-      return Future.value(false);
+      Utility.customSnackBar(context, msg,backgroundColor: Colors.white);
+
+    }else{
+      SystemNavigator.pop();
     }
-    return Future.value(true);
+
   }
 
 

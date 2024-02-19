@@ -166,7 +166,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   Widget _category(){
     return Container(
-      height: sized_40,
+      height: sized_30,
       margin: EdgeInsets.symmetric(horizontal: sized_18),
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -191,12 +191,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: sized_10),
-                  padding: EdgeInsets.symmetric(vertical: sized_10,horizontal: sized_5),
-                  height: sized_40,
+                  padding: EdgeInsets.symmetric(vertical: sized_5,horizontal: sized_10),
+                  height: sized_30,
                   decoration: categoryDecor(  categorySelectData == data.key ? BasicColor.primary2 : BasicColor.primary),
                   constraints: BoxConstraints(
-                    minWidth: 62, // Set the minimum width
-                    minHeight: sized_40
+                    minWidth: 52, // Set the minimum width
+                    minHeight: sized_30
                   ),
                   child: Center(child: AutoSizeText(data.value,style: Theme.of(context).textTheme.displaySmall!.copyWith(color: categorySelectData == data.key ? Colors.white : Colors.black),)),
                 ),

@@ -74,11 +74,11 @@ class MyRouter {
                 pageBuilder: defaultPageBuilder(const LoginScreen()),
                 routes: [
                   GoRoute(
-                    path: '$signUpRouteName/:userId',
+                    path: '$signUpRouteName/:userId/:signType',
                     name: signUpRouteName,
                     pageBuilder: (context, state) {
                       return customTransitionPage(
-                          state, SignUpScreen(userId:state.pathParameters['userId']!));
+                          state, SignUpScreen(userId:state.pathParameters['userId']!,signType: state.pathParameters['signType']!,));
                     },
                   ),
                 ]

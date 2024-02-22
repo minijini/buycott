@@ -40,8 +40,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                         '리뷰',
                         style: Theme.of(context)
                             .textTheme
-                            .titleMedium!
-                            .copyWith(fontWeight: FontWeight.w500),
+                            .bodyLarge,
                       ),
                       Icon(
                         Icons.chevron_right,
@@ -101,14 +100,21 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             ],
           ),
           heightSizeBox(sized_24),
-          Text(
-            '영업시간 11:00~12:00',
-            style: Theme.of(context).textTheme.titleSmall,
+          RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+              text: '영업시간 ',
+              style: Theme.of(context).textTheme.displayMedium,
+              children: <TextSpan>[
+                TextSpan(
+                    text: '11:00~12:00', style: Theme.of(context).textTheme.bodyMedium),
+              ],
+            ),
           ),
-          heightSizeBox(sized_8),
+          heightSizeBox(sized_10),
           Row(
             children: [
-              Text('댓글 97', style: Theme.of(context).textTheme.titleSmall),
+              Text('댓글 97', style: Theme.of(context).textTheme.displayMedium),
               widthSizeBox(sized_6),
               Row(
                 children: starIcons,
@@ -116,9 +122,9 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             ],
           ),
           heightSizeBox(sized_10),
-          Text('주소', style: Theme.of(context).textTheme.displaySmall),
+          Text('주소', style: Theme.of(context).textTheme.bodyMedium),
           heightSizeBox(sized_10),
-          Text('설명', style: Theme.of(context).textTheme.displaySmall),
+          Text('설명', style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

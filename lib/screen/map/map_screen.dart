@@ -6,6 +6,7 @@ import 'package:buycott/firebase/firebaseservice.dart';
 import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/utils/log_util.dart';
+import 'package:buycott/widgets/dialog/custom_dialog.dart';
 import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,6 +18,8 @@ import '../../constants/padding_size.dart';
 import '../../data/category_map.dart';
 import '../../widgets/style/container.dart';
 import 'bottom_sheet_screen.dart';
+import 'package:open_app_settings/open_app_settings.dart';
+
 
 class MapScreen extends StatefulWidget {
   final StoreNotifier storeNotifier;
@@ -28,6 +31,9 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   final TAG = "MapScreen";
+
+  Location location = Location();
+  bool location_permission = false;
 
   final TextEditingController _searchTextController = TextEditingController();
 
@@ -73,7 +79,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     ));
 
-    setCustomMapPin();
+    // setCustomMapPin();
 
     _currentLocation();
 
@@ -83,7 +89,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       target:  _kMapMarker,
       zoom: 17,
     );
-
+    checkLocationPermission();
     super.initState();
   }
 
@@ -94,9 +100,70 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+
+  Future<void> checkLocationPermission() async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+
+    // Check if location services are enabled
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        // Handle when location services are still not enabled
+        return;
+      }
+    }
+
+    // Check location permission
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      // Request location permission
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        // Handle when location permission is denied
+        showLocationPermissionDeniedDialog();
+      }
+
+      if(permissionGranted == PermissionStatus.granted){
+        setState(() {
+          location_permission = true;
+        });
+
+      }
+    }else  if(permissionGranted == PermissionStatus.granted){
+      setState(() {
+        location_permission = true;
+      });
+
+    }
+  }
+
+  void showLocationPermissionDeniedDialog() {
+    CustomDialog(funcAction: location_RecommdFunc)
+        .actionDialog(
+        context, "위치 권한을 허용해주세요.", '아니오', '예',
+        'assets/icon/icon_marker.png');
+  }
+
+  void location_RecommdFunc(BuildContext context){
+    OpenAppSettings.openAppSettings();
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: sized_18),
+          child: Text(
+            "내 위치",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           (latitude != null && longitude != null) ? Container(
@@ -137,7 +204,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             ],
           ),
 
-
           SlideTransition(
             position: _offsetAnimation,
             child: Visibility(
@@ -152,11 +218,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   Widget _placeSearchBar() {
     return TextField(
-      style: const TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
+        style: Theme.of(context).textTheme.displayMedium!.copyWith(fontWeight: FontWeight.w500,color: BasicColor.lightgrey2),
       controller: _searchTextController,
       keyboardType: TextInputType.text,
       cursorColor: BasicColor.primary,
-      decoration: const InputDecoration(
+      decoration:  InputDecoration(
           hintText: "장소를 입력하세요",
           suffixIcon: Padding(
               padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
@@ -188,6 +254,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     });
                   }
 
+                  _getStores(longitude!,latitude!);
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: sized_10),
@@ -198,7 +265,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     minWidth: 52, // Set the minimum width
                     minHeight: sized_30
                   ),
-                  child: Center(child: AutoSizeText(data.value,style: Theme.of(context).textTheme.displaySmall!.copyWith(color: categorySelectData == data.key ? Colors.white : Colors.black),)),
+                  child: Center(child: AutoSizeText(data.value,style: Theme.of(context).textTheme.bodySmall!.copyWith(color: categorySelectData == data.key ? Colors.white : Colors.black),)),
                 ),
               ),
         )
@@ -232,9 +299,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         "lat : ${currentLocation.latitude!}, lng: ${currentLocation.longitude!}");
   }
 
-  void setCustomMapPin() async {
-    _markerIcon = await getBytesFromAsset('assets/icon/icon_marker.png', 130);
-  }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -243,7 +307,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 
- void _createMarker() {
+ void _createMarker() async{
 
    setState(() {
      _marker.clear();
@@ -251,7 +315,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
    final List<Marker> _list =  [];
 
-   for (var storeModel in widget.storeNotifier.storeList) {
+   for (var storeModel in widget.storeNotifier.storeList)  {
+
+     _markerIcon = await getBytesFromAsset('assets/icon/icon_marker_${storeModel.storeType}.png', 130);
+
      Marker marker = Marker(
          markerId: MarkerId("${storeModel.storeSrno}"),
        position: LatLng(storeModel.storeLoc!.y!, storeModel.storeLoc!.x!),
@@ -279,7 +346,15 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
  }
 
  void _getStores(double x, double y){
-   Provider.of<StoreNotifier>(context, listen: false).getStores(context, x,y).then((value){
+   if(categorySelectData != null){
+     _storesNotifier(x, y, storeType: categorySelectData);
+   }else{
+     _storesNotifier(x, y);
+   }
+ }
+
+ void _storesNotifier(double x, double y, {String? storeType}) {
+   Provider.of<StoreNotifier>(context, listen: false).getStores(context, x,y,storeType: storeType).then((value){
      _createMarker();
    });
  }

@@ -35,7 +35,7 @@ String PARAM_Y = "y";
 String PARAM_PUSHTOKEN = "pushToken"; //푸시토큰
 String PARAM_PUSHYN = "pushYn"; //알림여부
 
-String PARAM_SIGHTYPE = "sighType"; //로그인타입
+String PARAM_SIGNTYPE = "signType"; //로그인타입
 String PARAM_EXPIRE = "expire"; //토큰 만료시간
 
 String PARAM_QUERY = "query"; //검색 질의어

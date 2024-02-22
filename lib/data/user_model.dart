@@ -6,6 +6,7 @@ class UserModel {
     String? email,
     String? address,
     String? pushYn,
+    String? signType,
   }) {
     _userId = userId;
     _userName = userName;
@@ -13,6 +14,7 @@ class UserModel {
     _email = email;
     _address = address;
     _pushYn = pushYn;
+    _signType = signType;
   }
 
   UserModel.fromJson(dynamic json) {
@@ -22,6 +24,7 @@ class UserModel {
     _email = json['email'];
     _address = json['address'];
     _pushYn = json['pushYn'];
+    _signType = json['signType'];
   }
 
   String? _userId;
@@ -30,6 +33,7 @@ class UserModel {
   String? _email;
   String? _address;
   String? _pushYn;
+  String? _signType;
 
   String? get userId => _userId;
 
@@ -42,6 +46,7 @@ class UserModel {
   String? get address => _address;
 
   String? get pushYn => _pushYn;
+  String? get signType => _signType;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -51,6 +56,7 @@ class UserModel {
     map['email'] = _email;
     map['address'] = _address;
     map['pushYn'] = _pushYn;
+    map['signType'] = _signType;
     return map;
   }
 }

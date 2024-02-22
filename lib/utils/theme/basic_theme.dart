@@ -16,9 +16,7 @@ class BasicTheme {
         checkColor: MaterialStateProperty.all(BasicColor.primary),
         side: const BorderSide(color: Colors.white, width: 0.7),
       ),
-      radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.all(BasicColor.yellow),
-      ),
+
       appBarTheme: const AppBarTheme(
         elevation: 0,
         titleSpacing: 0,
@@ -35,7 +33,8 @@ class BasicTheme {
               TextStyle(color: BasicColor.primary, fontSize: 10)),
       textTheme: BasicTextTheme.lightTextTheme,
       inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
+
+        hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: BasicColor.linegrey),
         filled: true,
         fillColor: Colors.white,
         contentPadding:
@@ -48,6 +47,15 @@ class BasicTheme {
           borderSide: BorderSide(color: BasicColor.primary, width: sized_5),
           borderRadius: BorderRadius.circular(sized_10),
         ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: BasicColor.primary, width: sized_1),
+          borderRadius: BorderRadius.circular(sized_5),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: BasicColor.primary, width: sized_1),
+          borderRadius: BorderRadius.circular(sized_5),
+        ),
+        errorStyle: TextStyle(color: BasicColor.red,fontSize: sized_12),
         suffixIconColor: BasicColor.primary,
       ),
     );

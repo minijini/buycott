@@ -1,6 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/basic_text.dart';
+import '../states/user_notifier.dart';
+import '../utils/code_dialog.dart';
 import '../utils/log_util.dart';
 import 'custom_log_interceptor.dart';
 
@@ -50,7 +54,7 @@ class ApiUtils {
     var result = await _dio.get(url,
         queryParameters: queryParameters,
         options: userTokenHeader
-            ? Options(headers: {"": ""})
+            ? null
             : Options(headers: {"Authorization": kakao_response_key}));
     return result;
   }
@@ -123,7 +127,7 @@ class ApiUtils {
     return result;
   }
 
-  String handleError(dynamic error) {
+  String handleError(dynamic error,{BuildContext? context}) {
     String errorDescription = "";
 
     Log.loga(title, "handleError:: error >> $error");
@@ -137,6 +141,16 @@ class ApiUtils {
       if (dioError.response != null) {
         Log.loga(
             title, "dioError:: response >> " + dioError.response.toString());
+      }
+
+      if (dioError.response?.statusCode == 403) {
+        if(context != null) {
+          Provider
+              .of<UserNotifier>(context, listen: false)
+              .logout();
+        }
+
+        Log.loga(title,'403 Forbidden: ${dioError.message}');
       }
 
       switch (dioError.type) {

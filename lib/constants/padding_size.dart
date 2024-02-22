@@ -1,5 +1,6 @@
 const double padding_side =11.7;
 
+const double sized_1 =1;
 const double sized_2 =2;
 const double sized_4 =4;
 const double sized_5 =5;
@@ -27,8 +28,10 @@ const double sized_32 =32;
 const double sized_33 =33;
 const double sized_34 =34;
 const double sized_35 =35;
+const double sized_36 =36;
 const double sized_40 =40;
 const double sized_45 =45;
+const double sized_48 =48;
 const double sized_50 =50;
 const double sized_52 =52;
 const double sized_55 =55;
@@ -38,11 +41,14 @@ const double sized_72 =72;
 const double sized_75 =75;
 const double sized_78 =78;
 const double sized_80 =80;
+const double sized_85 =85;
 const double sized_90 =90;
 const double sized_95 =95;
 const double sized_100 =100;
 const double sized_104 =104;
+const double sized_114 =114;
 const double sized_120 =120;
+const double sized_125 =125;
 const double sized_150 =150;
 const double sized_200 =200;
 

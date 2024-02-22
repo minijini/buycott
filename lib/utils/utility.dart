@@ -239,6 +239,8 @@ class Utility {
     pref.setString(key, data ?? '');
   }
 
+
+
   void setSharedPreference_bool(String key , bool? data)async {
     final pref = await SharedPreferences.getInstance();
     pref.setBool(key, data ?? false);

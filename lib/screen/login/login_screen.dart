@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:buycott/constants/constants.dart';
 import 'package:buycott/utils/log_util.dart';
+import 'package:buycott/widgets/style/container.dart';
 import 'package:device_screen_size/device_screen_size.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
@@ -10,10 +11,13 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:provider/provider.dart';
 
 
+import '../../constants/padding_size.dart';
 import '../../constants/screen_size.dart';
 import '../../constants/status.dart';
+import '../../states/user_notifier.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,11 +55,13 @@ class _LoginScreenState extends State<LoginScreen> {
         title: Text('로그인',style: Theme.of(context).textTheme.titleLarge,),
       ),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: sized_18),
         color: Colors.white,
         child: Column(
           children: [
-            _snsLoginButton("kakao_login",signInWithKakao),
-            _snsLoginButton("naver_login",signInWithNaver),
+            _snsLoginButton("icon_kakaologin",signInWithKakao),
+            heightSizeBox(sized_20),
+            _snsLoginButton("icon_naverlogin",signInWithNaver),
 
           ],
         ),
@@ -66,10 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
   GestureDetector _snsLoginButton(String path, VoidCallback onTap) {
     return GestureDetector(
             onTap: onTap,
-            child: SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: Image.asset("assets/login/$path.png")),
+            child: Image.asset("assets/login/$path.png",width: size!.width,
+              height: 60,fit: BoxFit.fill,),
           );
   }
 
@@ -78,6 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await UserApi.instance.loginWithKakaoTalk();
         Log.logs(TAG,'카카오톡으로 로그인 성공');
+
+        _get_kakao_user_info();
       } catch (error) {
         Log.logs(TAG,'카카오톡으로 로그인 실패 $error');
 
@@ -114,6 +120,12 @@ class _LoginScreenState extends State<LoginScreen> {
       Log.logs(TAG,'사용자 정보 요청 성공'
           '\n회원번호: ${user.id}'
           '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+
+      setState(() {
+        _loginPlatform = LoginPlatform.kakao;
+      });
+
+      login("${user.id}", "001");
     } catch (error) {
       Log.logs(TAG,'사용자 정보 요청 실패 $error');
     }
@@ -132,11 +144,20 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _loginPlatform = LoginPlatform.naver;
       });
+
+      login(result.account.id, "002");
     }
   }
 
-  void loginStatus(String userId){
-    context.goNamed(signUpRouteName, pathParameters: {'userId': userId});
+  void login(String userId,String signType){
+    Provider.of<UserNotifier>(context,listen: false).memberCheck(userId).then((value){
+      if(value == 2000){ //가입페이지 이동
+        context.goNamed(signUpRouteName, pathParameters: {'userId': userId,'signType':signType});
+      }else{ //기존회원 로그인
+        Provider.of<UserNotifier>(context,listen: false).login(context, userId, "$userId$signType").then((value) => Navigator.pop(context));
+      }
+    });
+
   }
 
 

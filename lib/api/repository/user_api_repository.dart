@@ -61,7 +61,8 @@ class UserApiRepo {
  /*
   * 회원가입
   * */
-  Future<BaseModel?> signUp(String id , String pwd, String name, String nickname,String email, String address, String birth, String gender, String signType) async {
+  Future<BaseModel?> signUp(String id , String pwd, String name, String nickname, String signType,void Function(double) onProgress,
+      {String? email, String? address, String? birth, String? gender}) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -73,16 +74,19 @@ class UserApiRepo {
     Map<String, dynamic>? queryParameters = {
       PARAM_USERID: id,
       PARAM_PASSWORD: pwd,
-      PARAM_USERNAME: nickname,
+      PARAM_USERNAME: name,
       PARAM_NICKNAME:nickname,
       PARAM_EMAIL: email,
       PARAM_ADDRESS: address,
       PARAM_BIRTH:birth,
       PARAM_GENDER: gender,
-      PARAM_SIGHTYPE: signType };
+      PARAM_SIGNTYPE: signType };
 
     try {
-      final response = await apiUtils.post(url: url,data: queryParameters);
+      final response = await apiUtils.postWithProgress(url: url,data: queryParameters,onSendProgress: (int sent, int total) {
+      final progress = sent / total;
+      onProgress(progress);
+      });
 
       if (response != null) {
 
@@ -256,7 +260,7 @@ class UserApiRepo {
   /*
   * pushtoken 등록
   * */
-  Future<BaseModel?> pushToken(String pushToken) async {
+  Future<BaseModel?> pushToken(int userSrno,String pushToken) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -266,7 +270,7 @@ class UserApiRepo {
     String url = Api.baseUrl + ApiEndPoints.pushToken;
 
     Map<String, dynamic>? queryParameters = {
-      PARAM_USERSRNO: 1,
+      PARAM_USERSRNO: userSrno,
       PARAM_PUSHTOKEN: pushToken,
      };
 
@@ -288,7 +292,7 @@ class UserApiRepo {
   /*
   * push 알림 Yn
   * */
-  Future<BaseModel?> pushSetting(String pushYn) async {
+  Future<BaseModel?> pushSetting(int userSrno,String pushYn) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -298,7 +302,7 @@ class UserApiRepo {
     String url = Api.baseUrl + ApiEndPoints.pushSetting;
 
     Map<String, dynamic>? queryParameters = {
-      PARAM_USERSRNO: 1,
+      PARAM_USERSRNO: userSrno,
       PARAM_PUSHYN: pushYn,
     };
 

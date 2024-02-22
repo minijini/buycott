@@ -15,6 +15,7 @@ class ApiEndPoints {
   static const pushSetting = "push/setting";
 
   static const store= "store";
+  static const store_map= "store/map";
 
 
 

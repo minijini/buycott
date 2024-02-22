@@ -17,7 +17,11 @@ class CodeDialog {
   void response_error(BuildContext context) {
     CustomDialog(funcAction: dialogPop).normalDialog(
           context,api_error, '확인');
+  }
 
+  void response_403_error(BuildContext context) {
+    CustomDialog(funcAction: dialogPop).normalDialog(
+        context,api_403_error, '확인');
   }
 
   void dialogPop(BuildContext context) async {

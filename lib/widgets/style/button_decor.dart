@@ -1,3 +1,4 @@
+import 'package:buycott/constants/padding_size.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/color/basic_color.dart';
@@ -13,16 +14,18 @@ ButtonStyle white_btn_style() {
 ButtonStyle disable_btn_style() {
   return TextButton.styleFrom(
       backgroundColor: BasicColor.lightgrey,
+      shadowColor: Colors.transparent,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadius.circular(sized_5),
       ));
 }
 
 ButtonStyle primary_btn_style() {
   return TextButton.styleFrom(
       backgroundColor: BasicColor.primary,
+      shadowColor: Colors.transparent,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadius.circular(sized_5),
       ));
 }
 
@@ -44,11 +47,4 @@ ButtonStyle grey_btn_style() {
       ));
 }
 
-ButtonStyle salmon_btn_style() {
-  return TextButton.styleFrom(
-      backgroundColor: BasicColor.salmon.withOpacity(0.5),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(2),
-      ));
-}
 

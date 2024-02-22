@@ -150,13 +150,20 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
             children: [
               Text(
                 widget.title,
-                style: Theme.of(context).textTheme.displayLarge,
+                style: Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: sized_18),
               ),
-              heightSizeBox(sized_5),
-              Text(
-                '영업시간 11:00~12:00',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
+              heightSizeBox(sized_10),
+              RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  text: '영업시간 ',
+                  style: Theme.of(context).textTheme.displayMedium,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: '11:00~12:00', style: Theme.of(context).textTheme.bodyMedium),
+                  ],
+                ),
+              )
             ],
           ),
         ) : Container(),
@@ -173,15 +180,15 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
           heightSizeBox(sized_10),
           Row(
             children: [
-              Text('댓글 97', style: Theme.of(context).textTheme.titleSmall),
+              Text('댓글 97', style: Theme.of(context).textTheme.displayMedium),
               widthSizeBox(sized_6),
               buildStarRating(5, sized_10)
             ],
           ),
           heightSizeBox(sized_10),
-          Text('주소', style: Theme.of(context).textTheme.displaySmall),
+          Text('주소', style: Theme.of(context).textTheme.bodyMedium),
           heightSizeBox(sized_10),
-          Text('설명', style: Theme.of(context).textTheme.displaySmall),
+          Text('설명', style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

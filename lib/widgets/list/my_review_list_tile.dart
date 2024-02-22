@@ -1,4 +1,5 @@
 import 'package:buycott/constants/padding_size.dart';
+import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/widgets/circle_image.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +23,11 @@ class MyReviewListTile extends StatelessWidget {
                 heightSizeBox(sized_10),
                 _title(context),
                 heightSizeBox(sized_5),
-                Text('2000-1-1',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10)),
+                Text('2000-1-1',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_8,color: BasicColor.lightgrey2)),
                 heightSizeBox(sized_10),
                 _reviewImg(),
                 heightSizeBox(sized_6),
-                Text('설명',style: Theme.of(context).textTheme.bodySmall),
+                Text('설명',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10,color: BasicColor.lightgrey2)),
               ],
             ),
           ),
@@ -42,7 +43,7 @@ class MyReviewListTile extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('가게명',style: Theme.of(context).textTheme.bodyMedium,),
+                      Text('가게명',style: Theme.of(context).textTheme.displaySmall,),
                       widthSizeBox(sized_5),
                       buildStarRating(5,sized_10),
                     ],
@@ -53,7 +54,7 @@ class MyReviewListTile extends StatelessWidget {
                       width: sized_30,
                       height: sized_20,
                       decoration: grayDecor(),
-                      child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10))),
+                      child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_8))),
                     ),
                   ))
                 ],

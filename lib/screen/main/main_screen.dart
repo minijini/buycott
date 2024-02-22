@@ -97,14 +97,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     size ??= MediaQuery.of(context).size;
 
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (didPop) {
-          return;
-        }
-        onBackPop();
-      },
+    return WillPopScope(
+      onWillPop: onWillPop,
       child: Scaffold(
         body: SafeArea(child: _screens.elementAt(_bottomSelectedIndex)),
         // appBar: AppBar(
@@ -201,19 +195,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
   }
 
 
-  void onBackPop() {
+  Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       final msg = "'뒤로'버튼을 한 번 더 누르면 종료됩니다.";
 
-      Utility.customSnackBar(context, msg,backgroundColor: Colors.white);
-
-    }else{
-      SystemNavigator.pop();
+      Utility.customSnackBar(context, msg);
+      return Future.value(false);
     }
-
+    return Future.value(true);
   }
 
 

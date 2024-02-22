@@ -12,7 +12,9 @@ class StoreModel {
       String? storeAddress,
       StoreLoc? storeLoc,
       String? storeName,
-    double? distance,}){
+    double? distance,
+
+  }){
     _storeSrno = storeSrno;
     _storeType = storeType;
     _storeAddress = storeAddress;
@@ -29,6 +31,7 @@ class StoreModel {
     _storeName = json['storeName'];
     _distance = json['distance'];
   }
+
   int? _storeSrno;
   String? _storeType;
   String? _storeAddress;

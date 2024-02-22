@@ -25,27 +25,31 @@ class UserNotifier extends ChangeNotifier{
   String? _token ;
   String? _profileImg;
 
+  LoginPlatform _loginPlatform = LoginPlatform.none;
+
   AuthStatus _authStatus = AuthStatus.signout;
 
     UserNotifier(){
+      initUser();
 
     }
 
-    void initUser(BuildContext context) async {
+    void initUser() async {
 
 
         final pref = await SharedPreferences.getInstance();
         final _pref_token = pref.getString(TOKEN_KEY) ?? "";
+        final _pref_usersrno = pref.getString(USER_SRNO) ?? "";
 
 
-          // if(_pref_token != ''  && _pref_token != null){
-          //   checkToken(context);
-          //   profileCall();
-          //
-          // }else{
-          //   _authStatus = AuthStatus.signout;
-          // }
-          //
+          if(_pref_token != ''  && _pref_token != null){
+            _getUserProfile(int.parse(_pref_usersrno));
+
+            _authStatus = AuthStatus.signin;
+          }else{
+            _authStatus = AuthStatus.signout;
+          }
+
 
         notifyListeners();
     }
@@ -55,8 +59,8 @@ class UserNotifier extends ChangeNotifier{
 
       _authStatus = AuthStatus.signout;
 
-      Utility().setSharedPreference(TOKEN_KEY, _token);
       Utility().removeSharedPreference(TOKEN_KEY);
+      Utility().removeSharedPreference(USER_SRNO);
 
       notifyListeners();
     }
@@ -93,7 +97,10 @@ class UserNotifier extends ChangeNotifier{
             _token = dataResult.token ?? '';
             Utility().setSharedPreference(TOKEN_KEY, _token!);
 
-            Log.logs("token", _token!);
+            _getUserProfile(dataResult.userSrno!);
+
+            Utility().setSharedPreference(USER_SRNO, dataResult.userSrno!.toString());
+
 
             _authStatus = AuthStatus.signin;
 
@@ -112,8 +119,8 @@ class UserNotifier extends ChangeNotifier{
 /*
     * 회원가입
     * */
-    Future signUp(BuildContext context , String id , String pwd, String name, String nickname,String email, String address, String birth, String gender, String signType) async{
-      final result = await UserApiRepo().signUp(id,pwd,name,nickname,email,address,birth,gender,signType);
+    Future<int?> signUp(BuildContext context , String id , String pwd, String name, String nickname,String signType,void Function(double) onProgress, {String? email, String? address, String? birth, String? gender} ) async{
+      final result = await UserApiRepo().signUp(id,pwd,name,nickname,signType,onProgress,email: email,address: address,birth: birth,gender: gender);
 
       if (result != null) {
 
@@ -121,10 +128,7 @@ class UserNotifier extends ChangeNotifier{
 
             var dataResult = ResultModel.fromJson(result.data);
 
-            if(dataResult.code == signupSuccess){
-              _resultDialog(context, dataResult);
-              return true;
-            }
+            return dataResult.code;
 
           }
       }
@@ -136,12 +140,12 @@ class UserNotifier extends ChangeNotifier{
   /*
     * 가입여부체크
     * */
-  Future<int?> memberCheck(BuildContext context , String userId) async{
+  Future<int?> memberCheck(String userId) async{
     final result = await UserApiRepo().memberCheck(userId);
 
     if (result != null) {
 
-      if (result.isSuccess(context: context)) {
+      if (result.isSuccess()) {
 
         var dataResult = ResultModel.fromJson(result.data);
         return dataResult.code;
@@ -164,10 +168,10 @@ class UserNotifier extends ChangeNotifier{
         var dataResult = ResultModel.fromJson(result.data);
 
         if(dataResult.code == nicknameSuccess){ //2002 : 사용 가능한 닉네임
-          _resultDialog(context, dataResult);
+
           return true;
         }else{//2003 : 중복된 닉네임
-          _resultDialog(context, dataResult);
+
           return false;
         }
 
@@ -180,12 +184,12 @@ class UserNotifier extends ChangeNotifier{
   /*
     * 유저 이미지 조회
     * */
-  Future<String?> getProfileImg(BuildContext context , int userSrno) async{
+  Future<String?> getProfileImg(int userSrno) async{
     final result = await UserApiRepo().getProfileImg(userSrno);
 
     if (result != null) {
 
-      if (result.isSuccess(context: context)) {
+      if (result.isSuccess()) {
 
         var dataResult = ResultModel.fromJson(result.data);
         _profileImg = dataResult.signedUrl;
@@ -203,18 +207,29 @@ class UserNotifier extends ChangeNotifier{
   /*
     * 유저 프로필 조회
     * */
-  Future getProfile(BuildContext context , int userSrno) async{
+  Future getProfile(int userSrno) async{
     final result = await UserApiRepo().getProfile(userSrno);
 
     if (result != null) {
 
-      if (result.isSuccess(context: context)) {
+      if (result.isSuccess()) {
 
         var dataResult = ResultModel.fromJson(result.data);
         userModel = UserModel.fromJson(dataResult.body);
 
+        switch(userModel!.signType){
+          case "001":
+            _loginPlatform = LoginPlatform.kakao;
+            break;
+          case "002" :
+            _loginPlatform = LoginPlatform.naver;
+            break;
+        }
+
         notifyListeners();
 
+      }else{
+        _authStatus = AuthStatus.signout;
       }
     }
   }
@@ -222,12 +237,12 @@ class UserNotifier extends ChangeNotifier{
  /*
     * push 알림 yn
     * */
-  Future pushSetting(BuildContext context , String pushYn) async{
-    final result = await UserApiRepo().pushSetting(pushYn);
+  Future pushSetting( int userSrno,String pushYn) async{
+    final result = await UserApiRepo().pushSetting(userSrno,pushYn);
 
     if (result != null) {
 
-      if (result.isSuccess(context: context)) {
+      if (result.isSuccess()) {
 
       }
     }
@@ -237,12 +252,12 @@ class UserNotifier extends ChangeNotifier{
 /*
     * pushtoken 등록
     * */
-  Future pushToken(BuildContext context , String pushToken) async{
-    final result = await UserApiRepo().pushToken(pushToken);
+  Future pushToken(int userSrno , String pushToken) async{
+    final result = await UserApiRepo().pushToken(userSrno,pushToken);
 
     if (result != null) {
 
-      if (result.isSuccess(context: context)) {
+      if (result.isSuccess()) {
 
       }
     }
@@ -305,21 +320,23 @@ class UserNotifier extends ChangeNotifier{
 
 
 
-    Future<void> _resultDialog(BuildContext context, ResultModel resultModel) => CustomDialog(funcAction: dialogPop).normalDialog(context, resultModel.msg!, '확인');
+  void _getUserProfile(int userSrno ) {
+    getProfile(userSrno);
+    getProfileImg(userSrno);
+  }
+
+
+  Future<void> _resultDialog(BuildContext context, ResultModel resultModel) => CustomDialog(funcAction: dialogPop).normalDialog(context, resultModel.msg!, '확인');
 
     void dialogPop(BuildContext context) async {
       Navigator.pop(context);
-    }
-
-    void dialog_LoginPop(BuildContext context) async {
-      Navigator.pop(context);
-      context.goNamed(loginRouteName);
     }
 
 
     String? get token => _token;
     String? get profileImg => _profileImg;
     AuthStatus get authStatus => _authStatus;
+    LoginPlatform get  loginPlatform=> _loginPlatform;
     // MemberInfo? get memberInfo => _memberInfo;
 
 

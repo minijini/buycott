@@ -8,7 +8,7 @@ String? token;
 String? pushtoken;
 String? apptype;
 String? packageName;
-String? deviceId;
+int? userSrno;
 
 bool appUpdateYn = false;
 UserModel? userModel;

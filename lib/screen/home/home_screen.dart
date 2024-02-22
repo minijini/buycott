@@ -29,32 +29,53 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left:sized_18,right: sized_18,top: sized_18),
-      child: ListView(
-        children: [
-          _placeSearchBar(),
-          heightSizeBox(sized_30),
-          _banner(),
-          heightSizeBox(sized_30),
-          _title(context,"오늘의 돈쭐"),
-          heightSizeBox(sized_10),
-          _todayBuyCott(),
-          heightSizeBox(sized_40),
-          _title(context,"인기 돈쭐"),
-          heightSizeBox(sized_10),
-          _todayBuyCott(),
-          heightSizeBox(sized_40),
-          _title(context,"새로운 돈쭐"),
-          heightSizeBox(sized_10),
-          _todayBuyCott(),
-          heightSizeBox(sized_40),
-          _title(context,"돈쭐 뉴스"),
-          heightSizeBox(sized_10),
-          _todayBuyCott(),
-          heightSizeBox(sized_40),
-        ],
-      ),
+      child: _sliver(),
     );
   }
+
+  Widget _sliver(){
+    return CustomScrollView(
+      slivers: [
+          SliverToBoxAdapter(child: Column(children: [
+            _placeSearchBar(),
+            heightSizeBox(sized_30),
+            _banner(),
+            heightSizeBox(sized_30),
+          ],)),
+        SliverList.list(
+          children: [
+            _title(context,"오늘의 돈쭐"),
+            heightSizeBox(sized_10),
+            _todayBuyCott(),
+            _buildHeightSizeBox(),
+            _title(context,"인기 돈쭐"),
+            heightSizeBox(sized_10),
+            _todayBuyCott(),
+            _buildHeightSizeBox(),
+            _title(context,"새로운 돈쭐"),
+            heightSizeBox(sized_10),
+            _todayBuyCott(),
+            _buildHeightSizeBox(),
+            _title(context,"돈쭐 뉴스"),
+            heightSizeBox(sized_10),
+            _todayBuyCott(),
+            _buildHeightSizeBox(),
+          ],
+        )
+          // SliverList(
+          //   delegate: SliverChildBuilderDelegate(((context, replyIndex) {
+          //     debugPrint("Reply $replyIndex in Comment $commentIndex is generated!!");
+          //     return Text("Reply: $replyIndex");
+          //   }),
+          //     childCount: BannerImages.listBanners.length,),
+          // ),
+
+      ],
+    );
+  }
+
+
+  SizedBox _buildHeightSizeBox() => heightSizeBox(sized_30);
 
   Row _title(BuildContext context,String title) {
     return Row(
@@ -66,41 +87,80 @@ class _HomeScreenState extends State<HomeScreen> {
         );
   }
 
-  Container _todayBuyCott() {
-    return Container(
-          constraints: BoxConstraints(
-            maxHeight: sized_120, // Set a maximum height as needed
-          ),
-          child: ListView.separated(
-              shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                BannerModel placeModel = BannerImages.listBanners[index];
+  Widget _todayBuyCott() {
+    var content = '세상의 이런일이이세상의 이 이런일이세상의 이 이런일이';
+    var len = content.length;
 
-                return GestureDetector(
-                    onTap: () {
-                      Log.logs(
-                          TAG, "list tile click :: ${placeModel.id}");
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints:  BoxConstraints(
+          minHeight: 50.0,
+          maxHeight: len < 10 ? 105.0 : 130.0,
+        ),
+        child: ListView.builder(
+            shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              BannerModel placeModel = BannerImages.listBanners[index];
 
-                    },
-                    child: MainShopListTile());
-              },
-              separatorBuilder: (context, index) {
-                return list_divider();
-              },
-              itemCount: BannerImages.listBanners.length),
-        );
+              return GestureDetector(
+                  onTap: () {
+                    Log.logs(
+                        TAG, "list tile click :: ${placeModel.id}");
+
+                  },
+                  child: MainShopListTile());
+            },
+            itemCount: BannerImages.listBanners.length),
+      ),
+    );
   }
 
+  Widget _today(){
+    return Container(
+      height: 150,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final textPainter = TextPainter(
+            text: TextSpan(
+              text: '세상의 이런일이세상의 이런일이세상의 이런일이세상의 이런일이 ',
+              style: Theme.of(context).textTheme.displaySmall
+            ),
+
+            textDirection: TextDirection.ltr,
+          );
+
+          textPainter.layout(maxWidth: 104);
+
+          final int lines = (textPainter.size.height / textPainter.preferredLineHeight).ceil();
+
+          Log.logs(TAG, "lines :: $lines");
+          return Container(
+            height: constraints.maxHeight,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: BannerImages.listBanners.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+
+                return MainShopListTile();
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
 
 
   Widget _placeSearchBar() {
     return TextField(
-      style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
+      style: Theme.of(context).textTheme.displayMedium!.copyWith(fontWeight: FontWeight.w500,color: BasicColor.lightgrey2),
       controller: _searchTextController,
       keyboardType: TextInputType.text,
       cursorColor: BasicColor.primary,
       decoration: InputDecoration(
+        hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: BasicColor.lightgrey2),
           hintText: "검색어를 입력하세요",
           suffixIcon: Padding(
               padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
@@ -141,5 +201,6 @@ class BannerImages {
     BannerModel(imagePath: banner2, id: "2"),
     BannerModel(imagePath: banner3, id: "3"),
     BannerModel(imagePath: banner4, id: "4"),
+    BannerModel(imagePath: banner4, id: "5"),
   ];
 }

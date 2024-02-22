@@ -3,7 +3,9 @@ import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/constants/status.dart';
 import 'package:buycott/widgets/circle_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
@@ -26,7 +28,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   void initState() {
-    getProfileImg();
     super.initState();
   }
 
@@ -100,8 +101,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           title: Text(title,
               style: Theme.of(context)
                   .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.w500)),
+                  .displayLarge!
+                  .copyWith(fontSize: sized_18)),
           onTap: onTap,
           trailing: Visibility(
               visible: visible,
@@ -127,7 +128,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             ),
             widthSizeBox(sized_10),
             Text(
-              '닉네임',
+              userModel?.nickname ?? "",
               style: Theme.of(context).textTheme.titleMedium,
             )
           ],
@@ -136,7 +137,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             child: Align(
           alignment: Alignment.centerRight,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              signOut(widget.userNotifier.loginPlatform);
+            },
             style: ElevatedButton.styleFrom(
               shadowColor: Colors.transparent,
               backgroundColor: BasicColor.lightgrey,
@@ -160,7 +163,29 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     );
   }
 
-  void getProfileImg() {
-    Provider.of<UserNotifier>(context, listen: false).getProfileImg(context, 1);
+
+  void signOut(LoginPlatform _loginPlatform) async {
+    Provider.of<UserNotifier>(context,listen: false).logout();
+
+    switch (_loginPlatform) {
+      case LoginPlatform.facebook:
+        break;
+      case LoginPlatform.google:
+        break;
+      case LoginPlatform.kakao:
+        await UserApi.instance.logout();
+        break;
+      case LoginPlatform.naver:
+        await FlutterNaverLogin.logOut();
+        break;
+      case LoginPlatform.apple:
+        break;
+      case LoginPlatform.none:
+        break;
+    }
+
+    setState(() {
+      _loginPlatform = LoginPlatform.none;
+    });
   }
 }

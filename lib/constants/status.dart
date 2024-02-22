@@ -8,3 +8,11 @@ enum LoginPlatform {
   apple,
   none, // logout
 }
+
+enum CheckBoxStatus{
+  all,
+  age,
+  terms,
+  policy,
+  event
+}

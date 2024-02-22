@@ -54,6 +54,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          fontFamily: "Pretendard"
+      ),
       title: app_name,
       home:  MainApp(userNotifier: widget.userNotifier,placeNotifier: widget.placeNotifier,storeNotifier: widget.storeNotifier,),
       builder: (context, child) => MediaQuery( //앱 전체 글자 크기 고정

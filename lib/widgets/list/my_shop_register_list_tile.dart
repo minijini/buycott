@@ -19,12 +19,12 @@ class MyShopRegisterListTile extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('제목',style: Theme.of(context).textTheme.bodyMedium,),
+                    Text('제목',style: Theme.of(context).textTheme.displaySmall,),
                     Icon(Icons.chevron_right,size: sized_16,)
                   ],
                 ),
                 heightSizeBox(sized_5),
-                Text('설명',style: Theme.of(context).textTheme.bodySmall)
+                Text('설명',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10))
               ],
             ),
           ),

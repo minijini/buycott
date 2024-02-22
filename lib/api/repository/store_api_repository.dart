@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../data/base_model.dart';
 import '../api_end_points.dart';
@@ -57,14 +58,14 @@ class StoreApiRepo {
     }
   }
 
-  Future<BaseModel?> getStores(double x, double y) async {
+  Future<BaseModel?> getStores(double x, double y,{BuildContext? context}) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
           statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
     }
 
-    String url = Api.baseUrl + ApiEndPoints.store;
+    String url = Api.baseUrl + ApiEndPoints.store_map;
 
     Map<String, dynamic>? queryParameters = { PARAM_X: x,PARAM_Y : y};
 
@@ -79,7 +80,7 @@ class StoreApiRepo {
       return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
     } catch (e) {
       return BaseModel.withError(
-          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
     }
   }
 

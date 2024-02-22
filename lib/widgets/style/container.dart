@@ -57,23 +57,20 @@ BoxDecoration appBarDecor(Color color){
 }
 
 
-BoxDecoration chatMyDecor(){
-  return BoxDecoration(
-      color: BasicColor.salmon.withOpacity(0.15),
-      shape: BoxShape.rectangle,
-      borderRadius: BorderRadius.only(
-          topRight: Radius.circular(0),
-          topLeft: Radius.circular(5),
-          bottomRight: Radius.circular(5),
-          bottomLeft: Radius.circular(5))
-  );
-}
 
 BoxDecoration grayDecor(){
   return BoxDecoration(
       color: BasicColor.lightgrey,
       shape: BoxShape.rectangle,
       borderRadius: BorderRadius.all(Radius.circular(sized_10))
+  );
+}
+
+BoxDecoration grayDecor2(){
+  return BoxDecoration(
+      color: BasicColor.lightgrey3,
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(sized_5))
   );
 }
 
@@ -86,19 +83,6 @@ BoxDecoration categoryDecor(Color color){
   );
 }
 
-BoxDecoration chatOtherDecor(){
-  return BoxDecoration(
-    color: BasicColor.lightgrey3,
-    shape: BoxShape.rectangle,
-      borderRadius: BorderRadius.only(
-          topRight: Radius.circular(5),
-          topLeft: Radius.circular(0 ),
-          bottomRight: Radius.circular(5),
-          bottomLeft: Radius.circular(5))
-  );
-}
-
-
 BoxDecoration dialogDecor(){
   return BoxDecoration(
       color: BasicColor.primary,
@@ -109,12 +93,6 @@ BoxDecoration dialogDecor(){
   );
 }
 
-BoxDecoration talkAlarmDecor(){
-  return const BoxDecoration(
-    color: BasicColor.yellow,
-    shape: BoxShape.circle,
-  );
-}
 
 
 Container line({Color? color,double? height}) {

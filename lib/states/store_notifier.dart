@@ -9,6 +9,7 @@ class StoreNotifier extends ChangeNotifier {
   final String TAG = "StoreNotifier";
   List<StoreModel> _storeList = [];
 
+
   /*
     * 가게 등록
     * */
@@ -40,10 +41,11 @@ class StoreNotifier extends ChangeNotifier {
     }
   }
 
-  Future getStores(BuildContext context,double x, double y) async{
-    final result = await StoreApiRepo().getStores( x, y);
+  Future getStores(BuildContext context,double x, double y,{String? storeType}) async{
+    final result = await StoreApiRepo().getStores( x, y,context: context);
 
     if (result != null) {
+      print("result.statusCode :: ${result.statusCode}");
 
       if (result.isSuccess(context: context)) {
 
@@ -55,9 +57,15 @@ class StoreNotifier extends ChangeNotifier {
         _storeList.clear();
         _storeList.addAll(_result);
 
+        if(storeType != null){
+          final _typeResult = _storeList.where((store) => store.storeType == storeType).toList();
+
+          _storeList.clear();
+          _storeList.addAll(_typeResult);
+        }
+
         notifyListeners();
       }
-
     }
   }
 

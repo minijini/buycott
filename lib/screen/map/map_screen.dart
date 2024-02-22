@@ -190,6 +190,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           },
 
           padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height*0.45,
               bottom:MediaQuery.of(context).size.height*0.15),
         ),
       ) : Center(child: CircularProgressIndicator(color: BasicColor.primary,)),

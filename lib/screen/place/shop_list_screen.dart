@@ -1,9 +1,12 @@
 import 'package:buycott/data/address_result_model.dart';
+import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/padding_size.dart';
 import '../../data/place_result_model.dart';
 import '../../states/place_notifier.dart';
+import '../../utils/color/basic_color.dart';
 import '../../utils/log_util.dart';
 import '../../widgets/UnanimatedPageRoute.dart';
 import '../../widgets/list/place_list_tile.dart';
@@ -70,12 +73,18 @@ class _ShopListScreenState extends State<ShopListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
+    return Scaffold(appBar: AppBar(
+      title: Text(
+        "가게 검색",
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+    ),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: sized_18),
         child: Column(
           children: [
             _placeSearchBar(),
+            heightSizeBox(sized_10),
             _placeList()
           ],
         ),
@@ -84,8 +93,12 @@ class _ShopListScreenState extends State<ShopListScreen> {
     );
   }
 
+
+
   TextField _placeSearchBar() {
     return TextField(
+      style: Theme.of(context).textTheme.displayMedium!.copyWith(fontWeight: FontWeight.w500,color: BasicColor.lightgrey2),
+      cursorColor: BasicColor.primary,
       controller: _searchTextController,
       focusNode: _focusNode,
       autofocus: true,
@@ -104,32 +117,16 @@ class _ShopListScreenState extends State<ShopListScreen> {
         getPlaceList(searchKeyWord,page);
 
       },
-      cursorColor: Colors.blueGrey,
       decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.yellow,
-          contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-            borderRadius: BorderRadius.circular(25.7),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-            borderRadius: BorderRadius.circular(25.7),
-          ),
-          hintText: "장소를 입력해주세요",
-          border: InputBorder.none,
-
-          prefixIcon: Padding(
-              padding: EdgeInsets.only(left: 13),
-              child: Icon(Icons.search,color: Colors.blueGrey,))),
+          hintText: "가게 이름을 입력해주세요",
+          suffixIcon: Padding(
+              padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
+              child: Icon(Icons.search,size: sized_30,))),
     );
   }
 
   Widget _placeList() {
-    return (placeList.isNotEmpty )
-        ? Expanded(
+    return  Expanded(
       child: ListView.separated(
           controller: _scrollController,
           itemBuilder: (context, index) {
@@ -150,8 +147,7 @@ class _ShopListScreenState extends State<ShopListScreen> {
             return list_divider();
           },
           itemCount: placeList.length),
-    )
-        : _emptyList();
+    );
   }
 
   Container _emptyList() {

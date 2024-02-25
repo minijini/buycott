@@ -160,7 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
       keyboardType: TextInputType.text,
       cursorColor: BasicColor.primary,
       decoration: InputDecoration(
-        hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: BasicColor.lightgrey2),
           hintText: "검색어를 입력하세요",
           suffixIcon: Padding(
               padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
@@ -171,9 +170,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _banner(){
     return BannerCarousel(
       banners: BannerImages.listBanners,
-      customizedIndicators: IndicatorModel.animation(
-          width: 10, height: 5, spaceBetween: 2, widthAnimation: 15),
-      height: sized_120,
+      // customizedIndicators: IndicatorModel.animation(
+      //     width: 10, height: 5, spaceBetween: 2, widthAnimation: 15),
+      height: 140,
       activeColor: BasicColor.primary,
       disableColor: Colors.white,
       animation: true,

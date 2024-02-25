@@ -46,7 +46,7 @@ class ReviewListTile extends StatelessWidget {
                       widthSizeBox(sized_5),
                       Text('·',style: Theme.of(context).textTheme.displayMedium,),
                       widthSizeBox(sized_5),
-                      buildStarRating(5,sized_10),
+                      buildStarRating(5,sized_12),
                     ],
                   ),
                   Visibility(

@@ -71,7 +71,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   }
 
   Padding _storeInfo(BuildContext context) {
-    List<Widget> starIcons = buildStarRatingWithHalf(3.5, sized_10);
+    Widget starIcons = buildStarRating(3, sized_16);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sized_18),
@@ -116,9 +116,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             children: [
               Text('댓글 97', style: Theme.of(context).textTheme.displayMedium),
               widthSizeBox(sized_6),
-              Row(
-                children: starIcons,
-              )
+              starIcons
             ],
           ),
           heightSizeBox(sized_10),

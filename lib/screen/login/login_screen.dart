@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:buycott/constants/constants.dart';
+import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:device_screen_size/device_screen_size.dart';
@@ -59,21 +60,32 @@ class _LoginScreenState extends State<LoginScreen> {
         color: Colors.white,
         child: Column(
           children: [
-            _snsLoginButton("icon_kakaologin",signInWithKakao),
+            _snsLoginButton("kakao",signInWithKakao,BasicColor.kakao_yellow),
             heightSizeBox(sized_20),
-            _snsLoginButton("icon_naverlogin",signInWithNaver),
-
+            _snsLoginButton("naver",signInWithNaver,BasicColor.naver_green),
           ],
         ),
       ),
     );
   }
 
-  GestureDetector _snsLoginButton(String path, VoidCallback onTap) {
+  GestureDetector _snsLoginButton(String path, VoidCallback onTap,Color color) {
     return GestureDetector(
             onTap: onTap,
-            child: Image.asset("assets/login/$path.png",width: size!.width,
-              height: 60,fit: BoxFit.fill,),
+            child: Container(
+              width: size!.width,
+              height: sized_50,
+              decoration: loginDecor(color),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/login/icon_$path.png",width: 24,
+                    height: 24,fit: BoxFit.fill,),
+                  widthSizeBox(sized_10),
+                  Text(path == "kakao" ? '카카오 로그인' : '네이버 로그인'),
+                ],
+              ),
+            ),
           );
   }
 

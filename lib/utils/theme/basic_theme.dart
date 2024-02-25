@@ -34,7 +34,7 @@ class BasicTheme {
       textTheme: BasicTextTheme.lightTextTheme,
       inputDecorationTheme: InputDecorationTheme(
 
-        hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: BasicColor.linegrey),
+        hintStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: BasicColor.linegrey),
         filled: true,
         fillColor: Colors.white,
         contentPadding:

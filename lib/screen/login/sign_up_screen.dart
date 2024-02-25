@@ -132,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     widthSizeBox(sized_10),
 
                     SizedBox(
-                      width: sized_85,
+                      width: sized_100,
                       height: sized_48,
                       child: ElevatedButton(
                           style: primary_btn_style(),

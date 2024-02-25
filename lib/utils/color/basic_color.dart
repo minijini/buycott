@@ -17,4 +17,6 @@ class BasicColor{
   static const Color darkgrey = Color(0xff626262);
 
   static const Color red = Color(0xffFF0000);
+  static const Color kakao_yellow = Color(0xffFEE500);
+  static const Color naver_green = Color(0xff03C75A);
 }

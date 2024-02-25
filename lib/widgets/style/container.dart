@@ -74,6 +74,14 @@ BoxDecoration grayDecor2(){
   );
 }
 
+BoxDecoration loginDecor(Color color){
+  return BoxDecoration(
+      color: color,
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.all(Radius.circular(sized_12))
+  );
+}
+
 BoxDecoration categoryDecor(Color color){
   return BoxDecoration(
       color: color,

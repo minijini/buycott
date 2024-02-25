@@ -123,7 +123,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
         // Handle when location permission is denied
-        showLocationPermissionDeniedDialog();
+        // showLocationPermissionDeniedDialog();
       }
 
       if(permissionGranted == PermissionStatus.granted){
@@ -155,15 +155,15 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: sized_18),
-          child: Text(
-            "내 위치",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Padding(
+      //     padding: const EdgeInsets.only(left: sized_18),
+      //     child: Text(
+      //       "내 위치",
+      //       style: Theme.of(context).textTheme.titleLarge,
+      //     ),
+      //   ),
+      // ),
       body: Stack(
         children: [
           (latitude != null && longitude != null) ? Container(

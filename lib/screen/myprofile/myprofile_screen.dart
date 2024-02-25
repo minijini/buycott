@@ -33,29 +33,23 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: sized_18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: sized_18),
-            child: GestureDetector(
-              onTap: (){
-                if(widget.userNotifier.authStatus == AuthStatus.signout){
-                  context.goNamed(loginRouteName);
-                }
-              },
-              child: Text(
-                widget.userNotifier.authStatus == AuthStatus.signin ? 'MY' : '로그인 해 주세요',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: sized_18),
+          child: Text(
+            "MY",
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          heightSizeBox(widget.userNotifier.authStatus == AuthStatus.signin ? sized_14 : sized_50),
-          Visibility(
-            visible: widget.userNotifier.authStatus == AuthStatus.signin,
-            child: Column(
+        ),
+      ),
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // heightSizeBox(widget.userNotifier.authStatus == AuthStatus.signin ? sized_14 : sized_50),
+
+            widget.userNotifier.authStatus == AuthStatus.signin ?  Column(
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: sized_18),
@@ -70,20 +64,28 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 _menu(context, "내가 쓴 리뷰", true, () {
                   context.goNamed(myReviewRouteName);
                 }),
+
+                _menu(context, "가게 제안", true, () {
+                  context.goNamed(myReviewRouteName);
+                }),
               ],
-            ),
-          ),
-          _menu(context, "공지사항", false, () {
-            context.goNamed(myReviewRouteName);
-          }),
-          _menu(context, "이용약관", false, () {
-            context.goNamed(termsRouteName, pathParameters: {'title': '이용약관'});
-          }),
-          _menu(context, "개인정보취급방침", false, () {
-            context
-                .goNamed(termsRouteName, pathParameters: {'title': '개인정보취급방침'});
-          }),
-        ],
+            ) :  _menu(context, "로그인해주세요", true, () {
+              if(widget.userNotifier.authStatus == AuthStatus.signout){
+                context.goNamed(loginRouteName);
+              }
+            }),
+            _menu(context, "공지사항", false, () {
+              context.goNamed(myReviewRouteName);
+            }),
+            _menu(context, "이용약관", false, () {
+              context.goNamed(termsRouteName, pathParameters: {'title': '이용약관'});
+            }),
+            _menu(context, "개인정보취급방침", false, () {
+              context
+                  .goNamed(termsRouteName, pathParameters: {'title': '개인정보취급방침'});
+            }),
+          ],
+        ),
       ),
     );
   }
@@ -117,48 +119,53 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     );
   }
 
-  Row _myProfile(BuildContext context) {
-    return Row(
+  Widget _myProfile(BuildContext context) {
+    return Column(
       children: [
+        heightSizeBox(sized_10),
         Row(
           children: [
-            CircleImage(
-              img: widget.userNotifier.profileImg,
-              size: sized_60,
+            Row(
+              children: [
+                CircleImage(
+                  img: widget.userNotifier.profileImg,
+                  size: sized_60,
+                ),
+                widthSizeBox(sized_10),
+                Text(
+                  userModel?.nickname ?? "",
+                  style: Theme.of(context).textTheme.titleMedium,
+                )
+              ],
             ),
-            widthSizeBox(sized_10),
-            Text(
-              userModel?.nickname ?? "",
-              style: Theme.of(context).textTheme.titleMedium,
-            )
+            Expanded(
+                child: Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  signOut(widget.userNotifier.loginPlatform);
+                },
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.transparent,
+                    backgroundColor: BasicColor.lightgrey,
+                    shape: RoundedRectangleBorder(
+                        //모서리를 둥글게
+                        borderRadius: BorderRadius.circular(20)),
+                  ),
+                  child: SizedBox(
+                    width: sized_30,
+                    height: sized_17,
+                    child: Center(
+                        child: AutoSizeText('수정',
+                            style: Theme.of(context)
+                              .textTheme
+                              .displaySmall!
+                              )),
+                ),
+              ),
+            ))
           ],
         ),
-        Expanded(
-            child: Align(
-          alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: () {
-              signOut(widget.userNotifier.loginPlatform);
-            },
-            style: ElevatedButton.styleFrom(
-              shadowColor: Colors.transparent,
-              backgroundColor: BasicColor.lightgrey,
-              shape: RoundedRectangleBorder(
-                  //모서리를 둥글게
-                  borderRadius: BorderRadius.circular(20)),
-            ),
-            child: Container(
-              width: sized_30,
-              height: sized_17,
-              child: Center(
-                  child: AutoSizeText('수정',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold))),
-            ),
-          ),
-        ))
       ],
     );
   }

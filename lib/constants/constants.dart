@@ -13,6 +13,7 @@ const String mapRouteName = 'map';
 const String storeDetailRouteName = 'storedetail';
 const String myStoreRegisterRouteName = 'mystoreregister';
 const String myReviewRouteName = 'myreview';
+const String storeAddRouteName = 'storeadd';
 
 const String termsRouteName = 'terms';
 

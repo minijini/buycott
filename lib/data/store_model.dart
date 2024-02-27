@@ -7,29 +7,38 @@
 
 class StoreModel {
   StoreModel({
-      int? storeSrno,
-      String? storeType,
-      String? storeAddress,
-      StoreLoc? storeLoc,
-      String? storeName,
+    int? storeSrno,
+    String? storeType,
+    String? storeAddress,
+    StoreLoc? storeLoc,
+    String? storeName,
     double? distance,
-
-  }){
+    String? storeTypeNm,
+    int? score,
+    int? code,
+  }) {
     _storeSrno = storeSrno;
     _storeType = storeType;
     _storeAddress = storeAddress;
     _storeLoc = storeLoc;
     _storeName = storeName;
     _distance = distance;
-}
+    _storeTypeNm = storeTypeNm;
+    _score = score;
+    _code = code;
+  }
 
   StoreModel.fromJson(dynamic json) {
     _storeSrno = json['storeSrno'];
     _storeType = json['storeType'];
     _storeAddress = json['storeAddress'];
-    _storeLoc = json['storeLoc'] != null ? StoreLoc.fromJson(json['storeLoc']) : null;
+    _storeLoc =
+        json['storeLoc'] != null ? StoreLoc.fromJson(json['storeLoc']) : null;
     _storeName = json['storeName'];
     _distance = json['distance'];
+    _storeTypeNm = json['storeTypeNm'];
+    _score = json['score'];
+    _code = json['code'];
   }
 
   int? _storeSrno;
@@ -38,13 +47,27 @@ class StoreModel {
   StoreLoc? _storeLoc;
   String? _storeName;
   double? _distance;
+  String? _storeTypeNm;
+  int? _score;
+  int? _code;
 
   int? get storeSrno => _storeSrno;
+
   String? get storeType => _storeType;
+
   String? get storeAddress => _storeAddress;
+
   StoreLoc? get storeLoc => _storeLoc;
+
   String? get storeName => _storeName;
+
   double? get distance => _distance;
+
+  String? get storeTypeNm => _storeTypeNm;
+
+  int? get score => _score;
+
+  int? get code => _code;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -56,9 +79,11 @@ class StoreModel {
     }
     map['storeName'] = _storeName;
     map['distance'] = _distance;
+    map['storeTypeNm'] = _storeTypeNm;
+    map['score'] = _score;
+    map['code'] = _code;
     return map;
   }
-
 }
 
 /// x : 126.9121929350555
@@ -66,20 +91,23 @@ class StoreModel {
 
 class StoreLoc {
   StoreLoc({
-      double? x,
-    double? y,}){
+    double? x,
+    double? y,
+  }) {
     _x = x;
     _y = y;
-}
+  }
 
   StoreLoc.fromJson(dynamic json) {
     _x = json['x'];
     _y = json['y'];
   }
+
   double? _x;
   double? _y;
 
   double? get x => _x;
+
   double? get y => _y;
 
   Map<String, dynamic> toJson() {
@@ -88,5 +116,4 @@ class StoreLoc {
     map['y'] = _y;
     return map;
   }
-
 }

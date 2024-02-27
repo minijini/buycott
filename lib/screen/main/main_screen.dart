@@ -1,4 +1,5 @@
 import 'package:buycott/firebase/firebaseservice.dart';
+import 'package:buycott/screen/favorite/favorite_screen.dart';
 import 'package:buycott/screen/home/home_screen.dart';
 import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/map/map_screen.dart';
@@ -56,7 +57,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
         return MapScreen(storeNotifier: notifier,);
       },
     ),
-    StoreAddScreen(),
+    FavoriteScreen(),
     Consumer<UserNotifier>(
       builder: (context,notifier,child){
         return MyProfileScreen(userNotifier: notifier,);

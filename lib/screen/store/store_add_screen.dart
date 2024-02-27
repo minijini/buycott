@@ -34,8 +34,14 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '가게 제안',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+      body: Column(
         children: [
           ElevatedButton(onPressed: ()async {
             var result = await Navigator.push(

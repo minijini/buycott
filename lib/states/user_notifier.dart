@@ -44,6 +44,7 @@ class UserNotifier extends ChangeNotifier{
 
           if(_pref_token != ''  && _pref_token != null){
             _getUserProfile(int.parse(_pref_usersrno));
+            pushToken(int.parse(_pref_usersrno), pushtoken??"");
 
             _authStatus = AuthStatus.signin;
           }else{

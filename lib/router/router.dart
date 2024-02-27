@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../screen/login/sign_up_screen.dart';
 import '../screen/main/main_screen.dart';
+import '../screen/store/store_add_screen.dart';
 import '../states/user_notifier.dart';
 import '../constants/constants.dart';
 import '../widgets/UnanimatedPageRoute.dart';
@@ -65,6 +66,13 @@ class MyRouter {
               name: storeDetailRouteName,
               builder: (context, state) => const StoreDetailScreen(),
               pageBuilder: defaultPageBuilder(const StoreDetailScreen()),
+            ),
+
+            GoRoute(
+              path: storeAddRouteName,
+              name: storeAddRouteName,
+              builder: (context, state) => const StoreAddScreen(),
+              pageBuilder: defaultPageBuilder(const StoreAddScreen()),
             ),
 
             GoRoute(

@@ -21,7 +21,14 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      appBar:AppBar(
+        title: Text(
+          '가게명',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+      body: Container(
+        color: Colors.white,
         child: Column(
           children: [
             heightSizeBox(sized_18),

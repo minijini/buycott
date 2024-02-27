@@ -1,10 +1,13 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/constants/screen_size.dart';
+import 'package:buycott/data/store_model.dart';
 import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/widgets/list/main_shop_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../states/store_notifier.dart';
 import '../../utils/log_util.dart';
 import '../../widgets/style/container.dart';
 import '../../widgets/style/divider.dart';
@@ -21,6 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchTextController = TextEditingController();
 
   @override
+  void initState() {
+    _mainStoresNotifier();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _searchTextController.dispose();
     super.dispose();
@@ -34,43 +43,47 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _sliver(){
-    return CustomScrollView(
-      slivers: [
-          SliverToBoxAdapter(child: Column(children: [
-            _placeSearchBar(),
-            heightSizeBox(sized_30),
-            _banner(),
-            heightSizeBox(sized_30),
-          ],)),
-        SliverList.list(
-          children: [
-            _title(context,"오늘의 돈쭐"),
-            heightSizeBox(sized_10),
-            _todayBuyCott(),
-            _buildHeightSizeBox(),
-            _title(context,"인기 돈쭐"),
-            heightSizeBox(sized_10),
-            _todayBuyCott(),
-            _buildHeightSizeBox(),
-            _title(context,"새로운 돈쭐"),
-            heightSizeBox(sized_10),
-            _todayBuyCott(),
-            _buildHeightSizeBox(),
-            _title(context,"돈쭐 뉴스"),
-            heightSizeBox(sized_10),
-            _todayBuyCott(),
-            _buildHeightSizeBox(),
-          ],
-        )
-          // SliverList(
-          //   delegate: SliverChildBuilderDelegate(((context, replyIndex) {
-          //     debugPrint("Reply $replyIndex in Comment $commentIndex is generated!!");
-          //     return Text("Reply: $replyIndex");
-          //   }),
-          //     childCount: BannerImages.listBanners.length,),
-          // ),
+    return Consumer<StoreNotifier>(
+        builder: (context,notifier,child){
+        return CustomScrollView(
+          slivers: [
+              SliverToBoxAdapter(child: Column(children: [
+                _placeSearchBar(),
+                heightSizeBox(sized_30),
+                _banner(),
+                heightSizeBox(sized_30),
+              ],)),
+            SliverList.list(
+              children: [
+                // _title(context,"오늘의 돈쭐"),
+                // heightSizeBox(sized_10),
+                // _todayBuyCott(),
+                // _buildHeightSizeBox(),
+                _title(context,"인기 돈쭐"),
+                heightSizeBox(sized_10),
+                _todayBuyCott(notifier,1),
+                _buildHeightSizeBox(),
+                _title(context,"새로운 돈쭐"),
+                heightSizeBox(sized_10),
+                _todayBuyCott(notifier,2),
+                _buildHeightSizeBox(),
+                // _title(context,"돈쭐 뉴스"),
+                // heightSizeBox(sized_10),
+                // _todayBuyCott(),
+                _buildHeightSizeBox(),
+              ],
+            )
+              // SliverList(
+              //   delegate: SliverChildBuilderDelegate(((context, replyIndex) {
+              //     debugPrint("Reply $replyIndex in Comment $commentIndex is generated!!");
+              //     return Text("Reply: $replyIndex");
+              //   }),
+              //     childCount: BannerImages.listBanners.length,),
+              // ),
 
-      ],
+          ],
+        );
+      }
     );
   }
 
@@ -87,70 +100,70 @@ class _HomeScreenState extends State<HomeScreen> {
         );
   }
 
-  Widget _todayBuyCott() {
-    var content = '세상의 이런일이이세상의 이 이런일이세상의 이 이런일이';
-    var len = content.length;
+  Widget _todayBuyCott(StoreNotifier storeNotifier, int code) {
+
+    List<StoreModel> _storeList = storeNotifier.mainStoreList
+        .where((store) => store.code == code)
+        .toList();
 
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints:  BoxConstraints(
           minHeight: 50.0,
-          maxHeight: len < 10 ? 105.0 : 130.0,
+          maxHeight:  130.0,
         ),
         child: ListView.builder(
             shrinkWrap: true,
           scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              BannerModel placeModel = BannerImages.listBanners[index];
+              StoreModel storeModel = _storeList[index];
 
               return GestureDetector(
                   onTap: () {
-                    Log.logs(
-                        TAG, "list tile click :: ${placeModel.id}");
 
                   },
-                  child: MainShopListTile());
+                  child: MainShopListTile(storeModel: storeModel,));
             },
-            itemCount: BannerImages.listBanners.length),
+            itemCount: _storeList.length),
       ),
     );
   }
 
-  Widget _today(){
-    return Container(
-      height: 150,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final textPainter = TextPainter(
-            text: TextSpan(
-              text: '세상의 이런일이세상의 이런일이세상의 이런일이세상의 이런일이 ',
-              style: Theme.of(context).textTheme.displaySmall
-            ),
-
-            textDirection: TextDirection.ltr,
-          );
-
-          textPainter.layout(maxWidth: 104);
-
-          final int lines = (textPainter.size.height / textPainter.preferredLineHeight).ceil();
-
-          Log.logs(TAG, "lines :: $lines");
-          return Container(
-            height: constraints.maxHeight,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: BannerImages.listBanners.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-
-                return MainShopListTile();
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // Widget _today(){
+  //   return Container(
+  //     height: 150,
+  //     child: LayoutBuilder(
+  //       builder: (context, constraints) {
+  //         final textPainter = TextPainter(
+  //           text: TextSpan(
+  //             text: '세상의 이런일이세상의 이런일이세상의 이런일이세상의 이런일이 ',
+  //             style: Theme.of(context).textTheme.displaySmall
+  //           ),
+  //
+  //           textDirection: TextDirection.ltr,
+  //         );
+  //
+  //         textPainter.layout(maxWidth: 104);
+  //
+  //         final int lines = (textPainter.size.height / textPainter.preferredLineHeight).ceil();
+  //
+  //         Log.logs(TAG, "lines :: $lines");
+  //         return Container(
+  //           height: constraints.maxHeight,
+  //           child: ListView.builder(
+  //             shrinkWrap: true,
+  //             itemCount: BannerImages.listBanners.length,
+  //             scrollDirection: Axis.horizontal,
+  //             itemBuilder: (context, index) {
+  //
+  //               return MainShopListTile();
+  //             },
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
 
   Widget _placeSearchBar() {
@@ -183,8 +196,13 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: EdgeInsets.zero,
     );
   }
-}
 
+  void _mainStoresNotifier() {
+    Provider.of<StoreNotifier>(context, listen: false).getMainStores().then((value){
+
+    });
+  }
+}
 
 class BannerImages {
   static const String banner1 =
@@ -203,3 +221,6 @@ class BannerImages {
     BannerModel(imagePath: banner4, id: "5"),
   ];
 }
+
+
+

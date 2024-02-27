@@ -66,7 +66,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 }),
 
                 _menu(context, "가게 제안", true, () {
-                  context.goNamed(myReviewRouteName);
+                  context.goNamed(storeAddRouteName);
                 }),
               ],
             ) :  _menu(context, "로그인해주세요", true, () {

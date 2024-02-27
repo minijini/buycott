@@ -29,7 +29,7 @@ class MapScreen extends StatefulWidget {
   State<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
+class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
   final TAG = "MapScreen";
 
   Location location = Location();
@@ -66,6 +66,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     //   }
     // });
 
+
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 500),
@@ -99,6 +100,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     _searchTextController.dispose();
     super.dispose();
   }
+
 
 
   Future<void> checkLocationPermission() async {
@@ -154,65 +156,69 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Padding(
-      //     padding: const EdgeInsets.only(left: sized_18),
-      //     child: Text(
-      //       "내 위치",
-      //       style: Theme.of(context).textTheme.titleLarge,
-      //     ),
-      //   ),
-      // ),
-      body: Stack(
-        children: [
-          (latitude != null && longitude != null) ? Container(
-          height: size!.height,
-        child: GoogleMap(
-          mapType: MapType.normal,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          markers: Set<Marker>.of(_marker),
-          initialCameraPosition: _kGooglePosition,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-            _mapController = controller;
-          },
-          onCameraIdle: (){// 카메라 이동이 멈춘 경우
+    checkLocationPermission();
 
-            _getStores(longitude!,latitude!);
-          },
-          onCameraMove: (object) => { //카메라 이동 시 좌표가져오기
-            setState(() {
-              latitude = object.target.latitude;
-              longitude = object.target.longitude;
-            })
-          },
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   title: Padding(
+        //     padding: const EdgeInsets.only(left: sized_18),
+        //     child: Text(
+        //       "내 위치",
+        //       style: Theme.of(context).textTheme.titleLarge,
+        //     ),
+        //   ),
+        // ),
+        body: Stack(
+          children: [
+            (latitude != null && longitude != null) ? Container(
+            height: size!.height,
+          child: GoogleMap(
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            markers: Set<Marker>.of(_marker),
+            initialCameraPosition: _kGooglePosition,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              _mapController = controller;
+            },
+            onCameraIdle: (){// 카메라 이동이 멈춘 경우
 
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height*0.45,
-              bottom:MediaQuery.of(context).size.height*0.15),
-        ),
-      ) : Center(child: CircularProgressIndicator(color: BasicColor.primary,)),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: sized_20,bottom:sized_10,left: sized_18,right: sized_18),
-                child: _placeSearchBar(),
-              ),
+              _getStores(longitude!,latitude!);
+            },
+            onCameraMove: (object) => { //카메라 이동 시 좌표가져오기
+              setState(() {
+                latitude = object.target.latitude;
+                longitude = object.target.longitude;
+              })
+            },
 
-              _category(),
-            ],
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height*0.45,
+                bottom:MediaQuery.of(context).size.height*0.15),
           ),
+        ) : Center(child: CircularProgressIndicator(color: BasicColor.primary,)),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: sized_20,bottom:sized_10,left: sized_18,right: sized_18),
+                  child: _placeSearchBar(),
+                ),
 
-          SlideTransition(
-            position: _offsetAnimation,
-            child: Visibility(
-              visible: isVisible,
-              child: ShopBottomSheet(title: shopTitle??"",),
+                _category(),
+              ],
             ),
-          ),
-        ],
+
+            SlideTransition(
+              position: _offsetAnimation,
+              child: Visibility(
+                visible: isVisible,
+                child: ShopBottomSheet(title: shopTitle??"",),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

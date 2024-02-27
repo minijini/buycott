@@ -8,6 +8,7 @@ import '../widgets/dialog/custom_dialog.dart';
 class StoreNotifier extends ChangeNotifier {
   final String TAG = "StoreNotifier";
   List<StoreModel> _storeList = [];
+  List<StoreModel> _mainStoreList = [];
 
 
   /*
@@ -69,6 +70,25 @@ class StoreNotifier extends ChangeNotifier {
     }
   }
 
+  Future getMainStores() async{
+    final result = await StoreApiRepo().getMainStores();
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+        final _result = dataResult.body.map<StoreModel>((json) {
+          return StoreModel.fromJson(json);
+        }).toList();
+        _mainStoreList.clear();
+        _mainStoreList.addAll(_result);
+
+        notifyListeners();
+      }
+    }
+  }
+
   Future<void> _resultDialog(BuildContext context, ResultModel resultModel) =>
       CustomDialog(funcAction: dialogPop)
           .normalDialog(context, resultModel.msg!, '확인');
@@ -78,4 +98,5 @@ class StoreNotifier extends ChangeNotifier {
   }
 
   List<StoreModel> get storeList => _storeList;
+  List<StoreModel> get mainStoreList => _mainStoreList;
 }

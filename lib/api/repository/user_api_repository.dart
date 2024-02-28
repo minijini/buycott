@@ -134,7 +134,7 @@ class UserApiRepo {
 
 
   /*
-  * 가입여부체크
+  * 닉네임 체크
   * */
   Future<BaseModel?> nicknameCheck(String nickName) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
@@ -322,7 +322,31 @@ class UserApiRepo {
   }
 
 
+  /* 배너 조회
+  * */
+  Future<BaseModel?> getBanner() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
 
+    String url = Api.baseUrl + ApiEndPoints.banner;
+
+    try {
+      final response = await apiUtils.get(url: url);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
 
 
 /*

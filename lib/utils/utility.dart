@@ -272,6 +272,22 @@ class Utility {
     return result.toString();
   }
 
+  String getOpenClose(String openTime, String closeTime){
+    // 현재 시간을 가져옴
+    DateTime now = DateTime.now();
+
+    // 현재 날짜에 시간을 추가하여 DateTime 객체를 만듭니다.
+    DateTime openingDateTime = DateTime(now.year, now.month, now.day, int.parse(openTime.split(":")[0]), int.parse(openTime.split(":")[1]));
+    DateTime closingDateTime = DateTime(now.year, now.month, now.day, int.parse(closeTime.split(":")[0]), int.parse(closeTime.split(":")[1]));
+
+    // 영업 시간 비교
+    if (now.isAfter(openingDateTime) && now.isBefore(closingDateTime)) {
+     return "영업 중";
+    } else {
+      return "영업 종료";
+    }
+  }
+
 
 
 

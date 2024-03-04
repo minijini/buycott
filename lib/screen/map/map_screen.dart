@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buycott/constants/screen_size.dart';
+import 'package:buycott/data/store_model.dart';
 import 'package:buycott/firebase/firebaseservice.dart';
 import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/utils/color/basic_color.dart';
@@ -16,6 +17,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants/padding_size.dart';
 import '../../data/category_map.dart';
+import '../../widgets/circle_progressbar.dart';
 import '../../widgets/style/container.dart';
 import 'bottom_sheet_screen.dart';
 import 'package:open_app_settings/open_app_settings.dart';
@@ -49,6 +51,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
   double? latitude ;
   double? longitude;
   List<Marker> _marker = [];
+
+  StoreModel? _storeModel;
 
   String? shopTitle;
 
@@ -180,6 +184,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
             markers: Set<Marker>.of(_marker),
             initialCameraPosition: _kGooglePosition,
             onMapCreated: (GoogleMapController controller) {
+              // 지도가 생성되었을 때 처리
+
               _controller.complete(controller);
               _mapController = controller;
             },
@@ -198,7 +204,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
               top: MediaQuery.of(context).size.height*0.45,
                 bottom:MediaQuery.of(context).size.height*0.15),
           ),
-        ) : Center(child: CircularProgressIndicator(color: BasicColor.primary,)),
+        ) : CustomCircularProgress(),
             Column(
               children: [
                 Padding(
@@ -214,7 +220,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
               position: _offsetAnimation,
               child: Visibility(
                 visible: isVisible,
-                child: ShopBottomSheet(title: shopTitle??"",),
+                child: ShopBottomSheet(storeModel: _storeModel),
+                // child: ShopBottomSheet(title: "df",),
               ),
             ),
           ],
@@ -330,11 +337,23 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
          markerId: MarkerId("${storeModel.storeSrno}"),
        position: LatLng(storeModel.storeLoc!.y!, storeModel.storeLoc!.x!),
        icon: _markerIcon!= null ? BitmapDescriptor.fromBytes(_markerIcon!) : BitmapDescriptor.defaultMarker,
-         infoWindow: InfoWindow(
-           title: storeModel.storeName ,
-         ),
+         // infoWindow: InfoWindow(
+         //   title: storeModel.storeName ,
+         // ),
          onTap: (){
-           _setTitle(storeModel.storeName ?? "");
+           setState(() {
+             _storeModel = storeModel;
+           });
+
+           // _mapController?.animateCamera(
+           //   CameraUpdate.newLatLng(LatLng(storeModel.storeLoc!.y!, storeModel.storeLoc!.x!)),
+           // );
+
+           _mapController?.moveCamera( //lat : 가로, lng: 세로
+             CameraUpdate.newLatLng(
+               LatLng(storeModel.storeLoc!.y!-0.0005 ,storeModel.storeLoc!.x!),
+             ),
+           );
          }
      );
 
@@ -346,11 +365,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
    });
   }
 
- void _setTitle(String title) {
-   return setState(() {
-          shopTitle = title;
-        });
- }
+
 
  void _getStores(double x, double y){
    if(categorySelectData != null){
@@ -368,3 +383,5 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
 
 
 }
+
+

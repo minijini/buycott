@@ -2,11 +2,13 @@ import 'package:banner_carousel/banner_carousel.dart';
 import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/constants/screen_size.dart';
 import 'package:buycott/data/store_model.dart';
+import 'package:buycott/states/user_notifier.dart';
 import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/widgets/list/main_shop_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../data/file_model.dart';
 import '../../states/store_notifier.dart';
 import '../../utils/log_util.dart';
 import '../../widgets/style/container.dart';
@@ -23,9 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final TAG = "HomeScreen";
   final TextEditingController _searchTextController = TextEditingController();
 
+
   @override
   void initState() {
     _mainStoresNotifier();
+
     super.initState();
   }
 
@@ -181,46 +185,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _banner(){
-    return BannerCarousel(
-      banners: BannerImages.listBanners,
-      // customizedIndicators: IndicatorModel.animation(
-      //     width: 10, height: 5, spaceBetween: 2, widthAnimation: 15),
-      height: 140,
-      activeColor: BasicColor.primary,
-      disableColor: Colors.white,
-      animation: true,
-      borderRadius: 10,
-      width: size!.width,
-      onTap: (id) => print(id),
-      indicatorBottom: false,
-      margin: EdgeInsets.zero,
+    return Consumer<UserNotifier>(
+      builder: (context, notifier,widget) {
+        return BannerCarousel(
+          banners: notifier.bannerList,
+          // customizedIndicators: IndicatorModel.animation(
+          //     width: 10, height: 5, spaceBetween: 2, widthAnimation: 15),
+          height: 140,
+          activeColor: BasicColor.primary,
+          disableColor: Colors.white,
+          animation: true,
+          borderRadius: 10,
+          width: size!.width,
+          onTap: (id) => print(id),
+          indicatorBottom: false,
+          margin: EdgeInsets.zero,
+        );
+      }
     );
   }
 
   void _mainStoresNotifier() {
-    Provider.of<StoreNotifier>(context, listen: false).getMainStores().then((value){
-
-    });
+    Provider.of<StoreNotifier>(context, listen: false).getMainStores();
   }
+
+
 }
 
-class BannerImages {
-  static const String banner1 =
-      "https://picjumbo.com/wp-content/uploads/the-golden-gate-bridge-sunset-1080x720.jpg";
-  static const String banner2 =
-      "https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg";
-  static const String banner3 = "https://wallpaperaccess.com/full/19921.jpg";
-  static const String banner4 =
-      "https://images.pexels.com/photos/2635817/pexels-photo-2635817.jpeg?auto=compress&crop=focalpoint&cs=tinysrgb&fit=crop&fp-y=0.6&h=500&sharp=20&w=1400";
-
-  static List<BannerModel> listBanners = [
-    BannerModel(imagePath: banner1, id: "1"),
-    BannerModel(imagePath: banner2, id: "2"),
-    BannerModel(imagePath: banner3, id: "3"),
-    BannerModel(imagePath: banner4, id: "4"),
-    BannerModel(imagePath: banner4, id: "5"),
-  ];
-}
 
 
 

@@ -29,6 +29,7 @@ String PARAM_STOREADDRESS = "storeAddress";
 String PARAM_STORENAME = "storeName";
 String PARAM_STOREPHONE = "storePhone";
 String PARAM_STOREDESC = "storeDesc";
+String PARAM_PRPREASON = "prpReason";
 String PARAM_X = "x";
 String PARAM_Y = "y";
 

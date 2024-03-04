@@ -24,11 +24,13 @@ class StoreAddScreen extends StatefulWidget {
 class _StoreAddScreenState extends State<StoreAddScreen> {
   final TAG = "StoreAddScreen";
   TextEditingController _storeDescController = TextEditingController();
+  TextEditingController _prpReasonController = TextEditingController();
   Place? storeModel;
 
   @override
   void dispose() {
     _storeDescController.dispose();
+    _prpReasonController.dispose();
     super.dispose();
   }
 
@@ -77,9 +79,10 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
         1,
         storeModel.categoryGroupCode!,
         storeModel.categoryGroupName!,
-        storeModel.roadAddressName! + storeModel.placeName!,
+        storeModel.roadAddressName!,
         storeModel.placeName!,
         storeModel.phone!,
+        _storeDescController.text,
         _storeDescController.text,
         storeModel.x!,
         storeModel.y!);

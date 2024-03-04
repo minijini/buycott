@@ -12,10 +12,11 @@ class StoreModel {
     String? storeAddress,
     StoreLoc? storeLoc,
     String? storeName,
-    double? distance,
+    int? distance,
     String? storeTypeNm,
     int? score,
     int? code,
+    String? businessHours,
   }) {
     _storeSrno = storeSrno;
     _storeType = storeType;
@@ -26,6 +27,7 @@ class StoreModel {
     _storeTypeNm = storeTypeNm;
     _score = score;
     _code = code;
+    _businessHours = businessHours;
   }
 
   StoreModel.fromJson(dynamic json) {
@@ -39,6 +41,7 @@ class StoreModel {
     _storeTypeNm = json['storeTypeNm'];
     _score = json['score'];
     _code = json['code'];
+    _businessHours = json['businessHours'];
   }
 
   int? _storeSrno;
@@ -46,10 +49,11 @@ class StoreModel {
   String? _storeAddress;
   StoreLoc? _storeLoc;
   String? _storeName;
-  double? _distance;
+  int? _distance;
   String? _storeTypeNm;
   int? _score;
   int? _code;
+  String? _businessHours;
 
   int? get storeSrno => _storeSrno;
 
@@ -60,8 +64,9 @@ class StoreModel {
   StoreLoc? get storeLoc => _storeLoc;
 
   String? get storeName => _storeName;
+  String? get businessHours => _businessHours;
 
-  double? get distance => _distance;
+  int? get distance => _distance;
 
   String? get storeTypeNm => _storeTypeNm;
 
@@ -82,6 +87,7 @@ class StoreModel {
     map['storeTypeNm'] = _storeTypeNm;
     map['score'] = _score;
     map['code'] = _code;
+    map['businessHours'] = _businessHours;
     return map;
   }
 }

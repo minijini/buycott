@@ -62,10 +62,12 @@ class MyRouter {
             ),
 
             GoRoute(
-              path: storeDetailRouteName,
+              path: '$storeDetailRouteName/:storeSrno',
               name: storeDetailRouteName,
-              builder: (context, state) => const StoreDetailScreen(),
-              pageBuilder: defaultPageBuilder(const StoreDetailScreen()),
+              pageBuilder: (context, state) {
+                return customTransitionPage(
+                    state, StoreDetailScreen(storeSrno: state.pathParameters['storeSrno']!));
+              },
             ),
 
             GoRoute(

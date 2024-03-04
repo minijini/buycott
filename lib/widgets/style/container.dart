@@ -58,11 +58,11 @@ BoxDecoration appBarDecor(Color color){
 
 
 
-BoxDecoration grayDecor(){
+BoxDecoration grayDecor(double size){
   return BoxDecoration(
       color: BasicColor.lightgrey,
       shape: BoxShape.rectangle,
-      borderRadius: BorderRadius.all(Radius.circular(sized_10))
+      borderRadius: BorderRadius.all(Radius.circular(size))
   );
 }
 

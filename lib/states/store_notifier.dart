@@ -9,6 +9,7 @@ class StoreNotifier extends ChangeNotifier {
   final String TAG = "StoreNotifier";
   List<StoreModel> _storeList = [];
   List<StoreModel> _mainStoreList = [];
+  StoreModel? _storeModel;
 
 
   /*
@@ -24,10 +25,11 @@ class StoreNotifier extends ChangeNotifier {
     String storeName,
     String storePhone,
     String storeDesc,
+    String prpReason,
       String x,
       String y,
   ) async {
-    final result = await StoreApiRepo().registerStore(apiId,userSrno, storeType, storeTypeNm, storeAddress, storeName, storePhone, storeDesc, x, y);
+    final result = await StoreApiRepo().registerStore(apiId,userSrno, storeType, storeTypeNm, storeAddress, storeName, storePhone, storeDesc,prpReason, x, y);
 
     if (result != null) {
 
@@ -89,6 +91,24 @@ class StoreNotifier extends ChangeNotifier {
     }
   }
 
+  Future<StoreModel?> storeDetail(int storeSrno) async{
+    final result = await StoreApiRepo().storeDetail(storeSrno);
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+        _storeModel = StoreModel.fromJson(dataResult.body);
+
+        notifyListeners();
+
+        return _storeModel;
+      }
+    }
+    return null;
+  }
+
   Future<void> _resultDialog(BuildContext context, ResultModel resultModel) =>
       CustomDialog(funcAction: dialogPop)
           .normalDialog(context, resultModel.msg!, '확인');
@@ -99,4 +119,5 @@ class StoreNotifier extends ChangeNotifier {
 
   List<StoreModel> get storeList => _storeList;
   List<StoreModel> get mainStoreList => _mainStoreList;
+  StoreModel? get storeModel => _storeModel;
 }

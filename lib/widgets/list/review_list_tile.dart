@@ -19,7 +19,7 @@ class ReviewListTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                heightSizeBox(sized_10),
+                heightSizeBox(sized_20),
                 _title(context),
                 heightSizeBox(sized_10),
                 _reviewImg(),
@@ -56,7 +56,7 @@ class ReviewListTile extends StatelessWidget {
                       child: Container(
                         width: sized_30,
                         height: sized_20,
-                        decoration: grayDecor(),
+                        decoration: grayDecor(sized_10),
                         child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10))),
                       ),
                     )),

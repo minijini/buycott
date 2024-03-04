@@ -1,9 +1,14 @@
 import 'package:banner_carousel/banner_carousel.dart';
+import 'package:buycott/data/store_model.dart';
 import 'package:buycott/utils/color/basic_color.dart';
+import 'package:buycott/utils/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/padding_size.dart';
 import '../../constants/screen_size.dart';
+import '../../states/store_notifier.dart';
+import '../../widgets/circle_progressbar.dart';
 import '../../widgets/list/review_list_tile.dart';
 import '../../widgets/start_widget.dart';
 import '../../widgets/style/container.dart';
@@ -11,27 +16,57 @@ import '../../widgets/style/divider.dart';
 import '../home/home_screen.dart';
 
 class StoreDetailScreen extends StatefulWidget {
-  const StoreDetailScreen({super.key});
+  final String storeSrno;
+  const StoreDetailScreen({super.key, required this.storeSrno});
 
   @override
   State<StoreDetailScreen> createState() => _StoreDetailScreenState();
 }
 
 class _StoreDetailScreenState extends State<StoreDetailScreen> {
+  StoreModel? storeModel;
+
+  @override
+  void initState() {
+    _getStoreDetail();
+    super.initState();
+  }
+
+  void _getStoreDetail() {
+    Provider.of<StoreNotifier>(context, listen: false).storeDetail(int.parse(widget.storeSrno)).then((value){
+      setState(() {
+        storeModel = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
         title: Text(
-          '가게명',
+          storeModel?.storeName ?? "",
           style: Theme.of(context).textTheme.titleLarge,
         ),
+        actions: [Padding(
+          padding:  EdgeInsets.only(right: sized_18),
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
+            icon: Icon(Icons.close),
+            color: BasicColor.primary2,
+            iconSize: sized_30,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        )],
       ),
-      body: Container(
+      body: storeModel != null ? Container(
         color: Colors.white,
         child: Column(
           children: [
-            heightSizeBox(sized_18),
+            // heightSizeBox(sized_18),
             _storeInfo(context),
             heightSizeBox(sized_30),
             customDivider(BasicColor.linegrey2, sized_8, sized_8),
@@ -56,7 +91,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                     ],
                   ),
                 ),
-                heightSizeBox(sized_30),
+                heightSizeBox(sized_10),
               ],
             ),
             Expanded(
@@ -73,48 +108,49 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             )
           ],
         ),
-      ),
+      ) : CustomCircularProgress(),
     );
   }
 
   Padding _storeInfo(BuildContext context) {
-    Widget starIcons = buildStarRating(3, sized_16);
+    Widget starIcons = buildStarRating(storeModel?.score ?? 0, sized_16);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: sized_18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                '가게명',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        icon: Icon(Icons.close),
-                        color: BasicColor.primary2,
-                        iconSize: sized_30,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      )))
-            ],
-          ),
-          heightSizeBox(sized_24),
+          // Row(
+          //   children: [
+          //     Text(
+          //       storeModel?.storeName ?? "",
+          //       style: Theme.of(context).textTheme.titleLarge,
+          //     ),
+          //     Expanded(
+          //         child: Align(
+          //             alignment: Alignment.topRight,
+          //             child: IconButton(
+          //               padding: EdgeInsets.zero,
+          //               constraints: BoxConstraints(),
+          //               icon: Icon(Icons.close),
+          //               color: BasicColor.primary2,
+          //               iconSize: sized_30,
+          //               onPressed: () {
+          //                 Navigator.pop(context);
+          //               },
+          //             )))
+          //   ],
+          // ),
+          // heightSizeBox(sized_24),
           RichText(
             textAlign: TextAlign.start,
             text: TextSpan(
-              text: '영업시간 ',
+              text: storeModel?.businessHours != null ? Utility().getOpenClose(storeModel!.businessHours!.split("~")[0], storeModel!.businessHours!.split("~")[1]): "",
               style: Theme.of(context).textTheme.displayMedium,
               children: <TextSpan>[
+                TextSpan(text: " "),
                 TextSpan(
-                    text: '11:00~12:00', style: Theme.of(context).textTheme.bodyMedium),
+                    text: storeModel?.businessHours ?? "", style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
           ),
@@ -127,7 +163,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             ],
           ),
           heightSizeBox(sized_10),
-          Text('주소', style: Theme.of(context).textTheme.bodyMedium),
+          Text(storeModel?.storeAddress ?? "", style: Theme.of(context).textTheme.bodyMedium),
           heightSizeBox(sized_10),
           Text('설명', style: Theme.of(context).textTheme.bodyMedium),
         ],

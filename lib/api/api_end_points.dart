@@ -17,6 +17,7 @@ class ApiEndPoints {
   static const store= "store";
   static const store_map= "store/map";
   static const store_main= "store/main";
+  static const store_search= "store/search";
 
   static const review= "review";
 

@@ -20,6 +20,7 @@ class StoreApiRepo {
     String storeName,
     String storePhone,
     String storeDesc,
+    String prpReason,
     String x,
       String y,
   ) async {
@@ -40,6 +41,7 @@ class StoreApiRepo {
       PARAM_STORENAME: storeName, //place_name
       PARAM_STOREPHONE: storePhone, //phone
       PARAM_STOREDESC: storeDesc, //가게설명
+      PARAM_PRPREASON: prpReason, //제안이유
       PARAM_X: x,
       PARAM_Y: y,
     };
@@ -101,6 +103,36 @@ class StoreApiRepo {
 
     try {
       final response = await apiUtils.get(url: url);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
+    }
+  }
+
+  /*
+  * 가게상세조회
+  * */
+  Future<BaseModel?> storeDetail(int storeSrno,{BuildContext? context}) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.store_search;
+
+    Map<String, dynamic>? queryParameters = { PARAM_STORESRNO: storeSrno};
+
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
 
       if (response != null) {
 

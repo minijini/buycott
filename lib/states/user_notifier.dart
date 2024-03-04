@@ -1,4 +1,6 @@
 
+import 'package:banner_carousel/banner_carousel.dart';
+import 'package:buycott/data/file_model.dart';
 import 'package:buycott/data/result_model.dart';
 import 'package:buycott/data/user_model.dart';
 import 'package:buycott/firebase/firebaseservice.dart';
@@ -24,6 +26,7 @@ class UserNotifier extends ChangeNotifier{
     // MemberInfo? _memberInfo;
   String? _token ;
   String? _profileImg;
+  List<BannerModel> _bannerList = [];
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
@@ -31,6 +34,7 @@ class UserNotifier extends ChangeNotifier{
 
     UserNotifier(){
       initUser();
+      getBanner();
 
     }
 
@@ -318,6 +322,33 @@ class UserNotifier extends ChangeNotifier{
       }
     }
 
+  Future getBanner() async{
+    final result = await UserApiRepo().getBanner();
+
+    if (result != null) {
+      if (result.isSuccess()) {
+        var dataResult = ResultModel.fromJson(result.data);
+
+        List<FileModel> _result = dataResult.body.map<FileModel>((json) {
+          return FileModel.fromJson(json);
+        }).toList();
+
+
+       _bannerList = _result.asMap().entries.map((entry) {
+          int index = entry.key;
+          FileModel file = entry.value;
+
+          return BannerModel(imagePath: file.signedUrl ?? "", id: index.toString(),boxFit: BoxFit.fill);
+        }).toList();
+
+
+        notifyListeners();
+
+      }
+    }
+
+  }
+
 
 
 
@@ -336,6 +367,7 @@ class UserNotifier extends ChangeNotifier{
 
     String? get token => _token;
     String? get profileImg => _profileImg;
+    List<BannerModel> get bannerList => _bannerList;
     AuthStatus get authStatus => _authStatus;
     LoginPlatform get  loginPlatform=> _loginPlatform;
     // MemberInfo? get memberInfo => _memberInfo;

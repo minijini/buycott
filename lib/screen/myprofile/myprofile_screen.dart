@@ -44,6 +44,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         ),
       ),
       body: Container(
+        color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -138,32 +139,57 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 )
               ],
             ),
+            // Expanded(
+            //     child: Align(
+            //   alignment: Alignment.centerRight,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       signOut(widget.userNotifier.loginPlatform);
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       shadowColor: Colors.transparent,
+            //         backgroundColor: BasicColor.lightgrey,
+            //         shape: RoundedRectangleBorder(
+            //             //모서리를 둥글게
+            //             borderRadius: BorderRadius.circular(20)),
+            //       ),
+            //       child: SizedBox(
+            //         width: sized_30,
+            //         height: sized_17,
+            //         child: Center(
+            //             child: AutoSizeText('수정',
+            //                 style: Theme.of(context)
+            //                   .textTheme
+            //                   .displaySmall!
+            //                   )),
+            //     ),
+            //   ),
+            // )),
+
             Expanded(
-                child: Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  signOut(widget.userNotifier.loginPlatform);
-                },
-                style: ElevatedButton.styleFrom(
-                  shadowColor: Colors.transparent,
-                    backgroundColor: BasicColor.lightgrey,
-                    shape: RoundedRectangleBorder(
-                        //모서리를 둥글게
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                  child: SizedBox(
-                    width: sized_30,
-                    height: sized_17,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () {
+                    signOut(widget.userNotifier.loginPlatform);
+                  },
+                  child: Container(
+                    width: sized_40,
+                    height: sized_26,
+                    decoration: grayDecor(sized_15),
                     child: Center(
-                        child: AutoSizeText('수정',
-                            style: Theme.of(context)
+                      child: AutoSizeText('수정',
+                          style: Theme.of(context)
                               .textTheme
                               .displaySmall!
-                              )),
+                      ),
+                    ),
+
+                  ),
                 ),
               ),
-            ))
+            )
+
           ],
         ),
       ],

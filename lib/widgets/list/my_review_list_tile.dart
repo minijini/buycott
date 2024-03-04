@@ -53,7 +53,7 @@ class MyReviewListTile extends StatelessWidget {
                     child: Container(
                       width: sized_30,
                       height: sized_20,
-                      decoration: grayDecor(),
+                      decoration: grayDecor(sized_10),
                       child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_8))),
                     ),
                   ))

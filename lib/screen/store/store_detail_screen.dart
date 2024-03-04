@@ -108,7 +108,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             )
           ],
         ),
-      ) : CustomCircularProgress(),
+      ) : Container(color:Colors.white,child: CustomCircularProgress()),
     );
   }
 
@@ -165,7 +165,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           heightSizeBox(sized_10),
           Text(storeModel?.storeAddress ?? "", style: Theme.of(context).textTheme.bodyMedium),
           heightSizeBox(sized_10),
-          Text('설명', style: Theme.of(context).textTheme.bodyMedium),
+          Text(storeModel?.storeDesc ?? "", style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

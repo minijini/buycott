@@ -230,7 +230,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
           heightSizeBox(sized_10),
           Text(widget.storeModel?.storeAddress ?? "", style: Theme.of(context).textTheme.bodyMedium),
           heightSizeBox(sized_10),
-          Text('설명', style: Theme.of(context).textTheme.bodyMedium),
+          Text(widget.storeModel?.storeDesc ?? "", style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

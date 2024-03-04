@@ -16,6 +16,7 @@ class StoreModel {
     String? storeTypeNm,
     int? score,
     int? code,
+    String? storeDesc,
     String? businessHours,
   }) {
     _storeSrno = storeSrno;
@@ -27,6 +28,7 @@ class StoreModel {
     _storeTypeNm = storeTypeNm;
     _score = score;
     _code = code;
+    _storeDesc = storeDesc;
     _businessHours = businessHours;
   }
 
@@ -41,6 +43,7 @@ class StoreModel {
     _storeTypeNm = json['storeTypeNm'];
     _score = json['score'];
     _code = json['code'];
+    _storeDesc = json['storeDesc'];
     _businessHours = json['businessHours'];
   }
 
@@ -53,6 +56,7 @@ class StoreModel {
   String? _storeTypeNm;
   int? _score;
   int? _code;
+  String? _storeDesc;
   String? _businessHours;
 
   int? get storeSrno => _storeSrno;
@@ -69,6 +73,7 @@ class StoreModel {
   int? get distance => _distance;
 
   String? get storeTypeNm => _storeTypeNm;
+  String? get storeDesc => _storeDesc;
 
   int? get score => _score;
 
@@ -88,6 +93,7 @@ class StoreModel {
     map['score'] = _score;
     map['code'] = _code;
     map['businessHours'] = _businessHours;
+    map['storeDesc'] = _storeDesc;
     return map;
   }
 }

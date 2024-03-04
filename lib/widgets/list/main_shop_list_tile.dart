@@ -17,7 +17,9 @@ class MainShopListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        context.goNamed(storeDetailRouteName);
+        context.goNamed(storeDetailRouteName,pathParameters: {
+          'storeSrno' : storeModel.storeSrno.toString()
+        });
       },
       child: Container(
         padding: EdgeInsets.only(right: sized_6),

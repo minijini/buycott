@@ -204,7 +204,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
               top: MediaQuery.of(context).size.height*0.45,
                 bottom:MediaQuery.of(context).size.height*0.15),
           ),
-        ) : CustomCircularProgress(),
+        ) : Container(color:Colors.white,child: CustomCircularProgress()),
             Column(
               children: [
                 Padding(

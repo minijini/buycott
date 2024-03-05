@@ -1,30 +1,36 @@
+import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/widgets/circle_image.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/review_model.dart';
 import '../square_image.dart';
 import '../start_widget.dart';
 
 class ReviewListTile extends StatelessWidget {
-  const ReviewListTile({super.key});
+  final Review review;
+  const ReviewListTile({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: sized_18),
+            padding: EdgeInsets.symmetric(horizontal: padding_side),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 heightSizeBox(sized_20),
                 _title(context),
                 heightSizeBox(sized_10),
-                _reviewImg(),
+                Visibility(
+                    visible: review.signedUrls != null,
+                    child: _reviewImg()) ,
                 heightSizeBox(sized_10),
-                Text('설명',style: Theme.of(context).textTheme.bodySmall),
+                Text(review.reviewContent ?? "" ,style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
           ),
@@ -46,11 +52,11 @@ class ReviewListTile extends StatelessWidget {
                       widthSizeBox(sized_5),
                       Text('·',style: Theme.of(context).textTheme.displayMedium,),
                       widthSizeBox(sized_5),
-                      buildStarRating(5,sized_12),
+                      buildStarRating(review.score??0,sized_12),
                     ],
                   ),
                   Visibility(
-                    visible: false,
+                    visible: userSrno == review.userSrno,
                     child: Expanded(child: Align(
                       alignment: Alignment.centerRight,
                       child: Container(
@@ -67,18 +73,10 @@ class ReviewListTile extends StatelessWidget {
 
   Row _reviewImg() {
     return  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // for (String imageUrl in imageUrls)
-                  //   SquareImage(
-                  //     img: imageUrl,
-                  //     width: 78.0,
-                  //     height: 52.0,
-                  //   ),
-                  SquareImage(img: 'https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg',width:sized_78,height: sized_52,),
-                  SquareImage(img: 'https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg',width:sized_78,height: sized_52,),
-                  SquareImage(img: 'https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg',width:sized_78,height: sized_52,),
-                  SquareImage(img: 'https://cdn.mos.cms.futurecdn.net/Nxz3xSGwyGMaziCwiAC5WW-1024-80.jpg',width:sized_78,height: sized_52,),
-              ],);
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children:List.generate(
+                  review.signedUrls!.length,
+                      (index) =>  SquareImage(img: review.signedUrls![index],width:sized_78,height: sized_52,)
+                ),);
   }
 }

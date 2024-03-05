@@ -1,4 +1,4 @@
-const double padding_side =11.7;
+const double padding_side =18.0;
 
 const double sized_1 =1;
 const double sized_2 =2;

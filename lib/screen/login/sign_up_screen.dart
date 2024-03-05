@@ -18,6 +18,7 @@ import '../../constants/padding_size.dart';
 import '../../states/user_notifier.dart';
 import '../../utils/color/basic_color.dart';
 import '../../utils/utility.dart';
+import '../../utils/validator.dart';
 import '../../widgets/dialog/custom_dialog.dart';
 import '../../widgets/list/shop_list_tile.dart';
 import '../../widgets/style/input_decor.dart';
@@ -75,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
         body: Container(
-          padding: EdgeInsets.symmetric(horizontal: sized_18),
+          padding: EdgeInsets.symmetric(horizontal: padding_side),
           color: Colors.white,
           child:  Form(
             key: _formKey,
@@ -89,11 +90,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   keyboardType: TextInputType.text,
                   cursorColor: BasicColor.primary,
                   validator: (text) {
-                    if (text!.isNotEmpty) {
-                      return null;
-                    } else {
-                      return '이름을 입력해주세요';
-                    }
+
+                    return Validator().validateNull(text?.trim(), '이름을 입력해주세요');
                   },
                   decoration:  textInputDecor_grey(
                       hint: "이름을 입력 하세요",

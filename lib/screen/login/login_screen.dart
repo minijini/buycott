@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: Text('로그인',style: Theme.of(context).textTheme.titleLarge,),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: sized_18),
+        padding: EdgeInsets.symmetric(horizontal: padding_side),
         color: Colors.white,
         child: Column(
           children: [

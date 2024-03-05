@@ -247,7 +247,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
   Widget _category(){
     return Container(
       height: sized_30,
-      margin: EdgeInsets.symmetric(horizontal: sized_18),
+      margin: EdgeInsets.symmetric(horizontal: padding_side),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: placeTypeMap.entries

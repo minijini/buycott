@@ -185,7 +185,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
                   child: customDivider(BasicColor.linegrey, sized_4, sized_5))),
         ),
         widget.storeModel?.storeName != null ? Padding(
-          padding: const EdgeInsets.symmetric(horizontal: sized_18),
+          padding: const EdgeInsets.symmetric(horizontal: padding_side),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -215,7 +215,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
 
   Padding _sliverContent(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: sized_18),
+      padding: const EdgeInsets.symmetric(horizontal: padding_side),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

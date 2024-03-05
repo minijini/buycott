@@ -1,10 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:banner_carousel/banner_carousel.dart';
+import 'package:buycott/data/review_model.dart';
 import 'package:buycott/data/store_model.dart';
+import 'package:buycott/firebase/firebaseservice.dart';
 import 'package:buycott/utils/color/basic_color.dart';
+import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/utils/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
 import '../../constants/screen_size.dart';
 import '../../states/store_notifier.dart';
@@ -24,12 +30,34 @@ class StoreDetailScreen extends StatefulWidget {
 }
 
 class _StoreDetailScreenState extends State<StoreDetailScreen> {
+  final TAG = "StoreDetailScreen";
+
   StoreModel? storeModel;
+
+  int pageNum = 1;
+  int limit = 10;
+  bool lastList = false;
+
+  final ScrollController _scrollController = ScrollController();
+
 
   @override
   void initState() {
     _getStoreDetail();
+
+    _scrollController.addListener(() {
+      scrollListener();
+    });
+
+    getReviews();
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   void _getStoreDetail() {
@@ -43,6 +71,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar:AppBar(
         title: Text(
           storeModel?.storeName ?? "",
@@ -62,53 +91,95 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           ),
         )],
       ),
-      body: storeModel != null ? Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            // heightSizeBox(sized_18),
-            _storeInfo(context),
-            heightSizeBox(sized_30),
-            customDivider(BasicColor.linegrey2, sized_8, sized_8),
-            heightSizeBox(sized_30),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: sized_18),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        '리뷰',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge,
+
+      body: storeModel != null ?
+      Consumer<StoreNotifier>(
+        builder: (context, notifier, widget) {
+          return CustomScrollView(
+            controller: _scrollController,
+            slivers: <Widget>[
+
+              SliverMainAxisGroup(
+                slivers: [
+                  SliverAppBar(
+                    expandedHeight: size!.height * 0.3,
+                    pinned: true,
+                    leading: null,
+                    automaticallyImplyLeading: false,
+                    flexibleSpace: FlexibleSpaceBar(
+                      // title: Text(storeModel?.storeName ?? "",style: Theme.of(context).textTheme.titleLarge,),
+                      background: Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            heightSizeBox(sized_10),
+                            _storeInfo(context),
+                            heightSizeBox(sized_30),
+                            customDivider(BasicColor.linegrey2, sized_8, sized_8),
+                            heightSizeBox(sized_30),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: padding_side),
+                                  child: Row(
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '리뷰',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                          ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            size: sized_20,
+                                          )
+                                        ],
+                                      ),
+
+                                      Expanded(child:
+                                      Align(
+                                          alignment: Alignment.centerRight,
+                                          child: GestureDetector(
+                                              onTap: (){
+                                                context.goNamed(reviewWriteRouteName,pathParameters: {
+                                                  'storeSrno' : storeModel!.storeSrno.toString()
+                                                });
+                                              },
+                                              child: Text('리뷰쓰기')))
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                heightSizeBox(sized_10),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      Icon(
-                        Icons.chevron_right,
-                        size: sized_20,
-                      )
-                    ],
+                    ),
                   ),
+                ],
+              ),
+
+               SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        Review review = notifier.reviewList[index];
+
+                    return ReviewListTile(review: review);
+                  },
+                  childCount: notifier.reviewList.length,
                 ),
-                heightSizeBox(sized_10),
-              ],
-            ),
-            Expanded(
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                        onTap: () {}, child: ReviewListTile());
-                  },
-                  separatorBuilder: (context, index) {
-                    return divider();
-                  },
-                  itemCount: 10),
-            )
-          ],
-        ),
-      ) : Container(color:Colors.white,child: CustomCircularProgress()),
+              )
+            ],
+          );
+        }
+      )
+
+          : Container(color:Colors.white,child: CustomCircularProgress()),
     );
   }
 
@@ -116,7 +187,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     Widget starIcons = buildStarRating(storeModel?.score ?? 0, sized_16);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: sized_18),
+      padding: EdgeInsets.symmetric(horizontal: padding_side),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -165,9 +236,43 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           heightSizeBox(sized_10),
           Text(storeModel?.storeAddress ?? "", style: Theme.of(context).textTheme.bodyMedium),
           heightSizeBox(sized_10),
-          Text(storeModel?.storeDesc ?? "", style: Theme.of(context).textTheme.bodyMedium),
+          Container(
+            width: size!.width -36,
+              height:45,
+              child: AutoSizeText(storeModel?.storeDesc ?? "",minFontSize: 8, style: Theme.of(context).textTheme.bodyMedium,)),
         ],
       ),
     );
+  }
+
+  void getReviews() async {
+
+    List<Review> _reviewResult = await  Provider.of<StoreNotifier>(context,listen: false).getReviews(widget.storeSrno,pageNum,limit);
+
+    setState(() {
+
+      if(_reviewResult.isNotEmpty) {
+
+        setState(() {
+          pageNum ++; //페이지증가
+        });
+      }else{
+        setState(() {
+          lastList = true;
+        });
+      }
+
+
+    });
+
+  }
+
+  scrollListener() async {
+    if (_scrollController.offset  == _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
+      Log.logs(TAG, "scroll bottom ===");
+      if(!lastList) {
+        getReviews();
+      }
+    }
   }
 }

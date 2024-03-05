@@ -80,7 +80,7 @@ class _ShopListScreenState extends State<ShopListScreen> {
       ),
     ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: sized_18),
+        padding: EdgeInsets.symmetric(horizontal: padding_side),
         child: Column(
           children: [
             _placeSearchBar(),

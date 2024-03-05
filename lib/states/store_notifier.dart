@@ -1,14 +1,18 @@
 import 'package:buycott/api/repository/store_api_repository.dart';
 import 'package:buycott/constants/response_code.dart';
 import 'package:buycott/data/result_model.dart';
+import 'package:buycott/data/review_model.dart';
 import 'package:buycott/data/store_model.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import '../widgets/dialog/custom_dialog.dart';
 
 class StoreNotifier extends ChangeNotifier {
   final String TAG = "StoreNotifier";
   List<StoreModel> _storeList = [];
   List<StoreModel> _mainStoreList = [];
+  List<Review> _reviewListData = [];
+  List<Review> _reviewList = [];
   StoreModel? _storeModel;
 
 
@@ -109,6 +113,64 @@ class StoreNotifier extends ChangeNotifier {
     return null;
   }
 
+  Future<bool> registerReview( BuildContext context, String userSrno,
+      String storeSrno,
+      String reviewContent,
+      int score,{List<XFile>? fileList}) async{
+
+    final result = await StoreApiRepo().registerReview(userSrno, storeSrno, reviewContent, score,fileList: fileList,context: context);
+
+    if (result != null) {
+
+      if (result.isSuccess(context: context)) {
+        var dataResult = ResultModel.fromJson(result.data);
+
+        _reviewList.clear();
+        getReviews(storeSrno,1,10);
+
+        notifyListeners();
+
+        return true;
+
+      }
+    }
+
+    return false;
+  }
+
+  Future<List<Review>> getReviews(
+      String storeSrno,
+      int pageNum, int limit) async{
+
+    final result = await StoreApiRepo().getReviews( storeSrno, pageNum,  limit);
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+        var dataResult = ResultModel.fromJson(result.data);
+        var _reviewModel = ReviewModel.fromJson(dataResult.body);
+
+        if(_reviewModel.review != null){
+          _reviewListData.clear();
+          _reviewListData.addAll(_reviewModel.review!);
+
+
+          for (var review in _reviewListData) {
+            _reviewList.add(review);
+          }
+
+        }
+
+        notifyListeners();
+
+        return _reviewListData;
+
+      }
+    }
+    return [];
+  }
+
+
   Future<void> _resultDialog(BuildContext context, ResultModel resultModel) =>
       CustomDialog(funcAction: dialogPop)
           .normalDialog(context, resultModel.msg!, '확인');
@@ -119,5 +181,6 @@ class StoreNotifier extends ChangeNotifier {
 
   List<StoreModel> get storeList => _storeList;
   List<StoreModel> get mainStoreList => _mainStoreList;
+  List<Review> get reviewList => _reviewList;
   StoreModel? get storeModel => _storeModel;
 }

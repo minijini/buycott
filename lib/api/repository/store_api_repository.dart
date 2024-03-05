@@ -1,5 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../data/base_model.dart';
 import '../api_end_points.dart';
@@ -154,7 +157,7 @@ class StoreApiRepo {
       String userSrno,
       String storeSrno,
       String reviewContent,
-      int score,{BuildContext? context}
+      int score,{BuildContext? context,List<XFile>? fileList}
       ) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -164,15 +167,21 @@ class StoreApiRepo {
 
     String url = Api.baseUrl + ApiEndPoints.review;
 
-    Map<String, dynamic>? queryParameters = {
+    final multipartImageList = fileList != null ? fileList.map((image) =>
+        MultipartFile.fromFileSync(image.path, filename: image.name,
+            contentType: MediaType("image", "jpeg"))).toList() : [];
+
+
+    var formData = FormData.fromMap({
       PARAM_USERSRNO : userSrno,
       PARAM_STORESRNO : storeSrno,
       PARAM_REVIEWCONTENT : reviewContent,
       PARAM_SCORE : score,
-    };
+      PARAM_FILES : multipartImageList,
+    });
 
     try {
-      final response = await apiUtils.post(url: url, data: queryParameters);
+      final response = await apiUtils.post(url: url, data: formData);
 
       if (response != null) {
         return BaseModel.fromJson(response.data);
@@ -188,7 +197,7 @@ class StoreApiRepo {
   /*
   * 리뷰조회
   * */
-  Future<BaseModel?> getReviews(String storeSrno,int pageNum, int limit,{BuildContext? context}) async {
+  Future<BaseModel?> getReviews(String storeSrno,int pageNum, int limit) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -214,7 +223,7 @@ class StoreApiRepo {
       return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
     } catch (e) {
       return BaseModel.withError(
-          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
     }
   }
 

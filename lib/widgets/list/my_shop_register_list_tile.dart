@@ -11,7 +11,7 @@ class MyShopRegisterListTile extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: sized_18),
+            padding: EdgeInsets.symmetric(horizontal: padding_side),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

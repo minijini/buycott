@@ -36,7 +36,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: sized_18),
+          padding: const EdgeInsets.symmetric(horizontal: padding_side),
           child: Text(
             "MY",
             style: Theme.of(context).textTheme.titleLarge,
@@ -53,7 +53,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             widget.userNotifier.authStatus == AuthStatus.signin ?  Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: sized_18),
+                  padding: EdgeInsets.symmetric(horizontal: padding_side),
                   child: _myProfile(context),
                 ),
                 heightSizeBox(sized_30),
@@ -99,7 +99,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           dense: true,
           visualDensity: VisualDensity(horizontal: 0, vertical: -2),
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: sized_18,
+            horizontal: padding_side,
           ),
           title: Text(title,
               style: Theme.of(context)

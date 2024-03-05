@@ -2,6 +2,7 @@ import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/map/map_screen.dart';
 import 'package:buycott/screen/myprofile/my_store_register_screen.dart';
 import 'package:buycott/screen/myprofile/my_review_screen.dart';
+import 'package:buycott/screen/store/review_write_screen.dart';
 import 'package:buycott/screen/store/store_detail_screen.dart';
 import 'package:buycott/screen/term/terms_screen.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,16 @@ class MyRouter {
                 return customTransitionPage(
                     state, StoreDetailScreen(storeSrno: state.pathParameters['storeSrno']!));
               },
+              routes: [
+                GoRoute(
+                    path: reviewWriteRouteName,
+                    name: reviewWriteRouteName,
+                    pageBuilder: (context, state) {
+                      return customTransitionPage(
+                          state, ReviewWriteScreen(storeSrno: state.pathParameters['storeSrno']!));
+                    },
+                ),
+              ]
             ),
 
             GoRoute(

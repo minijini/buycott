@@ -52,16 +52,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('로그인',style: Theme.of(context).textTheme.titleLarge,),
+          centerTitle: false,
+          titleSpacing: -10,
+          leading:  IconButton(
+              onPressed: () {
+                Navigator.pop(context); //뒤로가기
+              },
+              color: BasicColor.back_black,
+              icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: padding_side),
-        color: Colors.white,
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _snsLoginButton("kakao",signInWithKakao,BasicColor.kakao_yellow),
-            heightSizeBox(sized_20),
+            widthSizeBox(sized_30),
             _snsLoginButton("naver",signInWithNaver,BasicColor.naver_green),
           ],
         ),
@@ -73,18 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
             onTap: onTap,
             child: Container(
-              width: size!.width,
+              width: sized_50,
               height: sized_50,
-              decoration: loginDecor(color),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/login/icon_$path.png",width: 24,
-                    height: 24,fit: BoxFit.fill,),
-                  widthSizeBox(sized_10),
-                  Text(path == "kakao" ? '카카오 로그인' : '네이버 로그인'),
-                ],
-              ),
+              child:  Image.asset("assets/login/icon_${path}_login_simple.png",width: 50,
+                height: 50,fit: BoxFit.fill,),
             ),
           );
   }

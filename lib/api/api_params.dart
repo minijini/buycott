@@ -34,6 +34,7 @@ String PARAM_X = "x";
 String PARAM_Y = "y";
 
 String PARAM_STORESRNO = "storeSrno";
+String PARAM_REVIEWSRNO = "reviewSrno";
 String PARAM_REVIEWCONTENT = "reviewContent";
 String PARAM_SCORE = "score";
 String PARAM_PAGENUM = "pageNum";

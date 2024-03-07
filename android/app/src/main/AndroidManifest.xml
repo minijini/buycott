@@ -84,7 +84,15 @@
 
        <!--구글지도 설정-->
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyAwoFJ4mZzQlxA3nFye_9O1AS5y4fyo0Ig"/>
+           android:value="AIzaSyCWE7MBEKIP4zNgXMXMw2h8eHgRtS_xOPs"/>
+
+       <!--firbase 설정-->
+<!--       <meta-data-->
+<!--           android:name="firebase_messaging_auto_init_enabled"-->
+<!--           android:value="false" />-->
+<!--       <meta-data-->
+<!--           android:name="firebase_analytics_collection_enabled"-->
+<!--           android:value="false" />-->
 
     </application>
 </manifest>

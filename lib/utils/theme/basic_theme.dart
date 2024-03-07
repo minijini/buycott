@@ -23,7 +23,6 @@ class BasicTheme {
         iconTheme: IconThemeData(
           color: BasicColor.primary,
         ),
-
         backgroundColor: Colors.white,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(

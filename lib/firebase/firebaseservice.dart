@@ -9,6 +9,7 @@ import '../utils/log_util.dart';
 import 'fcmprovider.dart';
 import 'firebase_options.dart';
 
+
 const String TAG = "FirebaseService";
 
 class FirebaseService {
@@ -18,8 +19,9 @@ class FirebaseService {
 
    static Future<void> initializeFirebase() async {
      //TODO:options 제거함
-    // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    await Firebase.initializeApp();
+     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+    // await Firebase.initializeApp();
     FirebaseService._firebaseMessaging = FirebaseMessaging.instance;
     await FirebaseService.initializeLocalNotifications();
     await FirebaseService.onBackgroundMsg();
@@ -33,14 +35,14 @@ class FirebaseService {
     // iOS 는 Foreground 상태일 때 푸시 알람을 누르면 이쪽으로 옴
     FirebaseMessaging.onMessageOpenedApp.listen(FCMProvider.handleMessage);
 
-
     // firebase token 발급
-    String? firebaseToken = await FirebaseMessaging.instance.getToken();
+    String? firebaseToken = await FirebaseMessaging.instance.getToken(vapidKey: "BKjqdAntgrpXevviX3mMDfbWCc7g0YJ7atkk49fCedgY9Ufiz4j748uQecEnZqXGRl-NonB6iPA3FfjGO5BrA9w");
     Log.logs(TAG,"firebaseToken : ${firebaseToken}");
     pushtoken = firebaseToken;
 
-  }
 
+
+  }
 
   Future<String?> getDeviceToken() async => await FirebaseMessaging.instance.getToken();
 

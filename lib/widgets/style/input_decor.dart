@@ -21,15 +21,15 @@ InputDecoration drop_down_Decor(String icon,Color color, Color errorColor) {
       fillColor: Colors.grey[100]);
 }
 
-InputDecoration textInputDecor_grey({String? hint,String? labelText}){
+InputDecoration textInputDecor_grey(double sideSize,{String? hint,String? labelText}){
   return InputDecoration(
     hintText: hint,
     labelText: labelText,
     contentPadding: EdgeInsets.only(left: sized_10,top: sized_12,bottom: sized_12),
-    enabledBorder: outlineBorder(BasicColor.linegrey,sized_1,sized_5),
-    focusedBorder: outlineBorder(BasicColor.linegrey,sized_1,sized_5),
-    errorBorder: outlineBorder(BasicColor.linegrey,sized_1,sized_5),
-    focusedErrorBorder: outlineBorder(BasicColor.linegrey,sized_1,sized_5),
+    enabledBorder: outlineBorder(BasicColor.linegrey,sized_1,sideSize),
+    focusedBorder: outlineBorder(BasicColor.linegrey,sized_1,sideSize),
+    errorBorder: outlineBorder(BasicColor.linegrey,sized_1,sideSize),
+    focusedErrorBorder: outlineBorder(BasicColor.linegrey,sized_1,sideSize),
     filled: false,
   );
 }

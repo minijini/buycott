@@ -57,7 +57,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   child: _myProfile(context),
                 ),
                 heightSizeBox(sized_30),
-                _menu(context, "내 가게 목록", true, () {
+                _menu(context, "내가 제안한 가게", true, () {
                   context.goNamed(
                     myStoreRegisterRouteName,
                   );
@@ -198,6 +198,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
 
   void signOut(LoginPlatform _loginPlatform) async {
+
     Provider.of<UserNotifier>(context,listen: false).logout();
 
     switch (_loginPlatform) {

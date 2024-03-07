@@ -15,6 +15,9 @@ class BasicColor{
 
   static const Color darkgrey2 = Color(0xff808080);
   static const Color darkgrey = Color(0xff626262);
+  static const Color back_black = Color(0xff191919);
+
+  static const Color yellow_star = Color(0xffFFE483);
 
   static const Color red = Color(0xffFF0000);
   static const Color kakao_yellow = Color(0xffFEE500);

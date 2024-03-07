@@ -3,14 +3,17 @@ import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/widgets/circle_image.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/review_model.dart';
+import '../../states/store_notifier.dart';
 import '../square_image.dart';
-import '../start_widget.dart';
+import '../star_widget.dart';
 
 class ReviewListTile extends StatelessWidget {
   final Review review;
-  const ReviewListTile({super.key, required this.review});
+  final String storeSrno;
+  const ReviewListTile({super.key, required this.review, required this.storeSrno});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class ReviewListTile extends StatelessWidget {
                     children: [
                       CircleImage(img: '',size: sized_24,),
                       widthSizeBox(sized_5),
-                      Text('닉네임',style: Theme.of(context).textTheme.displayMedium,),
+                      Text("",style: Theme.of(context).textTheme.displayMedium,),
                       widthSizeBox(sized_5),
                       Text('·',style: Theme.of(context).textTheme.displayMedium,),
                       widthSizeBox(sized_5),
@@ -59,11 +62,16 @@ class ReviewListTile extends StatelessWidget {
                     visible: userSrno == review.userSrno,
                     child: Expanded(child: Align(
                       alignment: Alignment.centerRight,
-                      child: Container(
-                        width: sized_30,
-                        height: sized_20,
-                        decoration: grayDecor(sized_10),
-                        child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10))),
+                      child: GestureDetector(
+                        onTap: (){
+                          deleteReview(context,review.reviewSrno.toString());
+                        },
+                        child: Container(
+                          width: sized_30,
+                          height: sized_20,
+                          decoration: grayDecor(sized_10),
+                          child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10))),
+                        ),
                       ),
                     )),
                   )
@@ -78,5 +86,11 @@ class ReviewListTile extends StatelessWidget {
                   review.signedUrls!.length,
                       (index) =>  SquareImage(img: review.signedUrls![index],width:sized_78,height: sized_52,)
                 ),);
+  }
+
+
+
+  void deleteReview(BuildContext context,String reviewSrno){
+    Provider.of<StoreNotifier>(context, listen: false).deleteReview(context, storeSrno, userSrno.toString(), reviewSrno);
   }
 }

@@ -20,6 +20,7 @@ class ApiEndPoints {
   static const store_search= "store/search";
 
   static const review= "review";
+  static const reviewMy= "review/my";
 
   static const banner= "banner";
 

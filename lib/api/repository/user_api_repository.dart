@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:buycott/utils/log_util.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -136,7 +137,7 @@ class UserApiRepo {
   /*
   * 닉네임 체크
   * */
-  Future<BaseModel?> nicknameCheck(String nickName) async {
+  Future<BaseModel?> nicknameCheck(String nickName,{BuildContext? context}) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -158,14 +159,14 @@ class UserApiRepo {
       return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
     } catch (e) {
       return BaseModel.withError(
-          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
     }
   }
 
 /*
   * 프로필 이미지 업로드
   * */
-  Future<BaseModel?> userImg(int userSrno, XFile file,void Function(double) onProgress) async {
+  Future<BaseModel?> userImg(int userSrno, XFile file,void Function(double) onProgress,{BuildContext? context}) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -196,7 +197,7 @@ class UserApiRepo {
       return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
     } catch (e) {
       return BaseModel.withError(
-          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
     }
   }
 

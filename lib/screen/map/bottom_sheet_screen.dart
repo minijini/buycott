@@ -3,7 +3,7 @@ import 'package:buycott/data/store_model.dart';
 import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/widgets/list/my_shop_register_list_tile.dart';
-import 'package:buycott/widgets/start_widget.dart';
+import 'package:buycott/widgets/star_widget.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

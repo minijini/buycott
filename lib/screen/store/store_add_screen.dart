@@ -6,6 +6,7 @@ import 'package:buycott/utils/log_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/color/basic_color.dart';
 import '../../widgets/UnanimatedPageRoute.dart';
 import '../place/address_list_screen.dart';
 
@@ -42,6 +43,14 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
           '가게 제안',
           style: Theme.of(context).textTheme.titleLarge,
         ),
+          centerTitle: false,
+          titleSpacing: -10,
+          leading:  IconButton(
+              onPressed: () {
+                Navigator.pop(context); //뒤로가기
+              },
+              color: BasicColor.back_black,
+              icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
       ),
       body: Column(
         children: [

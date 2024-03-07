@@ -157,7 +157,7 @@ class StoreApiRepo {
       String userSrno,
       String storeSrno,
       String reviewContent,
-      int score,{BuildContext? context,List<XFile>? fileList}
+      int score,void Function(double) onProgress,{BuildContext? context,List<XFile>? fileList}
       ) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -165,7 +165,8 @@ class StoreApiRepo {
           statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
     }
 
-    String url = Api.baseUrl + ApiEndPoints.review;
+    // String url = Api.baseUrl + ApiEndPoints.review;
+    String url = "http://43.200.3.100:3000/review" ;
 
     final multipartImageList = fileList != null ? fileList.map((image) =>
         MultipartFile.fromFileSync(image.path, filename: image.name,
@@ -181,7 +182,10 @@ class StoreApiRepo {
     });
 
     try {
-      final response = await apiUtils.post(url: url, data: formData);
+      final response = await apiUtils.postWithProgress(url: url, data: formData,onSendProgress: (int sent, int total) {
+        final progress = sent / total;
+        onProgress(progress);
+      });
 
       if (response != null) {
         return BaseModel.fromJson(response.data);
@@ -227,5 +231,69 @@ class StoreApiRepo {
     }
   }
 
+  /*
+  * 리뷰삭제
+  * */
+  Future<BaseModel?> deleteReview(String userSrno,String reviewSrno,{BuildContext? context}) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.review;
+
+    Map<String, dynamic>? queryParameters = {
+      PARAM_USERSRNO : userSrno,
+      PARAM_REVIEWSRNO : reviewSrno,
+    };
+
+    try {
+      final response = await apiUtils.put(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
+    }
+  }
+
+  /*
+  * 내가 쓴 리뷰조회
+  * */
+  Future<BaseModel?> myReviews(String userSrno,int pageNum, int limit) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.reviewMy;
+
+    Map<String, dynamic>? queryParameters = {
+      PARAM_USERSRNO : userSrno,
+      PARAM_PAGENUM : pageNum,
+      PARAM_LIMIT : limit,
+    };
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
 
 }

@@ -240,7 +240,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
           hintText: "장소를 입력하세요",
           suffixIcon: Padding(
               padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
-              child: Icon(Icons.search,size: sized_30,)))
+              child: Image.asset("assets/icon/icon_search.png",scale:30,fit: BoxFit.fill,)))
     );
   }
 

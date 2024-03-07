@@ -6,6 +6,7 @@ import '../constants/basic_text.dart';
 import '../states/user_notifier.dart';
 import '../utils/code_dialog.dart';
 import '../utils/log_util.dart';
+import '../widgets/dialog/custom_dialog.dart';
 import 'custom_log_interceptor.dart';
 
 final title = "ApiUtils";
@@ -138,9 +139,11 @@ class ApiUtils {
 
       DioError dioError = error as DioError;
       Log.loga(title, 'dioError:: $dioError');
+
       if (dioError.response != null) {
         Log.loga(
             title, "dioError:: response >> " + dioError.response.toString());
+
       }
 
       if (dioError.response?.statusCode == 403) {
@@ -186,6 +189,14 @@ class ApiUtils {
       errorDescription = "Unexpected error occured";
     }
     Log.loga(title, "handleError:: errorDescription >> $errorDescription");
+
+    // if(context != null) {
+    //   CustomDialog(funcAction: (BuildContext context) async {
+    //     Navigator.pop(context);
+    //   })
+    //       .normalDialog(context, errorDescription.toString(), '확인');
+    // }
+
     return errorDescription;
   }
 

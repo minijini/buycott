@@ -4,10 +4,13 @@ import 'package:buycott/constants/screen_size.dart';
 import 'package:buycott/data/store_model.dart';
 import 'package:buycott/states/user_notifier.dart';
 import 'package:buycott/utils/color/basic_color.dart';
+import 'package:buycott/widgets/circle_progressbar.dart';
 import 'package:buycott/widgets/list/main_shop_list_tile.dart';
+import 'package:buycott/widgets/square_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../constants/constants.dart';
 import '../../data/file_model.dart';
@@ -26,7 +29,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TAG = "HomeScreen";
   final TextEditingController _searchTextController = TextEditingController();
-
+  final controller = PageController(viewportFraction: 1, keepPage: true);
 
   @override
   void initState() {
@@ -99,9 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Row _title(BuildContext context,String title) {
     return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(title,style: Theme.of(context).textTheme.displayLarge,),
-            Icon(Icons.chevron_right)
+            Image.asset("assets/icon/icon_arrow_right.png",width: 20,
+              height: 20,fit: BoxFit.fill,)
+
           ],
         );
   }
@@ -116,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ConstrainedBox(
         constraints:  BoxConstraints(
           minHeight: 50.0,
-          maxHeight:  130.0,
+          maxHeight:  100.0,
         ),
         child: ListView.builder(
             shrinkWrap: true,
@@ -182,27 +188,58 @@ class _HomeScreenState extends State<HomeScreen> {
           hintText: "검색어를 입력하세요",
           suffixIcon: Padding(
               padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
-              child: Icon(Icons.search,size: sized_30,))),
+              child: Image.asset("assets/icon/icon_search.png",scale:30,fit: BoxFit.fill,))),
     );
   }
 
   Widget _banner(){
     return Consumer<UserNotifier>(
       builder: (context, notifier,widget) {
-        return BannerCarousel(
-          banners: notifier.bannerList,
-          // customizedIndicators: IndicatorModel.animation(
-          //     width: 10, height: 5, spaceBetween: 2, widthAnimation: 15),
-          height: 140,
-          activeColor: BasicColor.primary,
-          disableColor: Colors.white,
-          animation: true,
-          borderRadius: 10,
-          width: size!.width,
-          onTap: (id) => print(id),
-          indicatorBottom: false,
-          margin: EdgeInsets.zero,
+        return SingleChildScrollView(
+          child: notifier.bannerList.isNotEmpty ? Stack(
+            children: [
+              SizedBox(
+                width: size!.width - 36,
+                height: 140,
+                child: PageView.builder(
+                  controller: controller,
+                  // itemCount: pages.length,
+                  itemBuilder: (_, index) {
+                    return ClipRRect(
+                        borderRadius: BorderRadius.circular(sized_10),
+                        child: SquareImage(img: notifier.bannerList[index].signedUrl,));
+                  },
+                ),
+              ),
+              Positioned(
+                left: size!.width * 0.4,
+                bottom: 10,
+                child: SmoothPageIndicator(
+                  controller: controller,
+                  count:  notifier.bannerList.length,
+                  effect: ExpandingDotsEffect(dotHeight: sized_8,dotWidth: sized_8,activeDotColor: BasicColor.primary,dotColor:Colors.white),
+                ),
+              ),
+            ],
+          ) : Container(
+              width: size!.width - 36,
+              height: 140,
+              child: CustomCircularProgress()),
         );
+        // return BannerCarousel(
+        //   banners: notifier.bannerList,
+        //   customizedIndicators: IndicatorModel.animation(
+        //       width: 10, height: 5, spaceBetween: 2, widthAnimation: 15),
+        //   height: 140,
+        //   activeColor: BasicColor.primary,
+        //   disableColor: Colors.white,
+        //   animation: true,
+        //   borderRadius: 10,
+        //   width: size!.width,
+        //   onTap: (id) => print(id),
+        //   indicatorBottom: false,
+        //   margin: EdgeInsets.zero,
+        // );
       }
     );
   }

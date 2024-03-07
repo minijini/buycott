@@ -2,7 +2,7 @@ import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/widgets/square_image.dart';
 import 'package:flutter/material.dart';
 
-import '../start_widget.dart';
+import '../star_widget.dart';
 
 class ShopListTile extends StatelessWidget {
   const ShopListTile({super.key});

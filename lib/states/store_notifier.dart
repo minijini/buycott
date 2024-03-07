@@ -14,6 +14,7 @@ class StoreNotifier extends ChangeNotifier {
   List<Review> _reviewListData = [];
   List<Review> _reviewList = [];
   StoreModel? _storeModel;
+   String _storeSrno = "";
 
 
   /*
@@ -116,17 +117,16 @@ class StoreNotifier extends ChangeNotifier {
   Future<bool> registerReview( BuildContext context, String userSrno,
       String storeSrno,
       String reviewContent,
-      int score,{List<XFile>? fileList}) async{
+      int score,void Function(double) onProgress,{List<XFile>? fileList}) async{
 
-    final result = await StoreApiRepo().registerReview(userSrno, storeSrno, reviewContent, score,fileList: fileList,context: context);
+    final result = await StoreApiRepo().registerReview(userSrno, storeSrno, reviewContent, score,onProgress,fileList: fileList,context: context);
 
     if (result != null) {
 
       if (result.isSuccess(context: context)) {
         var dataResult = ResultModel.fromJson(result.data);
 
-        _reviewList.clear();
-        getReviews(storeSrno,1,10);
+        _reviewListReset(storeSrno);
 
         notifyListeners();
 
@@ -138,9 +138,11 @@ class StoreNotifier extends ChangeNotifier {
     return false;
   }
 
+
   Future<List<Review>> getReviews(
       String storeSrno,
       int pageNum, int limit) async{
+
 
     final result = await StoreApiRepo().getReviews( storeSrno, pageNum,  limit);
 
@@ -169,6 +171,26 @@ class StoreNotifier extends ChangeNotifier {
     }
     return [];
   }
+
+  Future deleteReview(BuildContext context,String storeSrno,String userSrno,String reviewSrno) async{
+    final result = await StoreApiRepo().deleteReview( userSrno, reviewSrno,context:context);
+
+    if (result != null) {
+
+      if (result.isSuccess(context: context)) {
+        _reviewListReset(storeSrno);
+        notifyListeners();
+
+      }
+    }
+
+  }
+
+  void _reviewListReset(String storeSrno) {
+    _reviewList.clear();
+    getReviews(storeSrno,1,10);
+  }
+
 
 
   Future<void> _resultDialog(BuildContext context, ResultModel resultModel) =>

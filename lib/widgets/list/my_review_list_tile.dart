@@ -5,7 +5,7 @@ import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 
 import '../square_image.dart';
-import '../start_widget.dart';
+import '../star_widget.dart';
 
 class MyReviewListTile extends StatelessWidget {
   const MyReviewListTile({super.key});

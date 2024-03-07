@@ -93,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     return Validator().validateNull(text?.trim(), '이름을 입력해주세요');
                   },
-                  decoration:  textInputDecor_grey(
+                  decoration:  textInputDecor_grey(sized_5,
                       hint: "이름을 입력 하세요",
 
                       ),
@@ -122,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             return '닉네임을 입력해주세요';
                           }
                         },
-                        decoration:  textInputDecor_grey(
+                        decoration:  textInputDecor_grey(sized_5,
                           hint: "닉네임을 입력 하세요",
                         ),
                       ),

@@ -26,13 +26,13 @@ class SquareImage extends StatelessWidget {
       width: width,
       height: height,
       fit: BoxFit.cover,
-      placeholder: (context, url) =>  Transform.scale(
-        scale: 0.6,
-        child:  CircularProgressIndicator(
-          color: BasicColor.primary,
-        ),
-
-      ),
+      // placeholder: (context, url) =>  Transform.scale(
+      //   scale: 0.6,
+      //   child:  CircularProgressIndicator(
+      //     color: BasicColor.primary,
+      //   ),
+      //
+      // ),
       errorWidget: (context, url, error) => ExtendedImage.asset(
         'assets/icon/icon_error.png',
         fit: BoxFit.contain,

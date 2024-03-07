@@ -37,6 +37,7 @@ const double sized_52 =52;
 const double sized_55 =55;
 const double sized_60 =60;
 const double sized_65 =65;
+const double sized_70 =70;
 const double sized_72 =72;
 const double sized_75 =75;
 const double sized_78 =78;

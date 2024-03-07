@@ -26,7 +26,8 @@ class UserNotifier extends ChangeNotifier{
     // MemberInfo? _memberInfo;
   String? _token ;
   String? _profileImg;
-  List<BannerModel> _bannerList = [];
+  List<BannerModel> _bannerList2 = [];
+  List<FileModel> _bannerList = [];
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
@@ -68,6 +69,9 @@ class UserNotifier extends ChangeNotifier{
       Utility().removeSharedPreference(TOKEN_KEY);
       Utility().removeSharedPreference(USER_SRNO);
 
+      userSrno = null;
+      pushtoken = null;
+
       notifyListeners();
     }
 
@@ -104,6 +108,10 @@ class UserNotifier extends ChangeNotifier{
             Utility().setSharedPreference(TOKEN_KEY, _token!);
 
             _getUserProfile(dataResult.userSrno!);
+
+            userSrno = dataResult.userSrno!;
+
+            pushToken(dataResult.userSrno!, pushtoken??"");
 
             Utility().setSharedPreference(USER_SRNO, dataResult.userSrno!.toString());
 
@@ -314,7 +322,7 @@ class UserNotifier extends ChangeNotifier{
     //
 
     Future userImg(BuildContext context, int userSrno, XFile file,void Function(double) onProgress ) async{
-      final result = await UserApiRepo().userImg( userSrno,  file,onProgress);
+      final result = await UserApiRepo().userImg( userSrno,  file,onProgress,context: context);
 
       if (result != null) {
         if (result.isSuccess(context: context)) {
@@ -334,13 +342,15 @@ class UserNotifier extends ChangeNotifier{
           return FileModel.fromJson(json);
         }).toList();
 
+        _bannerList.addAll(_result);
 
-       _bannerList = _result.asMap().entries.map((entry) {
-          int index = entry.key;
-          FileModel file = entry.value;
 
-          return BannerModel(imagePath: file.signedUrl ?? "", id: index.toString(),boxFit: BoxFit.fill);
-        }).toList();
+       // _bannerList2 = _result.asMap().entries.map((entry) {
+       //    int index = entry.key;
+       //    FileModel file = entry.value;
+       //
+       //    return BannerModel(imagePath: file.signedUrl ?? "", id: index.toString(),boxFit: BoxFit.fill);
+       //  }).toList();
 
 
         notifyListeners();
@@ -368,7 +378,7 @@ class UserNotifier extends ChangeNotifier{
 
     String? get token => _token;
     String? get profileImg => _profileImg;
-    List<BannerModel> get bannerList => _bannerList;
+    List<FileModel> get bannerList => _bannerList;
     AuthStatus get authStatus => _authStatus;
     LoginPlatform get  loginPlatform=> _loginPlatform;
     // MemberInfo? get memberInfo => _memberInfo;

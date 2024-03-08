@@ -1,4 +1,4 @@
-import 'package:buycott/data/KeywordItem.dart';
+import 'package:buycott/data/keyword_Item.dart';
 import 'package:buycott/data/address_result_model.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';

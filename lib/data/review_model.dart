@@ -51,6 +51,8 @@ class Review {
       String? reviewContent,
     int? totalPageNum,
     int? score,
+    String? storeName,
+    String? regDt,
       List<String>? signedUrls,}){
     _reviewSrno = reviewSrno;
     _storeSrno = storeSrno;
@@ -68,6 +70,8 @@ class Review {
     _reviewContent = json['reviewContent'];
     _totalPageNum = json['totalPageNum'];
     _score = json['score'];
+    _storeName = json['storeName'];
+    _regDt = json['regDt'];
     _signedUrls = json['signedUrls'] != null ? json['signedUrls'].cast<String>() : [];
   }
   int? _reviewSrno;
@@ -76,6 +80,8 @@ class Review {
   String? _reviewContent;
   int? _totalPageNum;
   int? _score;
+  String? _storeName;
+      String? _regDt;
   List<String>? _signedUrls;
 
   int? get reviewSrno => _reviewSrno;
@@ -84,6 +90,8 @@ class Review {
   String? get reviewContent => _reviewContent;
   int? get totalPageNum => _totalPageNum;
   int? get score => _score;
+  String? get regDt => _regDt;
+  String? get storeName => _storeName;
   List<String>? get signedUrls => _signedUrls;
 
   Map<String, dynamic> toJson() {
@@ -94,6 +102,8 @@ class Review {
     map['reviewContent'] = _reviewContent;
     map['totalPageNum'] = _totalPageNum;
     map['score'] = _score;
+    map['storeName'] = _storeName;
+    map['regDt'] = _regDt;
     map['signedUrls'] = _signedUrls;
     return map;
   }

@@ -16,6 +16,7 @@ import '../../constants/constants.dart';
 import '../../data/file_model.dart';
 import '../../states/store_notifier.dart';
 import '../../utils/log_util.dart';
+import '../../widgets/NoGlowScrollBehavior.dart';
 import '../../widgets/style/container.dart';
 import '../../widgets/style/divider.dart';
 
@@ -54,43 +55,46 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _sliver(){
     return Consumer<StoreNotifier>(
         builder: (context,notifier,child){
-        return CustomScrollView(
-          slivers: [
-              SliverToBoxAdapter(child: Column(children: [
-                _placeSearchBar(),
-                heightSizeBox(sized_30),
-                _banner(),
-                heightSizeBox(sized_30),
-              ],)),
-            SliverList.list(
-              children: [
-                // _title(context,"오늘의 돈쭐"),
-                // heightSizeBox(sized_10),
-                // _todayBuyCott(),
-                // _buildHeightSizeBox(),
-                _title(context,"인기 돈쭐"),
-                heightSizeBox(sized_10),
-                _todayBuyCott(notifier,1),
-                _buildHeightSizeBox(),
-                _title(context,"새로운 돈쭐"),
-                heightSizeBox(sized_10),
-                _todayBuyCott(notifier,2),
-                _buildHeightSizeBox(),
-                // _title(context,"돈쭐 뉴스"),
-                // heightSizeBox(sized_10),
-                // _todayBuyCott(),
-                _buildHeightSizeBox(),
-              ],
-            )
-              // SliverList(
-              //   delegate: SliverChildBuilderDelegate(((context, replyIndex) {
-              //     debugPrint("Reply $replyIndex in Comment $commentIndex is generated!!");
-              //     return Text("Reply: $replyIndex");
-              //   }),
-              //     childCount: BannerImages.listBanners.length,),
-              // ),
+        return ScrollConfiguration(
+          behavior: NoGlowScrollBehavior(),
+          child: CustomScrollView(
+            slivers: [
+                SliverToBoxAdapter(child: Column(children: [
+                  _placeSearchBar(),
+                  heightSizeBox(sized_30),
+                  _banner(),
+                  heightSizeBox(sized_30),
+                ],)),
+              SliverList.list(
+                children: [
+                  // _title(context,"오늘의 돈쭐"),
+                  // heightSizeBox(sized_10),
+                  // _todayBuyCott(),
+                  // _buildHeightSizeBox(),
+                  _title(context,"인기 돈쭐"),
+                  heightSizeBox(sized_10),
+                  _todayBuyCott(notifier,1),
+                  _buildHeightSizeBox(),
+                  _title(context,"새로운 돈쭐"),
+                  heightSizeBox(sized_10),
+                  _todayBuyCott(notifier,2),
+                  _buildHeightSizeBox(),
+                  // _title(context,"돈쭐 뉴스"),
+                  // heightSizeBox(sized_10),
+                  // _todayBuyCott(),
+                  _buildHeightSizeBox(),
+                ],
+              )
+                // SliverList(
+                //   delegate: SliverChildBuilderDelegate(((context, replyIndex) {
+                //     debugPrint("Reply $replyIndex in Comment $commentIndex is generated!!");
+                //     return Text("Reply: $replyIndex");
+                //   }),
+                //     childCount: BannerImages.listBanners.length,),
+                // ),
 
-          ],
+            ],
+          ),
         );
       }
     );
@@ -180,6 +184,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _placeSearchBar() {
     return TextField(
+      onTap: (){
+        context.goNamed(
+          searchRouteName,
+        );
+      },
+      readOnly: true,
       style: Theme.of(context).textTheme.displayMedium!.copyWith(fontWeight: FontWeight.w500,color: BasicColor.lightgrey2),
       controller: _searchTextController,
       keyboardType: TextInputType.text,

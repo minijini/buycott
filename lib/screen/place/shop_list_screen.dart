@@ -8,9 +8,11 @@ import '../../data/place_result_model.dart';
 import '../../states/place_notifier.dart';
 import '../../utils/color/basic_color.dart';
 import '../../utils/log_util.dart';
+import '../../widgets/NoGlowScrollBehavior.dart';
 import '../../widgets/UnanimatedPageRoute.dart';
 import '../../widgets/list/place_list_tile.dart';
 import '../../widgets/style/divider.dart';
+import '../../widgets/style/input_decor.dart';
 import '../login/login_screen.dart';
 import '../store/store_add_screen.dart';
 import 'address_list_screen.dart';
@@ -73,21 +75,32 @@ class _ShopListScreenState extends State<ShopListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
       title: Text(
         "가게 검색",
         style: Theme.of(context).textTheme.titleLarge,
       ),
+        centerTitle: false,
+        titleSpacing: -10,
+        leading:  IconButton(
+            onPressed: () {
+              Navigator.pop(context); //뒤로가기
+            },
+            color: BasicColor.back_black,
+            icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
     ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: padding_side),
-        child: Column(
-          children: [
-            _placeSearchBar(),
-            heightSizeBox(sized_10),
-            _placeList()
-          ],
-        ),
+      body: Column(
+        children: [
+          heightSizeBox(sized_10),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: padding_side),
+            child: _placeSearchBar(),
+          ),
+          heightSizeBox(sized_10),
+          _placeList()
+        ],
       ),
 
     );
@@ -95,58 +108,76 @@ class _ShopListScreenState extends State<ShopListScreen> {
 
 
 
-  TextField _placeSearchBar() {
-    return TextField(
-      style: Theme.of(context).textTheme.displayMedium!.copyWith(fontWeight: FontWeight.w500,color: BasicColor.lightgrey2),
-      cursorColor: BasicColor.primary,
-      controller: _searchTextController,
-      focusNode: _focusNode,
-      autofocus: true,
-      keyboardType: TextInputType.text,
-      onChanged: (text) {
+  Widget _placeSearchBar() {
+    return SizedBox(
+      height:40 ,
+      child: TextField(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16),
+        cursorColor: BasicColor.primary,
+        controller: _searchTextController,
+        focusNode: _focusNode,
+        autofocus: true,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        onChanged: (text) {
 
-        setState(() {
-          searchKeyWord = text;
+          setState(() {
+            searchKeyWord = text;
 
-          if(placeList != null) {
-            page = 1;
-            placeList!.clear();
-          }
-        });
+            if(placeList != null) {
+              page = 1;
+              placeList!.clear();
+            }
+          });
 
-        getPlaceList(searchKeyWord,page);
+          getPlaceList(searchKeyWord,page);
 
-      },
-      decoration: InputDecoration(
-          hintText: "가게 이름을 입력해주세요",
-          suffixIcon: Padding(
-              padding: EdgeInsets.symmetric(vertical: sized_8,horizontal: sized_12),
-              child: Icon(Icons.search,size: sized_30,))),
+        },
+        decoration: textInputDecor_none(
+            context,
+            hint: "가게 이름을 입력해주세요",
+           ).copyWith(
+          suffixIcon: _searchTextController.text.isNotEmpty
+            ? IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+          onPressed: () {
+            setState(() {
+              _searchTextController.clear();
+            });
+          },
+          icon: Icon(Icons.clear,color: Colors.black,),
+        )
+            : null,),
+      ),
     );
   }
 
   Widget _placeList() {
     return  Expanded(
-      child: ListView.separated(
-          controller: _scrollController,
-          itemBuilder: (context, index) {
-            Place placeModel = placeList[index];
+      child: ScrollConfiguration(
+        behavior: NoGlowScrollBehavior(),
+        child: ListView.separated(
+            controller: _scrollController,
+            itemBuilder: (context, index) {
+              Place placeModel = placeList[index];
 
-            return GestureDetector(
-                onTap: () {
-                  Log.logs(
-                      TAG, "list tile click :: ${placeModel.placeName!}");
+              return GestureDetector(
+                  onTap: () {
+                    Log.logs(
+                        TAG, "list tile click :: ${placeModel.placeName!}");
 
-                  Navigator.of(context).pop(Arguments(place: placeModel));
-                },
-                child: PlaceListTile(
-                    placeName:  placeModel.placeName!,
-                    addressName: placeModel.roadAddressName!));
-          },
-          separatorBuilder: (context, index) {
-            return list_divider();
-          },
-          itemCount: placeList.length),
+                    Navigator.of(context).pop(Arguments(place: placeModel));
+                  },
+                  child: PlaceListTile(
+                      placeName:  placeModel.placeName!,
+                      addressName: placeModel.roadAddressName!));
+            },
+            separatorBuilder: (context, index) {
+              return list_divider();
+            },
+            itemCount: placeList.length),
+      ),
     );
   }
 

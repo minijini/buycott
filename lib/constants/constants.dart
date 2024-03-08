@@ -14,6 +14,7 @@ const String storeDetailRouteName = 'storedetail';
 const String myStoreRegisterRouteName = 'mystoreregister';
 const String myReviewRouteName = 'myreview';
 const String storeAddRouteName = 'storeadd';
+const String searchRouteName = 'search';
 
 const String reviewWriteRouteName = 'reviewwrite';
 

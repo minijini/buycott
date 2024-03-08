@@ -39,15 +39,16 @@ InputDecoration textInputDecor_none(BuildContext context,{String? hint}) {
     hintText: hint,
     hintStyle: Theme.of(context)
         .textTheme
-        .displaySmall!
-        .copyWith(color: BasicColor.darkgrey2,),
+        .bodyMedium!
+        .copyWith(fontSize:16,color: BasicColor.linegrey,),
     isDense: true, //공백없애기
-    contentPadding: EdgeInsets.only(left: sized_10),
+    contentPadding: EdgeInsets.only(left: sized_10,top: sized_9,bottom: sized_9),
     errorBorder: InputBorder.none,
     enabledBorder: InputBorder.none,
     focusedErrorBorder: InputBorder.none,
     focusedBorder: InputBorder.none,
-    filled: false,
+    filled: true,
+    fillColor: BasicColor.lightgrey3
   );
 }
 

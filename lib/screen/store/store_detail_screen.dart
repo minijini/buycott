@@ -16,6 +16,7 @@ import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
 import '../../constants/screen_size.dart';
 import '../../states/store_notifier.dart';
+import '../../widgets/NoGlowScrollBehavior.dart';
 import '../../widgets/circle_progressbar.dart';
 import '../../widgets/list/review_list_tile.dart';
 import '../../widgets/star_widget.dart';
@@ -113,31 +114,38 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           return Column(
             children: [
               Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Container(
-                       color: Colors.white,
-                        child: Column(
-                          children: [
-                            _storeInfo(context),
-                          ],
+                child: ScrollConfiguration(
+                  behavior: NoGlowScrollBehavior(),
+                  child: CustomScrollView(
+                    controller: _scrollController,
+
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Container(
+                         color: Colors.white,
+                          child: Column(
+                            children: [
+                              _storeInfo(context),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                     SliverPersistentHeader(
-                        pinned: true, delegate: ReviewSliverHeader(storeModel?.storeSrno)),
-                    notifier.reviewList.isNotEmpty ?  SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          Review review = notifier.reviewList[index];
+                       SliverPersistentHeader(
+                          pinned: true, delegate: ReviewSliverHeader(storeModel?.storeSrno)),
+                      notifier.reviewList.isNotEmpty ?  SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            Review review = notifier.reviewList[index];
 
-                          return   ReviewListTile(review: review,storeSrno: storeModel!.storeSrno.toString(),) ;
-                        },
-                        childCount:  notifier.reviewList.length ,
-                      ),
-                    ) : SliverToBoxAdapter(child: Expanded(child: CustomCircularProgress()))
-                  ],
+                            return   ReviewListTile(review: review,storeSrno: storeModel!.storeSrno.toString(),index: index,) ;
+                          },
+                          childCount:  notifier.reviewList.length ,
+                        ),
+                      ) : SliverToBoxAdapter(child: Expanded(child: CustomCircularProgress())),
+
+
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -232,8 +240,6 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     });
   }
 
-
-
   scrollListener() async {
     if (_scrollController.offset  == _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {
       Log.logs(TAG, "scroll bottom ===");
@@ -243,3 +249,4 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     }
   }
 }
+

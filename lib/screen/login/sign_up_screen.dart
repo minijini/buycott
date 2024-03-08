@@ -74,6 +74,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             "회원가입",
             style: Theme.of(context).textTheme.titleLarge,
           ),
+            centerTitle: false,
+            titleSpacing: -10,
+            leading:  IconButton(
+                onPressed: () {
+                  Navigator.pop(context); //뒤로가기
+                },
+                color: BasicColor.back_black,
+                icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
         ),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: padding_side),

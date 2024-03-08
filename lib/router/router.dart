@@ -2,6 +2,7 @@ import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/map/map_screen.dart';
 import 'package:buycott/screen/myprofile/my_store_register_screen.dart';
 import 'package:buycott/screen/myprofile/my_review_screen.dart';
+import 'package:buycott/screen/search/search_screen.dart';
 import 'package:buycott/screen/store/review_write_screen.dart';
 import 'package:buycott/screen/store/store_detail_screen.dart';
 import 'package:buycott/screen/term/terms_screen.dart';
@@ -38,6 +39,13 @@ class MyRouter {
             return const MainScreen();
           },
           routes: [
+
+            GoRoute(
+              path: searchRouteName,
+              name: searchRouteName,
+              builder: (context, state) => const SearchScreen(),
+              pageBuilder: defaultPageBuilder(const SearchScreen()),
+            ),
 
             GoRoute(
               path: myStoreRegisterRouteName,

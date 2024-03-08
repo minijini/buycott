@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/padding_size.dart';
+import '../../utils/color/basic_color.dart';
 
 class TermsScreen extends StatefulWidget {
   final String title;
@@ -19,6 +20,14 @@ class _TermsScreenState extends State<TermsScreen> {
           widget.title,
           style: Theme.of(context).textTheme.titleLarge,
         ),
+          centerTitle: false,
+          titleSpacing: -10,
+          leading:  IconButton(
+              onPressed: () {
+                Navigator.pop(context); //뒤로가기
+              },
+              color: BasicColor.back_black,
+              icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
       ),
       body: SafeArea(
         child: Container(

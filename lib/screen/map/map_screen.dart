@@ -10,11 +10,13 @@ import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/widgets/dialog/custom_dialog.dart';
 import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
 import '../../data/category_map.dart';
 import '../../widgets/circle_progressbar.dart';
@@ -232,6 +234,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
 
   Widget _placeSearchBar() {
     return TextField(
+        onTap: (){
+          context.goNamed(
+            searchRouteName,
+          );
+        },
+        readOnly: true,
         style: Theme.of(context).textTheme.displayMedium!.copyWith(fontWeight: FontWeight.w500,color: BasicColor.lightgrey2),
       controller: _searchTextController,
       keyboardType: TextInputType.text,

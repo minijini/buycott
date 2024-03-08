@@ -288,6 +288,38 @@ class Utility {
     }
   }
 
+  String getDateFormat(String date){
+    DateTime? parsedDate = parseCustomDate(date);
+
+    debugPrint("data :: $parsedDate");
+
+    if (parsedDate != null) {
+      String formattedDate = DateFormat('yyyy.MM.dd').format(parsedDate);
+      return formattedDate; // Output: 2024.03.08
+    }
+
+    return "";
+  }
+
+  DateTime? parseCustomDate(String input) {
+    try {
+      List<String> parts = input.split('-');
+      if (parts.length == 5) {
+        int year = int.parse(parts[0]);
+        int month = int.parse(parts[1]);
+        int day = int.parse(parts[2]);
+        int hour = int.parse(parts[3]);
+        int minute = int.parse(parts[4]);
+
+        return DateTime(year, month, day, hour, minute);
+      }
+    } catch (e) {
+      // Handle parsing errors
+    }
+
+    return null;
+  }
+
 
 
 

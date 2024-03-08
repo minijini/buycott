@@ -49,14 +49,14 @@ class CustomDialog {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
-                height: sized_15,
-              ),
-              SizedBox(
-                width: 50,
-                height: 70,
-                child: Image.asset("assets/icon/icon_marker.png"),
-              ),
+              // SizedBox(
+              //   height: sized_15,
+              // ),
+              // SizedBox(
+              //   width: 50,
+              //   height: 70,
+              //   child: Image.asset("assets/icon/icon_marker.png"),
+              // ),
               SizedBox(
                 height: sized_15,
               ),
@@ -135,14 +135,14 @@ Future<void> actionDialog(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: sized_15,
-            ),
-            SizedBox(
-              width: 121,
-              height: 70,
-              child: Image.asset(icon),
-            ),
+            // SizedBox(
+            //   height: sized_15,
+            // ),
+            // SizedBox(
+            //   width: 121,
+            //   height: 70,
+            //   child: Image.asset(icon),
+            // ),
             SizedBox(
               height: sized_15,
             ),

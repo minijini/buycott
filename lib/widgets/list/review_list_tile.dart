@@ -13,7 +13,8 @@ import '../star_widget.dart';
 class ReviewListTile extends StatelessWidget {
   final Review review;
   final String storeSrno;
-  const ReviewListTile({super.key, required this.review, required this.storeSrno});
+  final int index;
+  const ReviewListTile({super.key, required this.review, required this.storeSrno, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -80,17 +81,24 @@ class ReviewListTile extends StatelessWidget {
   }
 
   Row _reviewImg() {
-    return  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:List.generate(
-                  review.signedUrls!.length,
-                      (index) =>  SquareImage(img: review.signedUrls![index],width:sized_78,height: sized_52,)
-                ),);
+    return Row(
+      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children:List.generate(
+          review.signedUrls!.length,
+              (index) =>  Padding(
+            padding: const EdgeInsets.only(right: sized_5),
+            child: SquareImage(img: review.signedUrls![index],width:sized_78,height: sized_78,),
+          )
+      ),);
   }
 
 
 
   void deleteReview(BuildContext context,String reviewSrno){
-    Provider.of<StoreNotifier>(context, listen: false).deleteReview(context, storeSrno, userSrno.toString(), reviewSrno);
+    Provider.of<StoreNotifier>(context, listen: false).deleteReview(context, storeSrno, userSrno.toString(), reviewSrno).then((value){
+      debugPrint('index : $index');
+      context.read<StoreNotifier>().reviewList.removeAt(index);
+    }
+    );
   }
 }

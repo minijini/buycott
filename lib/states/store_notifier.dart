@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:buycott/api/repository/store_api_repository.dart';
 import 'package:buycott/constants/response_code.dart';
+import 'package:buycott/constants/sharedpreference_key.dart';
 import 'package:buycott/data/result_model.dart';
 import 'package:buycott/data/review_model.dart';
 import 'package:buycott/data/store_model.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_tags_x/flutter_tags_x.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../data/KeywordItem.dart';
 import '../widgets/dialog/custom_dialog.dart';
 
 class StoreNotifier extends ChangeNotifier {
@@ -13,6 +19,9 @@ class StoreNotifier extends ChangeNotifier {
   List<StoreModel> _mainStoreList = [];
   List<Review> _reviewListData = [];
   List<Review> _reviewList = [];
+  List<Review> _myReviewListData = [];
+  List<Review> _myReviewList = [];
+  List<KeywordItem> _keywordList = [];
   StoreModel? _storeModel;
    String _storeSrno = "";
 
@@ -126,7 +135,7 @@ class StoreNotifier extends ChangeNotifier {
       if (result.isSuccess(context: context)) {
         var dataResult = ResultModel.fromJson(result.data);
 
-        _reviewListReset(storeSrno);
+        _reviewListReset(storeSrno,userSrno);
 
         notifyListeners();
 
@@ -172,26 +181,88 @@ class StoreNotifier extends ChangeNotifier {
     return [];
   }
 
-  Future deleteReview(BuildContext context,String storeSrno,String userSrno,String reviewSrno) async{
+  Future<bool> deleteReview(BuildContext context,String storeSrno,String userSrno,String reviewSrno) async{
     final result = await StoreApiRepo().deleteReview( userSrno, reviewSrno,context:context);
 
     if (result != null) {
 
       if (result.isSuccess(context: context)) {
-        _reviewListReset(storeSrno);
+        // _reviewListReset(storeSrno,userSrno);
         notifyListeners();
+
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  Future<List<Review>> myReviews(String userSrno,int pageNum, int limit) async{
+
+
+    final result = await StoreApiRepo().myReviews( userSrno, pageNum,  limit);
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+        var dataResult = ResultModel.fromJson(result.data);
+        var _reviewModel = ReviewModel.fromJson(dataResult.body);
+
+        if(_reviewModel.review != null){
+          _myReviewListData.clear();
+          _myReviewListData.addAll(_reviewModel.review!);
+
+
+          for (var review in _myReviewListData) {
+            _myReviewList.add(review);
+          }
+
+        }
+
+        notifyListeners();
+
+        return _myReviewListData;
 
       }
     }
+    return [];
+  }
+
+
+  Future saveKeywordItems(List<KeywordItem> items) async {
+    final prefs = await SharedPreferences.getInstance();
+    final value = items.map((item) => item.toJson()).toList();
+    prefs.setString(KEYWORD_ITEMS, jsonEncode(value));
+  }
+
+  Future<List<KeywordItem>> getKeywordItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    final value = prefs.getString(KEYWORD_ITEMS);
+
+    if (value != null) {
+      final List<dynamic> decoded = jsonDecode(value);
+      final _keywordResult =  decoded.map((item) => KeywordItem.fromJson(item)).toList();
+      _keywordList.addAll(_keywordResult);
+
+      notifyListeners();
+
+      return _keywordList;
+
+    } else {
+      _keywordList = [];
+      notifyListeners();
+      return [];
+    }
+
 
   }
 
-  void _reviewListReset(String storeSrno) {
+  void _reviewListReset(String storeSrno,String userSrno) {
     _reviewList.clear();
     getReviews(storeSrno,1,10);
+    // _myReviewList.clear();
+    // myReviews(userSrno,1,10);
   }
-
-
 
   Future<void> _resultDialog(BuildContext context, ResultModel resultModel) =>
       CustomDialog(funcAction: dialogPop)
@@ -204,5 +275,7 @@ class StoreNotifier extends ChangeNotifier {
   List<StoreModel> get storeList => _storeList;
   List<StoreModel> get mainStoreList => _mainStoreList;
   List<Review> get reviewList => _reviewList;
+  List<Review> get myReviewList => _myReviewList;
+  List<KeywordItem> get keywordList => _keywordList;
   StoreModel? get storeModel => _storeModel;
 }

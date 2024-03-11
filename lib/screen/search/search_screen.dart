@@ -164,7 +164,6 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   Widget tag(){
 
     return Tags(
-
       key:_tagStateKey,
       alignment:WrapAlignment.start,
       itemCount: _keywordList.length, // required

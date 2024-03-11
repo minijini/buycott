@@ -51,5 +51,6 @@ const double sized_114 =114;
 const double sized_120 =120;
 const double sized_125 =125;
 const double sized_150 =150;
+const double sized_180 =180;
 const double sized_200 =200;
 

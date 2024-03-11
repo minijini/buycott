@@ -27,16 +27,16 @@ class MyReviewListTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                heightSizeBox(sized_10),
                 _title(context),
-                heightSizeBox(sized_5),
-                Text('작성일 ${Utility().getDateFormat(review.regDt!)}',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_8,color: BasicColor.lightgrey2)),
-                heightSizeBox(sized_10),
                 Visibility(
                     visible: review.signedUrls != null,
                     child: _reviewImg()) ,
-                heightSizeBox(sized_6),
-                Text(review.reviewContent ?? "",style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10,color: BasicColor.lightgrey2)),
+                heightSizeBox(sized_20),
+                Text(review.reviewContent ?? "",style: Theme.of(context).textTheme.bodySmall!.copyWith(color: BasicColor.lightgrey2)),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text('작성일 ${Utility().getDateFormat(review.regDt!)}',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10,color: BasicColor.lightgrey2))),
+                heightSizeBox(sized_10),
               ],
             ),
           ),
@@ -46,33 +46,37 @@ class MyReviewListTile extends StatelessWidget {
     );
   }
 
-  Row _title(BuildContext context) {
-    return Row(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(review.storeName ?? "",style: Theme.of(context).textTheme.displaySmall,),
-                      widthSizeBox(sized_5),
-                      buildStarRating(5,sized_10),
-                    ],
-                  ),
-                  Expanded(child: Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: (){
-                        deleteReview(context,review.reviewSrno.toString());
-                      },
-                      child: Container(
-                        width: sized_30,
-                        height: sized_20,
-                        decoration: grayDecor(sized_10),
-                        child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_8))),
-                      ),
+  Widget _title(BuildContext context) {
+    return Padding(
+      padding:  EdgeInsets.only(top: sized_15),
+      child: Row(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(review.storeName ?? "",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.black),),
+                        widthSizeBox(sized_5),
+                        Text('·',style: Theme.of(context).textTheme.displayMedium,),
+                        widthSizeBox(sized_5),
+                        buildStarRating(5,sized_18),
+                      ],
                     ),
-                  ))
-                ],
-              );
+                    Expanded(child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: (){
+                          deleteReview(context,review.reviewSrno.toString());
+                        },
+                        child: Container(
+                          width: sized_30,
+                          height: sized_20,
+                          child: Center(child: Text('삭제',style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline,fontSize: sized_10,color: BasicColor.lightgrey2))),
+                        ),
+                      ),
+                    ))
+                  ],
+                ),
+    );
   }
 
   Row _reviewImg() {
@@ -81,8 +85,10 @@ class MyReviewListTile extends StatelessWidget {
       children:List.generate(
           review.signedUrls!.length,
               (index) =>  Padding(
-                padding: const EdgeInsets.only(right: sized_5),
-                child: SquareImage(img: review.signedUrls![index],width:sized_78,height: sized_78,),
+                padding: const EdgeInsets.only(right: sized_10,top: sized_20),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(sized_10),
+                    child: SquareImage(img: review.signedUrls![index],width:sized_100,height: sized_100,)),
               )
       ),);
   }

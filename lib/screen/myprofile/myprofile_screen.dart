@@ -46,7 +46,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       body: Container(
         color: Colors.white,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // heightSizeBox(widget.userNotifier.authStatus == AuthStatus.signin ? sized_14 : sized_50),
 
@@ -85,6 +85,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               context
                   .goNamed(termsRouteName, pathParameters: {'title': '개인정보취급방침'});
             }),
+            heightSizeBox(sized_60),
+            Visibility(
+              visible: widget.userNotifier.authStatus == AuthStatus.signin,
+              child: GestureDetector(
+                  onTap: (){
+                    signOut(widget.userNotifier.loginPlatform);
+                  },
+                  child: Text("로그아웃",style: Theme.of(context).textTheme.displaySmall!.copyWith(color: BasicColor.lightgrey4,decoration: TextDecoration.underline),)),
+            )
           ],
         ),
       ),
@@ -171,7 +180,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
-                    signOut(widget.userNotifier.loginPlatform);
+                    context.goNamed(myProfileEditRouteName);
                   },
                   child: Container(
                     width: sized_40,

@@ -8,6 +8,7 @@ import 'package:buycott/screen/store/review_sliver_header.dart';
 import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/utils/utility.dart';
+import 'package:buycott/widgets/empty_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,8 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   int pageNum = 1;
   int limit = 10;
   bool lastList = false;
+
+  bool getReviewsList = false;
 
 
   final ScrollController _scrollController = ScrollController();
@@ -85,19 +88,6 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           storeModel?.storeName ?? "",
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        // actions: [Padding(
-        //   padding:  EdgeInsets.only(right: sized_18),
-        //   child: IconButton(
-        //     padding: EdgeInsets.zero,
-        //     constraints: BoxConstraints(),
-        //     icon: Icon(Icons.close),
-        //     color: BasicColor.primary2,
-        //     iconSize: sized_30,
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //   ),
-        // )],
           centerTitle: false,
           titleSpacing: -10,
           leading:  IconButton(
@@ -118,7 +108,6 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                   behavior: NoGlowScrollBehavior(),
                   child: CustomScrollView(
                     controller: _scrollController,
-
                     slivers: [
                       SliverToBoxAdapter(
                         child: Container(
@@ -126,6 +115,10 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                           child: Column(
                             children: [
                               _storeInfo(context),
+                              Padding(
+                                padding: const EdgeInsets.only(top:sized_30 ),
+                                child: customDivider(BasicColor.lightgrey3, sized_8, sized_8),
+                              )
                             ],
                           ),
                         ),
@@ -141,9 +134,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                           },
                           childCount:  notifier.reviewList.length ,
                         ),
-                      ) : SliverToBoxAdapter(child: Expanded(child: CustomCircularProgress())),
-
-
+                      ) : getReviewsList ?  _empty() : _emptyReviews(),
                     ],
                   ),
                 ),
@@ -155,6 +146,96 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
 
           : Container(color:Colors.white,child: CustomCircularProgress()),
     );
+  }
+
+  Widget _empty(){
+    return SliverToBoxAdapter(
+      child: Expanded(
+        child: Column(
+          children: [
+            heightSizeBox(sized_90),
+            Image.asset('assets/icon/icon_review.png',width: sized_75,height: sized_75,),
+            heightSizeBox(sized_10),
+            Text('작성된 리뷰가 없습니다.',style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),)
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  SliverList _emptyReviews() {
+    return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            return   EmptyScreen(
+                              widget: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: sized_20,horizontal: padding_side),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: sized_100,
+                                          height: sized_100,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.rectangle,
+                                            borderRadius: BorderRadius.circular(sized_10),
+                                          ),
+                                        ),
+                                        widthSizeBox(sized_10),
+                                        Container(
+                                          width: sized_100,
+                                          height: sized_100,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.rectangle,
+                                            borderRadius: BorderRadius.circular(sized_10),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    heightSizeBox(sized_20),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: sized_24,
+                                          height: sized_24,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                        widthSizeBox(sized_5),
+                                        Container(
+                                          height: 16,
+                                          width: 50,
+                                          color: Colors.white,
+                                        ),
+                                        widthSizeBox(sized_5),
+                                        Container(
+                                          height: 16,
+                                          width: sized_80,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                    heightSizeBox(sized_20),
+                                    Container(
+                                      height: sized_50,
+                                      width: size!.width-36,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                            );
+                          },
+                          childCount:  3 ,
+                        ),
+                      );
   }
 
   Padding _storeInfo(BuildContext context) {
@@ -223,20 +304,20 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
 
   void getReviews() async {
 
-    List<Review> _reviewResult = await  Provider.of<StoreNotifier>(context,listen: false).getReviews(widget.storeSrno,pageNum,limit);
+   await  Provider.of<StoreNotifier>(context,listen: false).getReviews(widget.storeSrno,pageNum,limit).then((_reviewResult){
+      setState(() {
+          getReviewsList = true;
 
-    setState(() {
-
-      if(_reviewResult.isNotEmpty) {
-
-        setState(() {
-          pageNum ++; //페이지증가
-        });
-      }else{
-        setState(() {
-          lastList = true;
-        });
-      }
+        if(_reviewResult.isNotEmpty) {
+          setState(() {
+            pageNum ++; //페이지증가
+          });
+        }else{
+          setState(() {
+            lastList = true;
+          });
+        }
+      });
     });
   }
 

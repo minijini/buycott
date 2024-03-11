@@ -1,3 +1,4 @@
+import 'package:buycott/utils/color/basic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,25 +15,16 @@ class ReviewSliverHeader extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Colors.white,
-      height: 48,
+      height: sized_60,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: padding_side),
         child: Row(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  '리뷰',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge,
-                ),
-                Icon(
-                  Icons.chevron_right,
-                  size: sized_20,
-                )
-              ],
+            Text(
+              '리뷰',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge,
             ),
 
             Visibility(
@@ -46,7 +38,7 @@ class ReviewSliverHeader extends SliverPersistentHeaderDelegate {
                           'storeSrno' : storeSrno.toString()
                         });
                       },
-                      child: Text('리뷰쓰기')))
+                      child: Text('리뷰쓰기',style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline,color: BasicColor.lightgrey2),)))
               ),
             )
           ],

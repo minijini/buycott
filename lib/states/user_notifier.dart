@@ -326,7 +326,11 @@ class UserNotifier extends ChangeNotifier{
 
       if (result != null) {
         if (result.isSuccess(context: context)) {
+          var dataResult = ResultModel.fromJson(result.data);
 
+          _profileImg = dataResult.signedUrl ?? "";
+
+          notifyListeners();
         }
       }
     }

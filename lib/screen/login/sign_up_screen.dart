@@ -124,11 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }
                         } ,
                         validator: (text) {
-                          if (text!.isNotEmpty) {
-                            return null;
-                          } else {
-                            return '닉네임을 입력해주세요';
-                          }
+                          return Validator().validateNull(text?.trim(), '닉네임을 입력해주세요');
                         },
                         decoration:  textInputDecor_grey(sized_5,
                           hint: "닉네임을 입력 하세요",
@@ -421,7 +417,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }else{
       return false;
     }
-
   }
 
   void setProfileImg(XFile file){

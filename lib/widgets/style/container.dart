@@ -48,6 +48,13 @@ BoxDecoration imgDecor(Color color){
       border: Border.all(color: color, width: 1));
 }
 
+BoxDecoration profileImgDecor(Color color){
+  return BoxDecoration(
+      color: BasicColor.linegrey,
+      shape: BoxShape.circle,
+      border: Border.all(color: color, width: 2));
+}
+
 BoxDecoration appBarDecor(Color color){
   return BoxDecoration(
       color: color,

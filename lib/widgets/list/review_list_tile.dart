@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../data/review_model.dart';
 import '../../states/store_notifier.dart';
+import '../../utils/color/basic_color.dart';
 import '../square_image.dart';
 import '../star_widget.dart';
 
@@ -27,67 +28,77 @@ class ReviewListTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                heightSizeBox(sized_20),
-                _title(context),
-                heightSizeBox(sized_10),
                 Visibility(
                     visible: review.signedUrls != null,
                     child: _reviewImg()) ,
+
+                _title(context),
                 heightSizeBox(sized_10),
                 Text(review.reviewContent ?? "" ,style: Theme.of(context).textTheme.bodySmall),
+                _deleteReview(context),
+                heightSizeBox(sized_20),
+
               ],
             ),
           ),
-          heightSizeBox(sized_15),
+          divider(),
         ],
       ),
     );
   }
 
-  Row _title(BuildContext context) {
-    return Row(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleImage(img: '',size: sized_24,),
-                      widthSizeBox(sized_5),
-                      Text("",style: Theme.of(context).textTheme.displayMedium,),
-                      widthSizeBox(sized_5),
-                      Text('·',style: Theme.of(context).textTheme.displayMedium,),
-                      widthSizeBox(sized_5),
-                      buildStarRating(review.score??0,sized_12),
-                    ],
-                  ),
-                  Visibility(
-                    visible: userSrno == review.userSrno,
-                    child: Expanded(child: Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: (){
-                          deleteReview(context,review.reviewSrno.toString());
-                        },
-                        child: Container(
-                          width: sized_30,
-                          height: sized_20,
-                          decoration: grayDecor(sized_10),
-                          child: Center(child: Text('삭제',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10))),
-                        ),
-                      ),
-                    )),
-                  )
-                ],
-              );
+  Widget _title(BuildContext context) {
+    return Padding(
+      padding:  EdgeInsets.only(top: sized_15),
+      child: Row(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleImage(img: '',size: sized_24,),
+                        widthSizeBox(sized_5),
+                        Text("",style: Theme.of(context).textTheme.displayMedium,),
+                        widthSizeBox(sized_5),
+                        Text('·',style: Theme.of(context).textTheme.displayMedium,),
+                        widthSizeBox(sized_5),
+                        buildStarRating(review.score??0,sized_18),
+                      ],
+                    ),
+
+                  ],
+                ),
+    );
   }
 
-  Row _reviewImg() {
+  Visibility _deleteReview(BuildContext context) {
+    return Visibility(
+                  visible: userSrno == review.userSrno,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: (){
+                        deleteReview(context,review.reviewSrno.toString());
+                      },
+                      child: Container(
+                        width: sized_30,
+                        height: sized_20,
+                        child: Center(child: Text('삭제',style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline,color:BasicColor.linegrey))),
+                      ),
+                    ),
+                  ),
+                );
+  }
+
+  Widget _reviewImg() {
     return Row(
       // mainAxisAlignment: MainAxisAlignment.spaceAround,
       children:List.generate(
           review.signedUrls!.length,
               (index) =>  Padding(
-            padding: const EdgeInsets.only(right: sized_5),
-            child: SquareImage(img: review.signedUrls![index],width:sized_78,height: sized_78,),
+            padding: const EdgeInsets.only(right: sized_10,top: sized_20),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(sized_10),
+                child: SquareImage(img: review.signedUrls![index],width:sized_100,height: sized_100,)),
           )
       ),);
   }

@@ -1,5 +1,6 @@
 import 'package:buycott/screen/login/login_screen.dart';
 import 'package:buycott/screen/map/map_screen.dart';
+import 'package:buycott/screen/myprofile/my_profile_edit_screen.dart';
 import 'package:buycott/screen/myprofile/my_store_register_screen.dart';
 import 'package:buycott/screen/myprofile/my_review_screen.dart';
 import 'package:buycott/screen/search/search_screen.dart';
@@ -94,6 +95,13 @@ class MyRouter {
               name: storeAddRouteName,
               builder: (context, state) => const StoreAddScreen(),
               pageBuilder: defaultPageBuilder(const StoreAddScreen()),
+            ),
+
+            GoRoute(
+              path: myProfileEditRouteName,
+              name: myProfileEditRouteName,
+              builder: (context, state) => const MyProfileEditScreen(),
+              pageBuilder: defaultPageBuilder(const MyProfileEditScreen()),
             ),
 
             GoRoute(

@@ -1,4 +1,5 @@
 import 'package:buycott/constants/basic_text.dart';
+import 'package:buycott/constants/screen_size.dart';
 import 'package:buycott/widgets/list/my_review_list_tile.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class _MyReviewScreenState extends State<MyReviewScreen> {
   int pageNum = 1;
   int limit = 10;
   bool lastList = false;
+
+  bool getReviewsList = false;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -89,9 +92,21 @@ class _MyReviewScreenState extends State<MyReviewScreen> {
                 separatorBuilder: (context, index) {
                   return divider();
                 },
-                itemCount: notifier.myReviewList.length) : CustomCircularProgress();
+                itemCount: notifier.myReviewList.length) : getReviewsList ?  _empty() : CustomCircularProgress();
           }
         ),
+      ),
+    );
+  }
+
+  Widget _empty(){
+    return SizedBox(
+      width: size!.width,
+      child: Column(
+        children: [
+          heightSizeBox(sized_180),
+          Text('내가 쓴 리뷰가 없습니다.',style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),)
+        ],
       ),
     );
   }
@@ -102,6 +117,7 @@ class _MyReviewScreenState extends State<MyReviewScreen> {
     List<Review> _myReviewResult = await  Provider.of<StoreNotifier>(context,listen: false).myReviews(userSrno.toString(),pageNum,limit);
 
     setState(() {
+      getReviewsList = true;
 
       if(_myReviewResult.isNotEmpty) {
 

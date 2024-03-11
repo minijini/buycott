@@ -60,6 +60,21 @@ class ApiUtils {
     return result;
   }
 
+  Future<Response> getWithProgress(
+      {required String url,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        ProgressCallback? onReceiveProgress,
+        bool userTokenHeader = true}) async {
+    var result = await _dio.get(url,
+        queryParameters: queryParameters,
+        onReceiveProgress:onReceiveProgress ,
+        options: userTokenHeader
+            ? null
+            : Options(headers: {"Authorization": kakao_response_key}));
+    return result;
+  }
+
   Future<Response> post({
     required String url,
     data,

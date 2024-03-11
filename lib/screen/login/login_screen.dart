@@ -65,13 +65,19 @@ class _LoginScreenState extends State<LoginScreen> {
               icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: padding_side),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        padding: EdgeInsets.only(top: sized_100),
+        child: Column(
           children: [
-            _snsLoginButton("kakao",signInWithKakao,BasicColor.kakao_yellow),
-            widthSizeBox(sized_30),
-            _snsLoginButton("naver",signInWithNaver,BasicColor.naver_green),
+            Image.asset('assets/icon/icon_donzzule.png',width: 148,height: 96,),
+            heightSizeBox(sized_30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _snsLoginButton("naver",signInWithNaver,BasicColor.naver_green),
+                widthSizeBox(sized_30),
+                _snsLoginButton("kakao",signInWithKakao,BasicColor.kakao_yellow),
+              ],
+            ),
           ],
         ),
       ),

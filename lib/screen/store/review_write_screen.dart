@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
 import '../../constants/screen_size.dart';
+import '../../data/store_model.dart';
 import '../../states/store_notifier.dart';
 import '../../utils/color/basic_color.dart';
 import '../../utils/validator.dart';
@@ -37,17 +38,33 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
 
   double progressValue = 1.0;
 
+  StoreModel? storeModel;
+
   double _rating = 4;
 
   final ImagePicker _picker = ImagePicker();
   List<XFile> _images = [];
   final int _maxImageCount = 2; // 최대 선택 개수
 
+  @override
+  void initState() {
+    super.initState();
+    _getStoreDetail();
+  }
+
 
   @override
   void dispose() {
     _contentController.dispose();
     super.dispose();
+  }
+
+  void _getStoreDetail() {
+    Provider.of<StoreNotifier>(context, listen: false).storeDetail(int.parse(widget.storeSrno)).then((value){
+      setState(() {
+        storeModel = value;
+      });
+    });
   }
 
   @override
@@ -80,7 +97,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                   child: Column(
                     children: [
                       _storeInfo(),
-                      divider(),
+                      // divider(),
                       heightSizeBox(sized_30),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: padding_side),
@@ -293,19 +310,20 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
   Text _title(BuildContext context,String title) => Text(title,style: Theme.of(context).textTheme.displayLarge,);
 
   Widget _storeInfo(){
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: padding_side,vertical: sized_20),
+    return Container(
+      decoration: grayDecor2(),
+      padding: EdgeInsets.symmetric(horizontal: padding_side,vertical: sized_25),
       child: Row(
         children: [
-        SquareImage(img: "img",width: sized_70,height: sized_50,),
-          widthSizeBox(sized_12),
+        // SquareImage(img: "img",width: sized_70,height: sized_50,),
+        //   widthSizeBox(sized_12),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("가게이름",style: Theme.of(context).textTheme.displayMedium,),
+              Text(storeModel?.storeName ?? "",style: Theme.of(context).textTheme.displayLarge,),
               heightSizeBox(sized_4),
-              Text("가게주소",style: Theme.of(context).textTheme.bodySmall,)
+              Text(storeModel?.storeAddress ?? "",style: Theme.of(context).textTheme.bodySmall,)
             ],
           )
 

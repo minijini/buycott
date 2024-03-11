@@ -15,6 +15,7 @@ const String myStoreRegisterRouteName = 'mystoreregister';
 const String myReviewRouteName = 'myreview';
 const String storeAddRouteName = 'storeadd';
 const String searchRouteName = 'search';
+const String myProfileEditRouteName = 'myprofileedit';
 
 const String reviewWriteRouteName = 'reviewwrite';
 
@@ -28,6 +29,7 @@ const String nickNm_success = '사용할 수 있는 닉네임 입니다.';
 const String nickNm_fail = '이미 사용중인 닉네임 입니다.';
 const String review_success = '리뷰 등록했습니다.';
 const String review_fail = '리뷰등록에 실패했습니다.';
+const String edit_profile_success = '프로필 수정 완료하였습니다.';
 
 
 

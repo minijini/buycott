@@ -14,6 +14,7 @@ import '../../utils/log_util.dart';
 import '../../widgets/NoGlowScrollBehavior.dart';
 import '../../widgets/UnanimatedPageRoute.dart';
 import '../../widgets/list/place_list_tile.dart';
+import '../../widgets/list/store_list_tile.dart';
 import '../../widgets/style/divider.dart';
 import '../../widgets/style/input_decor.dart';
 import '../login/login_screen.dart';
@@ -131,17 +132,19 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         heightSizeBox(sized_20),
                         Visibility(
                           visible: placeList.isEmpty && _searchTextController.text.isEmpty,
-                          child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('최근 검색 기록',style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),),
-                                  heightSizeBox(sized_16),
-                                  Visibility(
-                                      visible: _keywordList.isEmpty,
-                                      child: Text('최근 검색 기록이 없습니다.',style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: BasicColor.lightgrey2),)),
-                                  tag(),
-                                ],
-                              )
+                          child: SingleChildScrollView(
+                            child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('최근 검색 기록',style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),),
+                                    heightSizeBox(sized_16),
+                                    Visibility(
+                                        visible: _keywordList.isEmpty,
+                                        child: Text('최근 검색 기록이 없습니다.',style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: BasicColor.lightgrey2),)),
+                                    tag(),
+                                  ],
+                                ),
+                          )
 
                         ),
 
@@ -277,9 +280,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                     });
                     Provider.of<StoreNotifier>(context,listen: false).saveKeywordItems(_keywordList);
                   },
-                  child: PlaceListTile(
+                  child: StoreListTile(
                       placeName:  placeModel.placeName!,
-                      addressName: placeModel.roadAddressName!));
+                      addressName: placeModel.roadAddressName!,
+                  likeYn: true,));
             },
             separatorBuilder: (context, index) {
               return list_divider();

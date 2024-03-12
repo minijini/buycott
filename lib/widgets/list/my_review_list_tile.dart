@@ -79,18 +79,22 @@ class MyReviewListTile extends StatelessWidget {
     );
   }
 
-  Row _reviewImg() {
-    return  Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children:List.generate(
-          review.signedUrls!.length,
-              (index) =>  Padding(
-                padding: const EdgeInsets.only(right: sized_10,top: sized_20),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(sized_10),
-                    child: SquareImage(img: review.signedUrls![index],width:sized_100,height: sized_100,)),
-              )
-      ),);
+  Widget _reviewImg() {
+    return SizedBox(
+      height: review.signedUrls!.isNotEmpty ? 120 : 0,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List.generate(
+            review.signedUrls!.length,
+                (index) =>  Padding(
+              padding: const EdgeInsets.only(right: sized_10,top: sized_20),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(sized_10),
+                  child: SquareImage(img: review.signedUrls![index],width:sized_100,height: sized_100,)),
+            )
+        ),
+      ),
+    );
   }
 
   void deleteReview(BuildContext context,String reviewSrno){

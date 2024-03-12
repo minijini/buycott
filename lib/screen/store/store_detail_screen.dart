@@ -71,7 +71,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   }
 
   void _getStoreDetail() {
-    Provider.of<StoreNotifier>(context, listen: false).storeDetail(int.parse(widget.storeSrno)).then((value){
+    Provider.of<StoreNotifier>(context, listen: false).storeDetail(int.parse(widget.storeSrno),userSrno).then((value){
       setState(() {
         storeModel = value;
       });
@@ -95,7 +95,15 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 Navigator.pop(context); //뒤로가기
               },
               color: BasicColor.back_black,
-              icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
+              icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,)),
+        actions: [
+          Visibility(
+            visible: userSrno != null,
+            child: Transform.scale(
+                scale: 0.5,
+                child: Image.asset("assets/icon/icon_like_off.png",fit: BoxFit.fill,)),
+          )
+        ],
       ),
 
       body: storeModel != null ?

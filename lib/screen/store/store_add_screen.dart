@@ -1,3 +1,4 @@
+import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/data/place_result_model.dart';
 import 'package:buycott/screen/place/shop_list_screen.dart';
@@ -85,7 +86,7 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
     Provider.of<StoreNotifier>(context, listen: false).registerStore(
         context,
         storeModel.id!,
-        1,
+        userSrno!,
         storeModel.categoryGroupCode!,
         storeModel.categoryGroupName!,
         storeModel.roadAddressName!,

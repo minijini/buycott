@@ -258,6 +258,39 @@ class UserApiRepo {
     }
   }
 
+  /* 닉네임 수정
+  * */
+  Future<BaseModel?> modifyNickname(int userSrno,String nickname,{BuildContext? context}) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.userProfile;
+
+    debugPrint('userSrno :: $userSrno , nickname :: $nickname');
+
+    Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno,PARAM_NICKNAME:nickname};
+
+    try {
+      final response = await apiUtils.put(url: url,data: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
+    }
+  }
+
+
+
+
   /*
   * pushtoken 등록
   * */
@@ -333,6 +366,32 @@ class UserApiRepo {
     }
 
     String url = Api.baseUrl + ApiEndPoints.banner;
+
+    try {
+      final response = await apiUtils.get(url: url);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+  /* 공지사항 조회
+  * */
+  Future<BaseModel?> getNotice() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.notice;
 
     try {
       final response = await apiUtils.get(url: url);

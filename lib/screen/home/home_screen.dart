@@ -141,11 +141,9 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               StoreModel storeModel = _storeList[index];
 
-              return GestureDetector(
-                  onTap: () {},
-                  child: MainShopListTile(
-                    storeModel: storeModel,
-                  ));
+              return MainShopListTile(
+                storeModel: storeModel,
+              );
             },
             itemCount: _storeList.length),
       ),

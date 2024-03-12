@@ -4,10 +4,11 @@ import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 
-class PlaceListTile extends StatelessWidget {
+class StoreListTile extends StatelessWidget {
   final String placeName;
   final String addressName;
-  const PlaceListTile({super.key, required this.placeName, required this.addressName});
+  final bool likeYn;
+  const StoreListTile({super.key, required this.placeName, required this.addressName, required this.likeYn});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class PlaceListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset( "assets/icon/icon_like_off.png",width: 16,
+              Image.asset(likeYn ? "assets/icon/icon_like_on.png" : "assets/icon/icon_like_off.png",width: 16,
                 height: 16,fit: BoxFit.fill,),
               widthSizeBox(sized_14),
               Column( mainAxisAlignment: MainAxisAlignment.start,

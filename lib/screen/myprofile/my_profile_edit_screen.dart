@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/constants/screen_size.dart';
+import 'package:buycott/utils/utility.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -162,6 +163,8 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
                   child: ElevatedButton(
                       style: primary_btn_style(),
                       onPressed: (){
+                        Utility().hideKeyboard(context);
+
                         var nickNm = _nickNameTextController.text;
                         if (_formKey.currentState!.validate()) {
                         if(nickNm != "" ){
@@ -220,7 +223,7 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
       child: ElevatedButton(
           style:  _editProfileButton_click_possibility() ? primary_btn_style() :disable_btn_style() ,
           onPressed: (progressValue == 1.0 && _editProfileButton_click_possibility() )? (){
-            var nickNm = _nickNameTextController.text;
+            Utility().hideKeyboard(context);
 
             if(!(nickNmCheck ?? false)){
               CustomDialog(funcAction: dialogPop).normalDialog(context, nickName_check, '확인');
@@ -228,7 +231,7 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
             }else {
 
                 if(nickNmCheck == true){
-
+                  modifyNickname();
                 }
             }
 
@@ -323,6 +326,11 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
       }
     }
   }
+
+  void modifyNickname(){
+    Provider.of<UserNotifier>(context,listen: false).modifyNickname(context, userSrno!, _nickNameTextController.text);
+  }
+
 
   void setProfileImg(XFile file){
     Provider.of<UserNotifier>(context,listen: false).userImg(context,userSrno!,file,handleProgress);

@@ -29,9 +29,8 @@ class ReviewListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Visibility(
-                    visible: review.signedUrls != null,
+                    visible: review.reviewSignedUrls != null,
                     child: _reviewImg()) ,
-
                 _title(context),
                 heightSizeBox(sized_10),
                 Text(review.reviewContent ?? "" ,style: Theme.of(context).textTheme.bodySmall),
@@ -55,9 +54,9 @@ class ReviewListTile extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleImage(img: '',size: sized_24,),
+                        CircleImage(img: review.userSignUrl,size: sized_24,),
                         widthSizeBox(sized_5),
-                        Text("",style: Theme.of(context).textTheme.displayMedium,),
+                        Text(review.nickname ?? "",style: Theme.of(context).textTheme.displayMedium,),
                         widthSizeBox(sized_5),
                         Text('·',style: Theme.of(context).textTheme.displayMedium,),
                         widthSizeBox(sized_5),
@@ -90,17 +89,21 @@ class ReviewListTile extends StatelessWidget {
   }
 
   Widget _reviewImg() {
-    return Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children:List.generate(
-          review.signedUrls!.length,
-              (index) =>  Padding(
-            padding: const EdgeInsets.only(right: sized_10,top: sized_20),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(sized_10),
-                child: SquareImage(img: review.signedUrls![index],width:sized_100,height: sized_100,)),
-          )
-      ),);
+    return SizedBox(
+      height: review.reviewSignedUrls!.isNotEmpty ? 120 : 0,
+      child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: List.generate(
+              review.reviewSignedUrls!.length,
+                  (index) =>  Padding(
+                padding: const EdgeInsets.only(right: sized_10,top: sized_20),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(sized_10),
+                    child: SquareImage(img: review.reviewSignedUrls![index],width:sized_100,height: sized_100,)),
+              )
+          ),
+        ),
+    );
   }
 
 

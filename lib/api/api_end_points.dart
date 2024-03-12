@@ -18,11 +18,14 @@ class ApiEndPoints {
   static const store_map= "store/map";
   static const store_main= "store/main";
   static const store_search= "store/search";
+  static const store_my= "store/my";
 
   static const review= "review";
   static const reviewMy= "review/my";
 
   static const banner= "banner";
+
+  static const notice= "notice";
 
 
 

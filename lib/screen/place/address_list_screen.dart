@@ -138,7 +138,8 @@ class _AddressScreenState extends State<AddressScreen> {
                 },
                 child: addressModel.roadAddress != null ? PlaceListTile(
                     placeName:  addressModel.roadAddress!.roadName! ,
-                    addressName: addressModel.roadAddress!.addressName!) : Container());
+                    addressName: addressModel.roadAddress!.addressName!,
+                ) : Container());
           },
           separatorBuilder: (context, index) {
             return list_divider();

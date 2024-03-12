@@ -27,7 +27,7 @@ import '../bottomScreen.dart';
 import '../login/sign_up_screen.dart';
 import '../map/bottom_sheet_screen.dart';
 import '../bottomScreen3.dart';
-import '../myprofile/myprofile_screen.dart';
+import '../myprofile/my_profile_screen.dart';
 import '../store/store_add_screen.dart';
 import '../store/store_detail_screen.dart';
 

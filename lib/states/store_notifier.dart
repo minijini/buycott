@@ -17,13 +17,13 @@ class StoreNotifier extends ChangeNotifier {
   final String TAG = "StoreNotifier";
   List<StoreModel> _storeList = [];
   List<StoreModel> _mainStoreList = [];
+  List<StoreModel> _myStoreList = [];
   List<Review> _reviewListData = [];
   List<Review> _reviewList = [];
   List<Review> _myReviewListData = [];
   List<Review> _myReviewList = [];
   List<KeywordItem> _keywordList = [];
   StoreModel? _storeModel;
-   String _storeSrno = "";
 
 
   /*
@@ -105,8 +105,8 @@ class StoreNotifier extends ChangeNotifier {
     }
   }
 
-  Future<StoreModel?> storeDetail(int storeSrno) async{
-    final result = await StoreApiRepo().storeDetail(storeSrno);
+  Future<StoreModel?> storeDetail(int storeSrno,int? userSrno) async{
+    final result = await StoreApiRepo().storeDetail(storeSrno,userSrno);
 
     if (result != null) {
 
@@ -121,6 +121,27 @@ class StoreNotifier extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  Future myStores(BuildContext context,int? userSrno) async{
+    final result = await StoreApiRepo().myStores(userSrno,context: context);
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+        final _result = dataResult.body.map<StoreModel>((json) {
+          return StoreModel.fromJson(json);
+        }).toList();
+
+        _myStoreList.clear();
+        _myStoreList.addAll(_result);
+
+        notifyListeners();
+
+      }
+    }
   }
 
   Future<bool> registerReview( BuildContext context, String userSrno,
@@ -274,6 +295,7 @@ class StoreNotifier extends ChangeNotifier {
 
   List<StoreModel> get storeList => _storeList;
   List<StoreModel> get mainStoreList => _mainStoreList;
+  List<StoreModel> get myStoreList => _myStoreList;
   List<Review> get reviewList => _reviewList;
   List<Review> get myReviewList => _myReviewList;
   List<KeywordItem> get keywordList => _keywordList;

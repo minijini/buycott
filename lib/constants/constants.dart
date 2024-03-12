@@ -20,6 +20,8 @@ const String myProfileEditRouteName = 'myprofileedit';
 const String reviewWriteRouteName = 'reviewwrite';
 
 const String termsRouteName = 'terms';
+const String noticeRouteName = 'notice';
+const String noticeDetailRouteName = 'noticeDetail';
 
 const String api_error = '데이터 통신 중 오류가 발생하였습니다.';
 const String api_403_error = '다시 로그인 해주시기바랍니다.';

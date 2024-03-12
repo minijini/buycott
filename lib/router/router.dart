@@ -3,6 +3,8 @@ import 'package:buycott/screen/map/map_screen.dart';
 import 'package:buycott/screen/myprofile/my_profile_edit_screen.dart';
 import 'package:buycott/screen/myprofile/my_store_register_screen.dart';
 import 'package:buycott/screen/myprofile/my_review_screen.dart';
+import 'package:buycott/screen/notice/notice_detail_screen.dart';
+import 'package:buycott/screen/notice/notice_screen.dart';
 import 'package:buycott/screen/search/search_screen.dart';
 import 'package:buycott/screen/store/review_write_screen.dart';
 import 'package:buycott/screen/store/store_detail_screen.dart';
@@ -102,6 +104,24 @@ class MyRouter {
               name: myProfileEditRouteName,
               builder: (context, state) => const MyProfileEditScreen(),
               pageBuilder: defaultPageBuilder(const MyProfileEditScreen()),
+            ),
+
+            GoRoute(
+              path: noticeRouteName,
+              name: noticeRouteName,
+              builder: (context, state) => const NoticeScreen(),
+              pageBuilder: defaultPageBuilder(const NoticeScreen()),
+              routes: [
+                GoRoute(
+                  path: '$noticeDetailRouteName/:subject/:content/:date',
+                  name: noticeDetailRouteName,
+                  pageBuilder: (context, state) {
+                    return customTransitionPage(
+                        state, NoticeDetailScreen(subject:state.pathParameters['subject']!,content: state.pathParameters['content']!,date: state.pathParameters['date']!,));
+                  },
+                ),
+
+              ]
             ),
 
             GoRoute(

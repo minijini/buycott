@@ -48,19 +48,27 @@ class Review {
     int? reviewSrno,
     int? storeSrno,
     int? userSrno,
-      String? reviewContent,
+    String? reviewContent,
     int? totalPageNum,
     int? score,
     String? storeName,
     String? regDt,
-      List<String>? signedUrls,}){
+    String? nickname,
+    String? userSignUrl,
+    List<String>? signedUrls,
+    List<String>? reviewSignedUrls,
+
+  }){
     _reviewSrno = reviewSrno;
     _storeSrno = storeSrno;
     _userSrno = userSrno;
     _reviewContent = reviewContent;
     _totalPageNum = totalPageNum;
     _score = score;
+    _nickname = nickname;
+    _userSignUrl = userSignUrl;
     _signedUrls = signedUrls;
+    _reviewSignedUrls = reviewSignedUrls;
 }
 
   Review.fromJson(dynamic json) {
@@ -72,7 +80,10 @@ class Review {
     _score = json['score'];
     _storeName = json['storeName'];
     _regDt = json['regDt'];
+    _nickname = json['nickname'];
+    _userSignUrl = json['userSignUrl'];
     _signedUrls = json['signedUrls'] != null ? json['signedUrls'].cast<String>() : [];
+    _reviewSignedUrls = json['reviewSignedUrls'] != null ? json['reviewSignedUrls'].cast<String>() : [];
   }
   int? _reviewSrno;
   int? _storeSrno;
@@ -82,7 +93,10 @@ class Review {
   int? _score;
   String? _storeName;
       String? _regDt;
+      String? _nickname;
+      String? _userSignUrl;
   List<String>? _signedUrls;
+  List<String>? _reviewSignedUrls;
 
   int? get reviewSrno => _reviewSrno;
   int? get storeSrno => _storeSrno;
@@ -92,7 +106,10 @@ class Review {
   int? get score => _score;
   String? get regDt => _regDt;
   String? get storeName => _storeName;
+  String? get userSignUrl => _userSignUrl;
+  String? get nickname => _nickname;
   List<String>? get signedUrls => _signedUrls;
+  List<String>? get reviewSignedUrls => _reviewSignedUrls;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -104,7 +121,10 @@ class Review {
     map['score'] = _score;
     map['storeName'] = _storeName;
     map['regDt'] = _regDt;
+    map['nickname'] = _nickname;
+    map['userSignUrl'] = _userSignUrl;
     map['signedUrls'] = _signedUrls;
+    map['reviewSignedUrls'] = _reviewSignedUrls;
     return map;
   }
 

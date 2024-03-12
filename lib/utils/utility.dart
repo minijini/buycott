@@ -291,10 +291,8 @@ class Utility {
   String getDateFormat(String date){
     DateTime? parsedDate = parseCustomDate(date);
 
-    debugPrint("data :: $parsedDate");
-
     if (parsedDate != null) {
-      String formattedDate = DateFormat('yyyy.MM.dd').format(parsedDate);
+      String formattedDate = DateFormat('yy.MM.dd').format(parsedDate);
       return formattedDate; // Output: 2024.03.08
     }
 

@@ -76,7 +76,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               }
             }),
             _menu(context, "공지사항", false, () {
-              context.goNamed(myReviewRouteName);
+              context.goNamed(noticeRouteName);
             }),
             _menu(context, "이용약관", false, () {
               context.goNamed(termsRouteName, pathParameters: {'title': '이용약관'});
@@ -204,6 +204,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       ],
     );
   }
+
 
 
   void signOut(LoginPlatform _loginPlatform) async {

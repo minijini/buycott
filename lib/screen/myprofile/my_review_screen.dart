@@ -11,6 +11,7 @@ import '../../states/store_notifier.dart';
 import '../../utils/color/basic_color.dart';
 import '../../widgets/NoGlowScrollBehavior.dart';
 import '../../widgets/circle_progressbar.dart';
+import '../../widgets/list_empty_screen.dart';
 import '../../widgets/style/divider.dart';
 
 class MyReviewScreen extends StatefulWidget {
@@ -92,24 +93,13 @@ class _MyReviewScreenState extends State<MyReviewScreen> {
                 separatorBuilder: (context, index) {
                   return divider();
                 },
-                itemCount: notifier.myReviewList.length) : getReviewsList ?  _empty() : CustomCircularProgress();
+                itemCount: notifier.myReviewList.length) : getReviewsList ?  ListEmptyScreen(title: '내가 쓴 리뷰가 없습니다.',) : CustomCircularProgress();
           }
         ),
       ),
     );
   }
 
-  Widget _empty(){
-    return SizedBox(
-      width: size!.width,
-      child: Column(
-        children: [
-          heightSizeBox(sized_180),
-          Text('내가 쓴 리뷰가 없습니다.',style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),)
-        ],
-      ),
-    );
-  }
 
 
   void getMyReviews() async {

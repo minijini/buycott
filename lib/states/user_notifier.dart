@@ -1,6 +1,7 @@
 
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:buycott/data/file_model.dart';
+import 'package:buycott/data/notice_model.dart';
 import 'package:buycott/data/result_model.dart';
 import 'package:buycott/data/user_model.dart';
 import 'package:buycott/firebase/firebaseservice.dart';
@@ -28,6 +29,9 @@ class UserNotifier extends ChangeNotifier{
   String? _profileImg;
   List<BannerModel> _bannerList2 = [];
   List<FileModel> _bannerList = [];
+
+  List<NoticeModel> _noticeListData = [];
+  List<NoticeModel> _noticeList = [];
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
@@ -248,6 +252,28 @@ class UserNotifier extends ChangeNotifier{
     }
   }
 
+  /*
+    * push 알림 yn
+    * */
+  Future modifyNickname( BuildContext context,int userSrno,String nickname) async{
+
+    final result = await UserApiRepo().modifyNickname(userSrno,nickname);
+
+    if (result != null) {
+
+      if (result.isSuccess(context: context)) {
+        var dataResult = ResultModel.fromJson(result.data);
+
+        if(dataResult.code == profileSuccess){
+          _resultDialog(context, dataResult);
+
+          _getUserProfile(userSrno);
+
+        }
+      }
+    }
+  }
+
  /*
     * push 알림 yn
     * */
@@ -261,6 +287,7 @@ class UserNotifier extends ChangeNotifier{
       }
     }
   }
+
 
 
 /*
@@ -355,8 +382,28 @@ class UserNotifier extends ChangeNotifier{
        //
        //    return BannerModel(imagePath: file.signedUrl ?? "", id: index.toString(),boxFit: BoxFit.fill);
        //  }).toList();
+        notifyListeners();
 
+      }
+    }
+  }
 
+  /*
+  * 공지사항 조회
+  * */
+  Future getNotice() async{
+    final result = await UserApiRepo().getNotice();
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+        var dataResult = ResultModel.fromJson(result.data);
+
+        List<NoticeModel> _result = dataResult.body.map<NoticeModel>((json) {
+          return NoticeModel.fromJson(json);
+        }).toList();
+        _noticeList.clear();
+        _noticeList.addAll(_result);
         notifyListeners();
 
       }
@@ -383,6 +430,7 @@ class UserNotifier extends ChangeNotifier{
     String? get token => _token;
     String? get profileImg => _profileImg;
     List<FileModel> get bannerList => _bannerList;
+    List<NoticeModel> get noticeList => _noticeList;
     AuthStatus get authStatus => _authStatus;
     LoginPlatform get  loginPlatform=> _loginPlatform;
     // MemberInfo? get memberInfo => _memberInfo;

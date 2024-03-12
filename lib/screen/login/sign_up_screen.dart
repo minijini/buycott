@@ -139,6 +139,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: ElevatedButton(
                           style: primary_btn_style(),
                           onPressed: (){
+                            Utility().hideKeyboard(context);
+
                             var nickNm = _nickNameTextController.text;
                             if(nickNm != "" ){
                               Provider.of<UserNotifier>(context,listen: false).nicknameCheck(context, nickNm).then((value){

@@ -60,7 +60,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
   }
 
   void _getStoreDetail() {
-    Provider.of<StoreNotifier>(context, listen: false).storeDetail(int.parse(widget.storeSrno)).then((value){
+    Provider.of<StoreNotifier>(context, listen: false).storeDetail(int.parse(widget.storeSrno),userSrno).then((value){
       setState(() {
         storeModel = value;
       });

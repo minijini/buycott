@@ -122,7 +122,7 @@ class StoreApiRepo {
   /*
   * 가게상세조회
   * */
-  Future<BaseModel?> storeDetail(int storeSrno,{BuildContext? context}) async {
+  Future<BaseModel?> storeDetail(int storeSrno,int? userSrno,{BuildContext? context}) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -131,7 +131,42 @@ class StoreApiRepo {
 
     String url = Api.baseUrl + ApiEndPoints.store_search;
 
-    Map<String, dynamic>? queryParameters = { PARAM_STORESRNO: storeSrno};
+
+
+    Map<String, dynamic>? queryParameters = { PARAM_STORESRNO: storeSrno,
+        PARAM_USERSRNO: userSrno ?? "null"
+      };
+
+
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
+    }
+  }
+
+  /*
+  * 내가 제안한 가게 조회
+  * */
+  Future<BaseModel?> myStores(int? userSrno,{BuildContext? context}) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.store_my;
+
+    Map<String, dynamic>? queryParameters = { PARAM_USERSRNO : userSrno};
 
 
     try {
@@ -249,7 +284,7 @@ class StoreApiRepo {
     };
 
     try {
-      final response = await apiUtils.put(url: url,queryParameters: queryParameters);
+      final response = await apiUtils.put(url: url,data: queryParameters);
 
       if (response != null) {
 

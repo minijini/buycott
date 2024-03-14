@@ -408,6 +408,95 @@ class UserApiRepo {
     }
   }
 
+  /* 관심가게조회
+  * */
+  Future<BaseModel?> favoriteList(int userSrno) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.watchlist;
+
+    Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno};
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+
+
+  /* 관심가게 등록
+  * */
+  Future<BaseModel?> favoriteAdd(String storeSrno,int userSrno) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.watchlist;
+
+
+    Map<String, dynamic>? queryParameters = { PARAM_STORESRNO : storeSrno,
+      PARAM_USERSRNO: userSrno};
+
+    try {
+      final response = await apiUtils.post(url: url,data: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
+
+  /* 관심가게삭제
+  * */
+  Future<BaseModel?> favoriteDelete(String storeSrno,int userSrno) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.watchlist;
+
+
+    Map<String, dynamic>? queryParameters = { PARAM_STORESRNO : storeSrno,
+      PARAM_USERSRNO: userSrno};
+
+    try {
+      final response = await apiUtils.delete(url: url,data: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+    }
+  }
 
 /*
   * 앱 버전 정보 조회

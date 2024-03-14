@@ -5,6 +5,7 @@ import 'package:buycott/data/review_model.dart';
 import 'package:buycott/data/store_model.dart';
 import 'package:buycott/firebase/firebaseservice.dart';
 import 'package:buycott/screen/store/review_sliver_header.dart';
+import 'package:buycott/states/user_notifier.dart';
 import 'package:buycott/utils/color/basic_color.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/utils/utility.dart';
@@ -44,6 +45,8 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
 
   bool getReviewsList = false;
 
+  String? watchYn;
+
 
   final ScrollController _scrollController = ScrollController();
 
@@ -74,6 +77,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     Provider.of<StoreNotifier>(context, listen: false).storeDetail(int.parse(widget.storeSrno),userSrno).then((value){
       setState(() {
         storeModel = value;
+        watchYn = storeModel?.watchYn ?? "";
       });
     });
   }
@@ -98,10 +102,15 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
               icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,)),
         actions: [
           Visibility(
-            visible: userSrno != null,
-            child: Transform.scale(
-                scale: 0.5,
-                child: Image.asset("assets/icon/icon_like_off.png",fit: BoxFit.fill,)),
+            visible: userSrno != null && watchYn!= null,
+            child: GestureDetector(
+              onTap: (){
+                favorite();
+              },
+              child: Transform.scale(
+                  scale: 0.5,
+                  child: Image.asset(Utility().getFavoriteImg(watchYn ?? ""),fit: BoxFit.fill,)),
+            ),
           )
         ],
       ),
@@ -311,7 +320,6 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   }
 
   void getReviews() async {
-
    await  Provider.of<StoreNotifier>(context,listen: false).getReviews(widget.storeSrno,pageNum,limit).then((_reviewResult){
       setState(() {
           getReviewsList = true;
@@ -327,6 +335,22 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
         }
       });
     });
+  }
+
+  void favorite() async{
+    if(watchYn == "Y"){
+       Provider.of<UserNotifier>(context,listen: false).favoreteDelete(widget.storeSrno, userSrno!).then((value){
+         setState(() {
+           watchYn = "N";
+         });
+       });
+    }else{
+      Provider.of<UserNotifier>(context,listen: false).favoreteAdd(widget.storeSrno, userSrno!).then((value){
+        setState(() {
+          watchYn = "Y";
+        });
+      });
+    }
   }
 
   scrollListener() async {

@@ -60,6 +60,18 @@ class Utility {
     return _age.toString();
   }
 
+  String getFavoriteImg(String watchYn){
+    String img = "";
+
+    if(watchYn == 'Y'){
+      img = 'assets/icon/icon_like_on.png';
+    }else{
+      img = 'assets/icon/icon_like_off.png';
+    }
+
+    return img;
+  }
+
   static String getChatTime(String? date) {
     if (date == null || date.isEmpty) {
       return '';

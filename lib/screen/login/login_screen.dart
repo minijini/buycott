@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if(value == 2000){ //가입페이지 이동
         context.goNamed(signUpRouteName, pathParameters: {'userId': userId,'signType':signType});
       }else{ //기존회원 로그인
-        Provider.of<UserNotifier>(context,listen: false).login(context, userId, "$userId$signType").then((value) => Navigator.pop(context));
+        Provider.of<UserNotifier>(context,listen: false).login(context, userId, "$userId$signType").then((value) => Navigator.pop(context,"reset"));
       }
     });
 

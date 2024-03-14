@@ -39,6 +39,7 @@ String PARAM_REVIEWCONTENT = "reviewContent";
 String PARAM_SCORE = "score";
 String PARAM_PAGENUM = "pageNum";
 String PARAM_LIMIT = "limit";
+String PARAM_WORD = "word";
 
 String PARAM_PUSHTOKEN = "pushToken"; //푸시토큰
 String PARAM_PUSHYN = "pushYn"; //알림여부

@@ -19,8 +19,8 @@ class PlaceListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset( "assets/icon/icon_like_off.png",width: 16,
-                height: 16,fit: BoxFit.fill,),
+              Image.asset( "assets/icon/icon_like_off.png",width: 20,
+                height: 20,fit: BoxFit.fill,),
               widthSizeBox(sized_14),
               Column( mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

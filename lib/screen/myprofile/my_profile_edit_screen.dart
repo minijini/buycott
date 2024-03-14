@@ -4,7 +4,9 @@ import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/constants/screen_size.dart';
 import 'package:buycott/utils/utility.dart';
 import 'package:buycott/widgets/style/container.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,7 @@ import '../../widgets/dialog/custom_dialog.dart';
 import '../../widgets/style/button_decor.dart';
 import '../../widgets/style/input_decor.dart';
 
+
 class MyProfileEditScreen extends StatefulWidget {
   const MyProfileEditScreen({super.key});
 
@@ -27,6 +30,8 @@ class MyProfileEditScreen extends StatefulWidget {
 
 class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _isPushYN = false;
 
   final ImagePicker picker = ImagePicker(); //ImagePicker 초기화
 
@@ -40,9 +45,12 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
   double progressValue = 1.0;
 
 
+
   @override
   void initState() {
     super.initState();
+    _isPushYN = userModel?.pushYn == "Y" ? true : false;
+
 
     profileImg = context.read<UserNotifier>().profileImg;
     _nickNameTextController.text = userModel?.nickname ?? "";
@@ -87,7 +95,7 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
               heightSizeBox(sized_20),
               Padding(
                 padding:  EdgeInsets.only(bottom: sized_6),
-                child: Text("닉네임",style: Theme.of(context).textTheme.displayLarge!.copyWith(color: BasicColor.lightgrey2,fontWeight: FontWeight.w500),),
+                child: Text("닉네임",style: Theme.of(context).textTheme.displayLarge!.copyWith(color: BasicColor.lightgrey2),),
               ),
               _changeNicknm(context),
               Visibility(
@@ -97,6 +105,8 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
                   child: Text(nickNmCheck ?? false ? nickNm_success : nickNm_fail, style: Theme.of(context).textTheme.bodySmall!.copyWith(color:nickNmCheck ?? false ? BasicColor.primary : BasicColor.red,),),
                 ),
               ),
+              heightSizeBox(sized_20),
+              _pushSwitch(),
              Expanded(child: Align(
                  alignment: Alignment.bottomCenter,
                  child: Column(
@@ -245,6 +255,61 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
     }else{
       return false;
     }
+  }
+
+  Widget _pushSwitch(){
+    return Row(
+      children: [
+        Text('푸시허용',
+            style:Theme.of(context).textTheme.displayLarge!.copyWith(color: BasicColor.lightgrey2)),
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: AdvancedSwitch(
+              initialValue : _isPushYN,
+              activeColor: BasicColor.primary,
+              inactiveColor: BasicColor.linegrey,
+              activeChild: Text('ON'),
+              inactiveChild: Text('OFF'),
+              borderRadius: BorderRadius.all(const Radius.circular(15)),
+              width: 65.0,
+              height: 30.0,
+              enabled: true,
+              disabledOpacity: 0.5,
+              onChanged: (value) {
+                setState(() {
+                  _isPushYN = value;
+                });
+                Provider.of<UserNotifier>(context, listen: false).pushSetting(userSrno!,_isPushYN ? 'Y' : 'N');
+              },
+            ),
+          ),
+
+            // child: Align(
+            //     alignment: Alignment.centerRight,
+            //     child: Container(
+            //       width: sized_45,
+            //       height: sized_5,
+            //       child: Transform.scale(
+            //         scale: 0.7,
+            //         child: CupertinoSwitch(
+            //           // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            //           value: _isPushYN,
+            //           activeColor: BasicColor.primary,
+            //           thumbColor: BasicColor.linegrey,
+            //           trackColor: BasicColor.linegrey,
+            //           onChanged: (bool value) {
+            //             setState(() {
+            //               _isPushYN = value;
+            //             });
+            //             Provider.of<UserNotifier>(context, listen: false).pushSetting(userSrno!,_isPushYN ? 'Y' : 'N');
+            //           },
+            //         ),
+            //       ),
+            //     ))
+        ),
+      ],
+    );
   }
 
   Future<dynamic> _showModalBottomSheet() {

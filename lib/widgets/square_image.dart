@@ -20,6 +20,7 @@ class SquareImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return CachedNetworkImage(
       // imageUrl: img!=null ?'${Api.baseUrl}$img':'',
       imageUrl: img != null ? '$img' : '',

@@ -18,6 +18,7 @@ class StoreNotifier extends ChangeNotifier {
   List<StoreModel> _storeList = [];
   List<StoreModel> _mainStoreList = [];
   List<StoreModel> _myStoreList = [];
+  List<StoreModel> _searchStoreList = [];
   List<Review> _reviewListData = [];
   List<Review> _reviewList = [];
   List<Review> _myReviewListData = [];
@@ -80,6 +81,28 @@ class StoreNotifier extends ChangeNotifier {
           _storeList.clear();
           _storeList.addAll(_typeResult);
         }
+
+        notifyListeners();
+      }
+    }
+  }
+
+  /*
+  * 가게이름으로 검색
+  * */
+  Future searchStores(String word) async{
+    final result = await StoreApiRepo().searchStores(word);
+
+    if (result != null) {
+      if (result.isSuccess()) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+        final _result = dataResult.body.map<StoreModel>((json) {
+          return StoreModel.fromJson(json);
+        }).toList();
+
+        _searchStoreList.clear();
+        _searchStoreList.addAll(_result);
 
         notifyListeners();
       }
@@ -296,6 +319,7 @@ class StoreNotifier extends ChangeNotifier {
   List<StoreModel> get storeList => _storeList;
   List<StoreModel> get mainStoreList => _mainStoreList;
   List<StoreModel> get myStoreList => _myStoreList;
+  List<StoreModel> get searchStoreList => _searchStoreList;
   List<Review> get reviewList => _reviewList;
   List<Review> get myReviewList => _myReviewList;
   List<KeywordItem> get keywordList => _keywordList;

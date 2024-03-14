@@ -18,6 +18,7 @@ import '../constants/response_code.dart';
 import '../constants/sharedpreference_key.dart';
 import '../constants/status.dart';
 import '../constants/constants.dart';
+import '../data/store_model.dart';
 import '../utils/code_dialog.dart';
 import '../utils/utility.dart';
 import '../widgets/dialog/custom_dialog.dart';
@@ -32,6 +33,8 @@ class UserNotifier extends ChangeNotifier{
 
   List<NoticeModel> _noticeListData = [];
   List<NoticeModel> _noticeList = [];
+
+  List<StoreModel> _favoriteList = [];
 
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
@@ -107,20 +110,20 @@ class UserNotifier extends ChangeNotifier{
           if (result.isSuccess(context: context)) {
 
             var dataResult = ResultModel.fromJson(result.data);
+            userSrno = dataResult.userSrno!;
 
             _token = dataResult.token ?? '';
             Utility().setSharedPreference(TOKEN_KEY, _token!);
 
             _getUserProfile(dataResult.userSrno!);
 
-            userSrno = dataResult.userSrno!;
-
             pushToken(dataResult.userSrno!, pushtoken??"");
 
             Utility().setSharedPreference(USER_SRNO, dataResult.userSrno!.toString());
 
-
             _authStatus = AuthStatus.signin;
+
+            getFavoriteList(userSrno!);
 
           } else {
             _token = '';
@@ -283,7 +286,7 @@ class UserNotifier extends ChangeNotifier{
     if (result != null) {
 
       if (result.isSuccess()) {
-
+        getProfile(userSrno);
       }
     }
   }
@@ -412,6 +415,51 @@ class UserNotifier extends ChangeNotifier{
   }
 
 
+  Future getFavoriteList(int userSrno) async{
+    final result = await UserApiRepo().favoriteList(userSrno);
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+
+        List<StoreModel> _result = dataResult.body.map<StoreModel>((json) {
+          return StoreModel.fromJson(json);
+        }).toList();
+
+        _favoriteList.clear();
+        _favoriteList.addAll(_result);
+
+        notifyListeners();
+
+      }
+    }
+  }
+
+  Future favoreteAdd(String storeSrno,int userSrno) async{
+    final result = await UserApiRepo().favoriteAdd(storeSrno,userSrno);
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+        getFavoriteList(userSrno);
+      }
+    }
+  }
+
+  Future favoreteDelete(String storeSrno,int userSrno) async{
+    final result = await UserApiRepo().favoriteDelete(storeSrno,userSrno);
+
+    if (result != null) {
+
+      if (result.isSuccess()) {
+        getFavoriteList(userSrno);
+      }
+    }
+  }
+
+
 
 
   void _getUserProfile(int userSrno ) {
@@ -431,6 +479,7 @@ class UserNotifier extends ChangeNotifier{
     String? get profileImg => _profileImg;
     List<FileModel> get bannerList => _bannerList;
     List<NoticeModel> get noticeList => _noticeList;
+    List<StoreModel> get favoriteList => _favoriteList;
     AuthStatus get authStatus => _authStatus;
     LoginPlatform get  loginPlatform=> _loginPlatform;
     // MemberInfo? get memberInfo => _memberInfo;

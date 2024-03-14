@@ -5,6 +5,8 @@ class ApiEndPoints {
   static const signin = "signin";
   static const signup = "signup";
 
+  static const appversion = "signup";
+
   static const userImg = "img/user";
   static const userProfile = "profile";
 
@@ -19,9 +21,12 @@ class ApiEndPoints {
   static const store_main= "store/main";
   static const store_search= "store/search";
   static const store_my= "store/my";
+  static const store_name= "store/name";
 
   static const review= "review";
   static const reviewMy= "review/my";
+
+  static const watchlist= "watchlist";
 
   static const banner= "banner";
 

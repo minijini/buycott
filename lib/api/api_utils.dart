@@ -128,7 +128,8 @@ class ApiUtils {
   }
 
   Future<Response> delete({
-    required String api,
+    required String url,
+    data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
@@ -136,7 +137,8 @@ class ApiUtils {
 
     //var result = await _dio.delete(api, options: options);
     var result = await _dio.delete(
-      api,
+      url,
+      data: data,
       queryParameters: queryParameters,
       options: options,
     );

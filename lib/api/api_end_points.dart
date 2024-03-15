@@ -5,7 +5,7 @@ class ApiEndPoints {
   static const signin = "signin";
   static const signup = "signup";
 
-  static const appversion = "signup";
+  static const appversion = "appversion";
 
   static const userImg = "img/user";
   static const userProfile = "profile";

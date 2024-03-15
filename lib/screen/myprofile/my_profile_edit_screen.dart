@@ -114,12 +114,17 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
                    children: [
                      _editProfileButton(context),
                      heightSizeBox(sized_10),
-                     Container(
-                         decoration:  BoxDecoration(
-                             border: Border(
-                                 bottom: BorderSide(color: BasicColor.linegrey,width: 0.5))
-                         ),
-                         child: Text('회원탈퇴를 원하시나요?',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize:sized_11,color: BasicColor.linegrey),)),
+                     GestureDetector(
+                       onTap: (){
+                         context.goNamed(withdrawalRouteName);
+                       },
+                       child: Container(
+                           decoration:  BoxDecoration(
+                               border: Border(
+                                   bottom: BorderSide(color: BasicColor.linegrey,width: 0.5))
+                           ),
+                           child: Text('회원탈퇴를 원하시나요?',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize:sized_11,color: BasicColor.linegrey),)),
+                     ),
                      heightSizeBox(sized_30),
                    ],
                  )))

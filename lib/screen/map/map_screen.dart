@@ -152,7 +152,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
     CustomDialog(funcAction: location_RecommdFunc)
         .actionDialog(
         context, "위치 권한을 허용해주세요.", '아니오', '예',
-        'assets/icon/icon_marker.png');
+       );
   }
 
   void location_RecommdFunc(BuildContext context){

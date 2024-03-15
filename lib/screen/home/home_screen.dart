@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:buycott/constants/padding_size.dart';
 import 'package:buycott/constants/screen_size.dart';
@@ -9,15 +11,19 @@ import 'package:buycott/widgets/list/main_shop_list_tile.dart';
 import 'package:buycott/widgets/square_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:store_redirect/store_redirect.dart';
 
+import '../../constants/basic_text.dart';
 import '../../constants/constants.dart';
 import '../../data/file_model.dart';
 import '../../states/store_notifier.dart';
 import '../../utils/log_util.dart';
 import '../../widgets/NoGlowScrollBehavior.dart';
+import '../../widgets/dialog/custom_dialog.dart';
 import '../../widgets/empty_screen.dart';
 import '../../widgets/style/container.dart';
 import '../../widgets/style/divider.dart';
@@ -34,8 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchTextController = TextEditingController();
   final controller = PageController(viewportFraction: 1, keepPage: true);
 
+  bool isAppversionCheck = true;
+
+  String? apptype;
+
+
   @override
   void initState() {
+    _appVersionCheck();
+
     _mainStoresNotifier();
 
     super.initState();
@@ -46,6 +59,56 @@ class _HomeScreenState extends State<HomeScreen> {
     _searchTextController.dispose();
     super.dispose();
   }
+
+
+  void _appVersionCheck() async{ //appversion + pushtoken등록
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String deviceAppversion = packageInfo.version;
+
+    Log.logs(TAG, "deviceAppversion :: $deviceAppversion");
+
+
+    if (Platform.isAndroid) {
+      apptype = "A";
+    } else if (Platform.isIOS) {
+      apptype = "I";
+    }
+
+    final _result =  await Provider.of<UserNotifier>(context,listen: false).appversion(context,  apptype!);
+    final _updateYn = _result!.forceYn;
+    String? _appversion = _result.appVersion;
+
+    Log.logs(TAG, "_appversion :: $_appversion");
+
+
+    if(_updateYn == 'Y'){
+      CustomDialog(funcAction: appUpdate).normalDialog(context, '필수 업데이트를 진행해주세요', '확인');
+      setState(() {
+        appUpdateYn = true;
+        isAppversionCheck = false;
+      });
+
+    }else{
+      if(_appversion != null) {
+        if (_appversion.compareTo(deviceAppversion) != 0) {
+          CustomDialog(funcAction: appUpdate).actionDialog(context, '업데이트를 진행해주세요', '아니오', '확인');
+        }
+
+        setState(() {
+          isAppversionCheck = false;
+        });
+
+      }
+    }
+  }
+
+  //TODO:APPUpdate 정보입력
+  void appUpdate(BuildContext context){
+    StoreRedirect.redirect(androidAppId: 'com.minijini.buycott', iOSAppId:'');
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

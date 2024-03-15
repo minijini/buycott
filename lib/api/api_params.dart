@@ -44,6 +44,8 @@ String PARAM_WORD = "word";
 String PARAM_PUSHTOKEN = "pushToken"; //푸시토큰
 String PARAM_PUSHYN = "pushYn"; //알림여부
 
+String PARAM_OS = "os"; //기종
+
 String PARAM_SIGNTYPE = "signType"; //로그인타입
 String PARAM_EXPIRE = "expire"; //토큰 만료시간
 

@@ -16,6 +16,7 @@ const String myReviewRouteName = 'myreview';
 const String storeAddRouteName = 'storeadd';
 const String searchRouteName = 'search';
 const String myProfileEditRouteName = 'myprofileedit';
+const String withdrawalRouteName = 'withdrawal';
 
 const String reviewWriteRouteName = 'reviewwrite';
 
@@ -32,6 +33,7 @@ const String nickNm_fail = '이미 사용중인 닉네임 입니다.';
 const String review_success = '리뷰 등록했습니다.';
 const String review_fail = '리뷰등록에 실패했습니다.';
 const String edit_profile_success = '프로필 수정 완료하였습니다.';
+const String drop_member = '회원 탈퇴 하시겠습니까?';
 
 
 

@@ -28,6 +28,35 @@ class UserApiRepo {
   }
 
   /*
+  * 앱버전체크
+  * */
+  Future<BaseModel?> appversion(String os,{BuildContext? context}) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return BaseModel.withError(
+          statusCode: CODE_NO_INTERNET, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.appversion;
+
+    Map<String, dynamic>? queryParameters = { PARAM_OS: os};
+
+    try {
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+
+      if (response != null) {
+
+        return BaseModel.fromJson(response.data);
+      }
+
+      return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
+    } catch (e) {
+      return BaseModel.withError(
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
+    }
+  }
+
+  /*
   * 로그인 요청
   * */
   Future<BaseModel?> login(String id , String pwd) async {

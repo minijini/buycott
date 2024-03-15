@@ -106,17 +106,16 @@ Future<void> actionDialog(
     String message,
     String negativeMsg,
     String positiveMsg,
-    String icon,
   {String? pkChat,String? pkMember}
     ) async {
   showDialog(
     context: context,
     barrierDismissible: false, // 바깐 영역 터치시 창닫기 x
-    builder: (context) => actiondialog(context,message,negativeMsg,positiveMsg,icon, pkChat ?? '',pkMember ?? ''),
+    builder: (context) => actiondialog(context,message,negativeMsg,positiveMsg, pkChat ?? '',pkMember ?? ''),
   );
 }
 
-  Widget actiondialog(BuildContext context,String message, String negativeMsg,String positiveMsg,String icon,String pkChat,String pkMember) {
+  Widget actiondialog(BuildContext context,String message, String negativeMsg,String positiveMsg,String pkChat,String pkMember) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),

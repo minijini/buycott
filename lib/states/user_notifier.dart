@@ -1,5 +1,6 @@
 
 import 'package:banner_carousel/banner_carousel.dart';
+import 'package:buycott/data/appversion_model.dart';
 import 'package:buycott/data/file_model.dart';
 import 'package:buycott/data/notice_model.dart';
 import 'package:buycott/data/result_model.dart';
@@ -97,6 +98,27 @@ class UserNotifier extends ChangeNotifier{
     //   }
     // }
     //
+
+
+  /*
+    * 앱버전
+    * */
+  Future<AppversionModel?> appversion(BuildContext context,String os) async{
+    final result = await UserApiRepo().appversion(os,context: context);
+
+    if (result != null) {
+
+      if (result.isSuccess(context: context)) {
+
+        var dataResult = ResultModel.fromJson(result.data);
+
+        return AppversionModel.fromJson(dataResult.body);
+
+      }
+    }
+
+    return null;
+  }
 
 
     /*

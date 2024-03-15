@@ -254,14 +254,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Container(
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: isChecked
-                              ? Image.asset(
-                            'assets/icon/icon_check_on.png', // Replace with your checked icon path
-                            width: sized_20,
-                            height: sized_20,
-                          )
-                              : Image.asset(
-                            'assets/icon/icon_check_off.png', // Replace with your unchecked icon path
+                          child:  Image.asset(
+                            isChecked
+                                ? 'assets/icon/icon_check_on.png':'assets/icon/icon_check_off.png', // Replace with your checked icon path
                             width: sized_20,
                             height: sized_20,
                           ),

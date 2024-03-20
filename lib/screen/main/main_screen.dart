@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
     //     return ShopListScreen();
     //   },
     // ),
-    HomeScreen(),
+    // HomeScreen(),
     Consumer<StoreNotifier>(
       builder: (context,notifier,child){
         return MapScreen(storeNotifier: notifier,);
@@ -141,19 +141,19 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
                showUnselectedLabels: false,
              //icon&label 보여주는 타입 , fixed : 애니메이션 없음
              items: [
-               BottomNavigationBarItem(
-                   icon: Container(
-                     padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 0
-                         ? 'assets/icon/icon_home_off.png'
-                         : 'assets/icon/icon_home_off.png')),
-                   ),
-                   label: '추천'),
+               // BottomNavigationBarItem(
+               //     icon: Container(
+               //       padding: const EdgeInsets.symmetric(vertical: sized_2),
+               //       child: ImageIcon(AssetImage(_bottomSelectedIndex == 0
+               //           ? 'assets/icon/icon_home_off.png'
+               //           : 'assets/icon/icon_home_off.png')),
+               //     ),
+               //     label: '추천'),
                //선택 될 때 채워진 이미지로 변경
                BottomNavigationBarItem(
                    icon: Container(
                      padding: const EdgeInsets.symmetric(vertical: sized_2),
-                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 1
+                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 0
                          ? 'assets/icon/icon_location_off.png'
                          : 'assets/icon/icon_location_off.png')),
                    ),
@@ -164,7 +164,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
                      children: [
                        Container(
                          padding: const EdgeInsets.symmetric(vertical: sized_2),
-                         child: ImageIcon(AssetImage(_bottomSelectedIndex == 2
+                         child: ImageIcon(AssetImage(_bottomSelectedIndex == 1
                              ? 'assets/icon/icon_favorite_off.png'
                              : 'assets/icon/icon_favorite_off.png')),
                        ),
@@ -175,7 +175,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
                    icon: Container(
                      padding: const EdgeInsets.symmetric(vertical: sized_2),
 
-                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 3
+                     child: ImageIcon(AssetImage(_bottomSelectedIndex == 2
                          ? 'assets/icon/icon_my_off.png'
                          : 'assets/icon/icon_my_off.png')),
                    ),

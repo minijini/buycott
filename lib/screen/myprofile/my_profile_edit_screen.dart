@@ -116,7 +116,7 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
                      heightSizeBox(sized_10),
                      GestureDetector(
                        onTap: (){
-                         context.goNamed(withdrawalRouteName);
+                         context.goNamed(memberDropRouteName);
                        },
                        child: Container(
                            decoration:  BoxDecoration(

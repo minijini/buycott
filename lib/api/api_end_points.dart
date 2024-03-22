@@ -4,6 +4,7 @@ class ApiEndPoints {
 
   static const signin = "signin";
   static const signup = "signup";
+  static const withdrawal = "withdrawal";
 
   static const appversion = "appversion";
 

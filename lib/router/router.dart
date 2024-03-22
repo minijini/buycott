@@ -3,7 +3,7 @@ import 'package:buycott/screen/map/map_screen.dart';
 import 'package:buycott/screen/myprofile/my_profile_edit_screen.dart';
 import 'package:buycott/screen/myprofile/my_store_register_screen.dart';
 import 'package:buycott/screen/myprofile/my_review_screen.dart';
-import 'package:buycott/screen/myprofile/withdrawal_screen.dart';
+import 'package:buycott/screen/myprofile/member_drop_screen.dart';
 import 'package:buycott/screen/notice/notice_detail_screen.dart';
 import 'package:buycott/screen/notice/notice_screen.dart';
 import 'package:buycott/screen/search/search_screen.dart';
@@ -107,10 +107,10 @@ class MyRouter {
               pageBuilder: defaultPageBuilder(const MyProfileEditScreen()),
               routes: [
                 GoRoute(
-                  path: withdrawalRouteName,
-                  name: withdrawalRouteName,
-                  builder: (context, state) => const WithdrawalScreen(),
-                  pageBuilder: defaultPageBuilder(const WithdrawalScreen()),
+                  path: memberDropRouteName,
+                  name: memberDropRouteName,
+                  builder: (context, state) => const MemberDropScreen(),
+                  pageBuilder: defaultPageBuilder(const MemberDropScreen()),
                 ),
               ]
             ),

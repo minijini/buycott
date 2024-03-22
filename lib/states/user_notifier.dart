@@ -278,7 +278,7 @@ class UserNotifier extends ChangeNotifier{
   }
 
   /*
-    * push 알림 yn
+    * 닉네임 수정
     * */
   Future modifyNickname( BuildContext context,int userSrno,String nickname) async{
 
@@ -329,6 +329,27 @@ class UserNotifier extends ChangeNotifier{
     }
   }
 
+  /*
+    * 회원탈퇴
+    * */
+  Future<bool> memberDrop( BuildContext context,int userSrno) async{
+
+    final result = await UserApiRepo().memberDrop(userSrno,context: context);
+
+    if (result != null) {
+
+      if (result.isSuccess(context: context)) {
+        var dataResult = ResultModel.fromJson(result.data);
+
+        if(dataResult.code == dropSuccess){
+          logout();
+          return true;
+        }else{}
+        return false;
+      }
+    }
+    return false;
+  }
 
 
 

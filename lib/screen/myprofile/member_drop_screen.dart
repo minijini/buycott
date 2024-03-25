@@ -1,3 +1,4 @@
+import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -41,12 +42,38 @@ class _MemberDropScreenState extends State<MemberDropScreen> {
       ),
       backgroundColor: Colors.white,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _checkBox(context,"동의하십니까?"),
+          heightSizeBox(sized_20),
+          _dropText(context),
+          heightSizeBox(sized_50),
+          _checkBox(context,drop_member_agree),
           _dropButton(context)
         ],
       ),
     );
+  }
+
+  Widget _dropText(BuildContext context) {
+    return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: padding_side),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.info,color: BasicColor.red,size: sized_18,),
+                  Text('  탈퇴 시 유의사항', style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey2)),
+                ],
+              ),
+              heightSizeBox(sized_20),
+              Padding(
+                padding: const EdgeInsets.only(left: sized_10),
+                child: Text(drop_member_text, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: BasicColor.lightgrey2)),
+              ),
+            ],
+          ),
+        );
   }
 
   Container _checkBox(BuildContext context , String title) {
@@ -80,15 +107,18 @@ class _MemberDropScreenState extends State<MemberDropScreen> {
     );
   }
 
-  SizedBox _dropButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: sized_45,
-      child: ElevatedButton(
-          style:  isCheck ? primary_btn_style() :disable_btn_style() ,
-          onPressed: (isCheck)? (){
-              CustomDialog(funcAction: dialog_memberDrop).actionDialog(context, drop_member, '아니오', '확인');
-          } : null, child: Text('탈퇴하기',style: Theme.of(context).textTheme.displayLarge!.copyWith(fontWeight: isCheck ?FontWeight.w700 : FontWeight.w600,color: isCheck ? BasicColor.lightgrey2 : BasicColor.lightgrey4,))),
+  Widget _dropButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: padding_side),
+      child: SizedBox(
+        width: double.infinity,
+        height: sized_45,
+        child: ElevatedButton(
+            style:  isCheck ? primary_btn_style() :disable_btn_style() ,
+            onPressed: (isCheck)? (){
+                CustomDialog(funcAction: dialog_memberDrop).actionDialog(context, drop_member, '아니오', '확인');
+            } : null, child: Text('탈퇴하기',style: Theme.of(context).textTheme.displayLarge!.copyWith(fontWeight: isCheck ?FontWeight.w700 : FontWeight.w600,color: isCheck ? BasicColor.lightgrey2 : BasicColor.lightgrey4,))),
+      ),
     );
   }
 

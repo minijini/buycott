@@ -26,6 +26,7 @@ class StoreApiRepo {
     String prpReason,
     String x,
       String y,
+  {BuildContext? context}
   ) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -59,7 +60,7 @@ class StoreApiRepo {
       return BaseModel.withError(statusCode: CODE_RESPONSE_NULL, msg: "");
     } catch (e) {
       return BaseModel.withError(
-          statusCode: CODE_ERROR, msg: apiUtils.handleError(e));
+          statusCode: CODE_ERROR, msg: apiUtils.handleError(e,context: context));
     }
   }
 

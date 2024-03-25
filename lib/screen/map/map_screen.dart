@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buycott/constants/screen_size.dart';
@@ -14,11 +15,15 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:store_redirect/store_redirect.dart';
 
+import '../../constants/basic_text.dart';
 import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
 import '../../data/category_map.dart';
+import '../../states/user_notifier.dart';
 import '../../widgets/circle_progressbar.dart';
 import '../../widgets/style/container.dart';
 import 'bottom_sheet_screen.dart';
@@ -61,6 +66,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
   String? categorySelectData;
   String? categoryClickData;
 
+  bool isAppversionCheck = true;
+
+  String? apptype;
+
   @override
   void initState() {
     // setState(() {
@@ -72,6 +81,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
     //   }
     // });
 
+    _appVersionCheck();
 
     _animationController = AnimationController(
       vsync: this,
@@ -107,6 +117,54 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
     super.dispose();
   }
 
+
+
+  void _appVersionCheck() async{ //appversion + pushtoken등록
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String deviceAppversion = packageInfo.version;
+
+    Log.logs(TAG, "deviceAppversion :: $deviceAppversion");
+
+
+    if (Platform.isAndroid) {
+      apptype = "A";
+    } else if (Platform.isIOS) {
+      apptype = "I";
+    }
+
+    final _result =  await Provider.of<UserNotifier>(context,listen: false).appversion(context,  apptype!);
+    final _updateYn = _result!.forceYn;
+    String? _appversion = _result.appVersion;
+
+    Log.logs(TAG, "_appversion :: $_appversion");
+
+
+    if(_updateYn == 'Y'){
+      CustomDialog(funcAction: appUpdate).normalDialog(context, '필수 업데이트를 진행해주세요', '확인');
+      setState(() {
+        appUpdateYn = true;
+        isAppversionCheck = false;
+      });
+
+    }else{
+      if(_appversion != null) {
+        if (_appversion.compareTo(deviceAppversion) != 0) {
+          CustomDialog(funcAction: appUpdate).actionDialog(context, '업데이트를 진행해주세요', '아니오', '확인');
+        }
+
+        setState(() {
+          isAppversionCheck = false;
+        });
+
+      }
+    }
+  }
+
+  //TODO:APPUpdate 정보입력
+  void appUpdate(BuildContext context){
+    StoreRedirect.redirect(androidAppId: 'com.minijini.buycott', iOSAppId:'');
+  }
 
 
   Future<void> checkLocationPermission() async {
@@ -339,7 +397,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
 
    for (var storeModel in widget.storeNotifier.storeList)  {
 
-     _markerIcon = await getBytesFromAsset('assets/icon/icon_marker_${storeModel.storeType}.png', 130);
+     if(storeModel.storeType == "CE7" || storeModel.storeType == "FD6") {
+       _markerIcon = await getBytesFromAsset(
+           'assets/icon/icon_marker_${storeModel.storeType}.png', 130);
+     }else{
+       _markerIcon = await getBytesFromAsset(
+           'assets/icon/icon_marker.png', 130);
+     }
 
      Marker marker = Marker(
          markerId: MarkerId("${storeModel.storeSrno}"),

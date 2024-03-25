@@ -131,7 +131,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                          color: Colors.white,
                           child: Column(
                             children: [
-                              _storeInfo(context),
+                              _storeInfo(context,notifier),
                               Padding(
                                 padding: const EdgeInsets.only(top:sized_30 ),
                                 child: customDivider(BasicColor.lightgrey3, sized_8, sized_8),
@@ -255,7 +255,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                       );
   }
 
-  Padding _storeInfo(BuildContext context) {
+  Padding _storeInfo(BuildContext context,StoreNotifier notifier) {
     Widget starIcons = buildStarRating(storeModel?.score ?? 0, sized_12);
 
     return Padding(
@@ -299,20 +299,49 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 ],
               ),
             ),
+
+            Visibility(
+              visible: storeModel?.storePhone != null && storeModel?.storePhone != "",
+              child: Column(
+                children: [
+                  heightSizeBox(sized_10),
+                  RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                      text: "전화 번호",
+                      style: Theme.of(context).textTheme.displayMedium,
+                      children: <TextSpan>[
+                        TextSpan(text: " "),
+                        TextSpan(
+                            text: storeModel?.storePhone ?? "연락처 없음", style: Theme.of(context).textTheme.bodyMedium),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             heightSizeBox(sized_10),
             Row(
               children: [
-                Text('댓글 97', style: Theme.of(context).textTheme.displayMedium),
+                Text('댓글 ${notifier.reviewList.length}', style: Theme.of(context).textTheme.displayMedium),
                 widthSizeBox(sized_6),
                 starIcons
               ],
             ),
             heightSizeBox(sized_10),
             Text(storeModel?.storeAddress ?? "", style: Theme.of(context).textTheme.bodyMedium),
-            heightSizeBox(sized_10),
-            SizedBox(
-              width: size!.width -36,
-                child: AutoSizeText(storeModel?.storeDesc ?? "",minFontSize: 8, style: Theme.of(context).textTheme.bodyMedium,)),
+
+            Visibility(
+              visible:storeModel?.storeDesc != null  && storeModel?.storeDesc != "",
+              child: Column(
+                children: [
+                  heightSizeBox(sized_10),
+                  SizedBox(
+                    width: size!.width -36,
+                      child: AutoSizeText(storeModel?.storeDesc ?? "",minFontSize: 8, style: Theme.of(context).textTheme.bodyMedium,)),
+                ],
+              ),
+            ),
           ],
         ),
       ),

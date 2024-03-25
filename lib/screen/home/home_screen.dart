@@ -47,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _appVersionCheck();
 
     _mainStoresNotifier();
 
@@ -61,52 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  void _appVersionCheck() async{ //appversion + pushtoken등록
-
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String deviceAppversion = packageInfo.version;
-
-    Log.logs(TAG, "deviceAppversion :: $deviceAppversion");
-
-
-    if (Platform.isAndroid) {
-      apptype = "A";
-    } else if (Platform.isIOS) {
-      apptype = "I";
-    }
-
-    final _result =  await Provider.of<UserNotifier>(context,listen: false).appversion(context,  apptype!);
-    final _updateYn = _result!.forceYn;
-    String? _appversion = _result.appVersion;
-
-    Log.logs(TAG, "_appversion :: $_appversion");
-
-
-    if(_updateYn == 'Y'){
-      CustomDialog(funcAction: appUpdate).normalDialog(context, '필수 업데이트를 진행해주세요', '확인');
-      setState(() {
-        appUpdateYn = true;
-        isAppversionCheck = false;
-      });
-
-    }else{
-      if(_appversion != null) {
-        if (_appversion.compareTo(deviceAppversion) != 0) {
-          CustomDialog(funcAction: appUpdate).actionDialog(context, '업데이트를 진행해주세요', '아니오', '확인');
-        }
-
-        setState(() {
-          isAppversionCheck = false;
-        });
-
-      }
-    }
-  }
-
-  //TODO:APPUpdate 정보입력
-  void appUpdate(BuildContext context){
-    StoreRedirect.redirect(androidAppId: 'com.minijini.buycott', iOSAppId:'');
-  }
 
 
 

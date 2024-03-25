@@ -128,10 +128,9 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                 ),
 
             ),
-            Expanded(
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: _review_add_Button(context))),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: _review_add_Button(context)),
             Visibility(
                 visible: progressValue != 1.0,
                 child: CustomCircularProgress())
@@ -184,7 +183,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                                 validator: (text) {
                                   return Validator().validateNull(text?.trim(), '내용을 입력해주세요');
                                 },
-                                decoration:  textInputDecor_grey(0,
+                                decoration:  textInputDecor_grey(5,
                                   hint: "방문일, 맛, 서비스, 위치 등 후기를 자유롭게 남겨주세요.",
                                 ).copyWith(hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: BasicColor.darkgrey))
                             ),

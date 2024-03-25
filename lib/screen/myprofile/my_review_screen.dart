@@ -77,25 +77,23 @@ class _MyReviewScreenState extends State<MyReviewScreen> {
   }
 
   Widget _myReviewList() {
-    return  Expanded(
-      child: ScrollConfiguration(
-        behavior: NoGlowScrollBehavior(),
-        child: Consumer<StoreNotifier>(
-            builder: (context, notifier, widget) {
-            return notifier.myReviewList.isNotEmpty ? ListView.separated(
-                controller: _scrollController,
-                itemBuilder: (context, index) {
-                  Review review = notifier.myReviewList[index];
+    return  ScrollConfiguration(
+      behavior: NoGlowScrollBehavior(),
+      child: Consumer<StoreNotifier>(
+          builder: (context, notifier, widget) {
+          return notifier.myReviewList.isNotEmpty ? ListView.separated(
+              controller: _scrollController,
+              itemBuilder: (context, index) {
+                Review review = notifier.myReviewList[index];
 
-                  return MyReviewListTile(
-                      review: review,index: index,);
-                },
-                separatorBuilder: (context, index) {
-                  return divider();
-                },
-                itemCount: notifier.myReviewList.length) : getReviewsList ?  ListEmptyScreen(title: '내가 쓴 리뷰가 없습니다.',) : CustomCircularProgress();
-          }
-        ),
+                return MyReviewListTile(
+                    review: review,index: index,);
+              },
+              separatorBuilder: (context, index) {
+                return divider();
+              },
+              itemCount: notifier.myReviewList.length) : getReviewsList ?  ListEmptyScreen(title: '내가 쓴 리뷰가 없습니다.',) : CustomCircularProgress();
+        }
       ),
     );
   }

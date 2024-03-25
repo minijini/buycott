@@ -7,11 +7,14 @@ import 'package:buycott/widgets/star_widget.dart';
 import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
+import '../../states/store_notifier.dart';
 import '../../utils/utility.dart';
 import '../../widgets/UnanimatedPageRoute.dart';
+import '../../widgets/list/main_shop_list_tile.dart';
 
 class ShopBottomSheet extends StatefulWidget {
   final StoreModel? storeModel;
@@ -31,6 +34,8 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
   @override
   void initState() {
     _controller.addListener(_onChanged);
+
+    _mainStoresNotifier();
 
     super.initState();
 
@@ -116,13 +121,13 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
       return DraggableScrollableSheet(
         // 화면 비율로 높이 조정
         key: _sheet,
-        initialChildSize: widget.storeModel?.storeName != null ? 0.3: 85 / constraints.maxHeight,
+        initialChildSize: widget.storeModel?.storeName != null ? 0.5: 85 / constraints.maxHeight,
         maxChildSize: 1,
         minChildSize:  85 / constraints.maxHeight,
         snap: true,
         expand: true,
         snapSizes: const [
-          0.3,
+          0.5,
           1,
         ],
         controller: _controller,
@@ -166,10 +171,31 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
       SliverToBoxAdapter(
           child:  _sliverTitle(context)
       ),
-      SliverList.list(
+    Consumer<StoreNotifier>(builder:(context, notifier, child) {
+    return SliverList.list(
         children: [
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: padding_side),
+            child: Column(
+            crossAxisAlignment : CrossAxisAlignment.start,
+              children: [
+                heightSizeBox(sized_10),
+                _title(context, "인기 돈쭐"),
+                heightSizeBox(sized_10),
+                _todayBuyCott(notifier, 1),
+                _buildHeightSizeBox(),
+                _title(context, "새로운 돈쭐"),
+                heightSizeBox(sized_10),
+                _todayBuyCott(notifier, 2),
+                _buildHeightSizeBox(),
+              ],
+            ),
+          ),
+
         ],
-      ),
+      );
+    } )
     ];
   }
 
@@ -234,5 +260,56 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
         ],
       ),
     );
+  }
+
+  Row _title(BuildContext context, String title) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.displayLarge,
+        ),
+        Image.asset(
+          "assets/icon/icon_arrow_right.png",
+          width: 20,
+          height: 20,
+          fit: BoxFit.fill,
+        )
+      ],
+    );
+  }
+
+  Widget _todayBuyCott(StoreNotifier storeNotifier, int code) {
+    List<StoreModel> _storeList = storeNotifier.mainStoreList
+        .where((store) => store.code == code)
+        .toList();
+
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 50.0,
+          maxHeight: 100.0,
+        ),
+        child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              StoreModel storeModel = _storeList[index];
+
+              return MainShopListTile(
+                storeModel: storeModel,
+              );
+            },
+            itemCount: _storeList.length),
+      ),
+    );
+  }
+
+  SizedBox _buildHeightSizeBox() => heightSizeBox(sized_30);
+
+  void _mainStoresNotifier() {
+    Provider.of<StoreNotifier>(context, listen: false).getMainStores();
   }
 }

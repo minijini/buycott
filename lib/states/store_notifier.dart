@@ -26,11 +26,10 @@ class StoreNotifier extends ChangeNotifier {
   List<KeywordItem> _keywordList = [];
   StoreModel? _storeModel;
 
-
   /*
     * 가게 등록
     * */
-  Future registerStore(
+  Future<bool> registerStore(
     BuildContext context,
     String apiId,
     int userSrno,
@@ -44,7 +43,7 @@ class StoreNotifier extends ChangeNotifier {
       String x,
       String y,
   ) async {
-    final result = await StoreApiRepo().registerStore(apiId,userSrno, storeType, storeTypeNm, storeAddress, storeName, storePhone, storeDesc,prpReason, x, y);
+    final result = await StoreApiRepo().registerStore(apiId,userSrno, storeType, storeTypeNm, storeAddress, storeName, storePhone, storeDesc,prpReason, x, y,context: context);
 
     if (result != null) {
 
@@ -52,11 +51,11 @@ class StoreNotifier extends ChangeNotifier {
 
         var dataResult = ResultModel.fromJson(result.data);
 
-        _resultDialog(context, dataResult);
-
+        return true;
       }
 
     }
+    return false;
   }
 
   Future getStores(BuildContext context,double x, double y,{String? storeType}) async{

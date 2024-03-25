@@ -35,6 +35,9 @@ const String review_fail = '리뷰등록에 실패했습니다.';
 const String edit_profile_success = '프로필 수정 완료하였습니다.';
 const String drop_member = '회원 탈퇴 하시겠습니까?';
 const String drop_member_success = '회원 탈퇴 되었습니다.\n다음에 다시 만나요';
+const String drop_member_agree = '유의사항을 모두 확인하였습니다.';
+const String drop_member_text = '1. 개인 정보 모두 삭제\n\n2. 탈퇴 후 작성한 게시물 및 리뷰 삭제 불가\n\n3. 탈퇴 후 개인정보 복원 불가';
+const String store_register_text = '가게등록이 완료되었습니다.\n 관리자 승인 진행 후 조회 가능합니다.';
 
 
 

@@ -57,6 +57,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   child: _myProfile(context),
                 ),
                 heightSizeBox(sized_30),
+                _menu(context, "돈쭐 가게 제안 하기 !", true, () {
+                  context.goNamed(storeAddRouteName);
+                }),
+
                 _menu(context, "내가 제안한 가게", true, () {
                   context.goNamed(
                     myStoreRegisterRouteName,
@@ -66,9 +70,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   context.goNamed(myReviewRouteName);
                 }),
 
-                _menu(context, "가게 제안", true, () {
-                  context.goNamed(storeAddRouteName);
-                }),
+
               ],
             ) :  _menu(context, "로그인해주세요", true, () {
               if(widget.userNotifier.authStatus == AuthStatus.signout){

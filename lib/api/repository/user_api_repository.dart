@@ -212,7 +212,11 @@ class UserApiRepo {
       });
 
     try {
-      final response = await apiUtils.postWithProgress(url: url,data : formData,onSendProgress: (int sent, int total) {
+      final response = await apiUtils.postWithProgress(url: url,data : formData,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ),onSendProgress: (int sent, int total) {
         final progress = sent / total;
         Log.logs("userimg",'progress: $progress ($sent/$total)');
         onProgress(progress);
@@ -244,8 +248,13 @@ class UserApiRepo {
 
     Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno};
 
+    debugPrint("token ::: $token");
     try {
-      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -272,8 +281,17 @@ class UserApiRepo {
 
     Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno};
 
+    debugPrint('token :::: $token');
+
     try {
-      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+      final response = await apiUtils.get(
+          url: url,
+          queryParameters: queryParameters,
+          options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -303,7 +321,11 @@ class UserApiRepo {
     Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno,PARAM_NICKNAME:nickname};
 
     try {
-      final response = await apiUtils.put(url: url,data: queryParameters);
+      final response = await apiUtils.put(url: url,data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -338,7 +360,11 @@ class UserApiRepo {
      };
 
     try {
-      final response = await apiUtils.put(url: url,data: queryParameters);
+      final response = await apiUtils.put(url: url,data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -370,7 +396,11 @@ class UserApiRepo {
     };
 
     try {
-      final response = await apiUtils.put(url: url,data: queryParameters);
+      final response = await apiUtils.put(url: url,data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -451,7 +481,11 @@ class UserApiRepo {
     Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno};
 
     try {
-      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -483,7 +517,11 @@ class UserApiRepo {
       PARAM_USERSRNO: userSrno};
 
     try {
-      final response = await apiUtils.post(url: url,data: queryParameters);
+      final response = await apiUtils.post(url: url,data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -513,7 +551,11 @@ class UserApiRepo {
       PARAM_USERSRNO: userSrno};
 
     try {
-      final response = await apiUtils.delete(url: url,data: queryParameters);
+      final response = await apiUtils.delete(url: url,data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -543,7 +585,11 @@ class UserApiRepo {
     Map<String, dynamic>? queryParameters = { PARAM_USERSRNO: userSrno};
 
     try {
-      final response = await apiUtils.put(url: url,data: queryParameters);
+      final response = await apiUtils.put(url: url,data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 

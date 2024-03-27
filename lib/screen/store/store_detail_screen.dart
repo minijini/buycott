@@ -167,15 +167,13 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
 
   Widget _empty(){
     return SliverToBoxAdapter(
-      child: Expanded(
-        child: Column(
-          children: [
-            heightSizeBox(sized_90),
-            Image.asset('assets/icon/icon_review.png',width: sized_75,height: sized_75,),
-            heightSizeBox(sized_10),
-            Text('작성된 리뷰가 없습니다.',style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),)
-          ],
-        ),
+      child: Column(
+        children: [
+          heightSizeBox(sized_90),
+          Image.asset('assets/icon/icon_review.png',width: sized_75,height: sized_75,),
+          heightSizeBox(sized_10),
+          Text('작성된 리뷰가 없습니다.',style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),)
+        ],
       ),
     );
   }
@@ -287,7 +285,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             //   ],
             // ),
             // heightSizeBox(sized_24),
-            RichText(
+            storeModel?.businessHours != null ? RichText(
               textAlign: TextAlign.start,
               text: TextSpan(
                 text: storeModel?.businessHours != null ? Utility().getOpenClose(storeModel!.businessHours!.split("~")[0], storeModel!.businessHours!.split("~")[1]): "",
@@ -295,35 +293,42 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 children: <TextSpan>[
                   TextSpan(text: " "),
                   TextSpan(
-                      text: storeModel?.businessHours ?? "", style: Theme.of(context).textTheme.bodyMedium),
+                      text: storeModel!.businessHours, style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
-            ),
+            ) : RichText(
+              textAlign: TextAlign.start,
+              text: TextSpan(
+                text: "영업 시간",
+                style: Theme.of(context).textTheme.displayMedium,
+                children: <TextSpan>[
+                  TextSpan(
+                      text: " 영업 시간 없음", style: Theme.of(context).textTheme.bodyMedium),
+                ],
+              ),
+            ) ,
 
-            Visibility(
-              visible: storeModel?.storePhone != null && storeModel?.storePhone != "",
-              child: Column(
-                children: [
-                  heightSizeBox(sized_10),
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: "전화 번호",
-                      style: Theme.of(context).textTheme.displayMedium,
-                      children: <TextSpan>[
-                        TextSpan(text: " "),
-                        TextSpan(
-                            text: storeModel?.storePhone ?? "연락처 없음", style: Theme.of(context).textTheme.bodyMedium),
-                      ],
-                    ),
+            Column(
+              children: [
+                heightSizeBox(sized_10),
+                RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    text: "전화 번호",
+                    style: Theme.of(context).textTheme.displayMedium,
+                    children: <TextSpan>[
+                      TextSpan(text: " "),
+                      TextSpan(
+                          text: storeModel?.storePhone != null && storeModel?.storePhone != "" ? storeModel?.storePhone : "연락처 없음", style: Theme.of(context).textTheme.bodyMedium),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             heightSizeBox(sized_10),
             Row(
               children: [
-                Text('댓글 ${notifier.reviewList.length}', style: Theme.of(context).textTheme.displayMedium),
+                Text('리뷰 ${storeModel?.reviewCnt}', style: Theme.of(context).textTheme.displayMedium),
                 widthSizeBox(sized_6),
                 starIcons
               ],

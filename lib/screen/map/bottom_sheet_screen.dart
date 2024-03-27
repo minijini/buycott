@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buycott/constants/screen_size.dart';
 import 'package:buycott/data/store_model.dart';
 import 'package:buycott/screen/login/login_screen.dart';
@@ -121,12 +122,13 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
       return DraggableScrollableSheet(
         // 화면 비율로 높이 조정
         key: _sheet,
-        initialChildSize: widget.storeModel?.storeName != null ? 0.5: 85 / constraints.maxHeight,
+        initialChildSize: widget.storeModel?.storeName != null ? 0.25: 85 / constraints.maxHeight,
         maxChildSize: 1,
         minChildSize:  85 / constraints.maxHeight,
         snap: true,
         expand: true,
         snapSizes: const [
+          0.25,
           0.5,
           1,
         ],
@@ -220,18 +222,45 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
                 style: Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: sized_18),
               ),
               heightSizeBox(sized_10),
-              RichText(
+              widget.storeModel?.businessHours != null ? RichText(
                 textAlign: TextAlign.start,
                 text: TextSpan(
-                  text:  widget.storeModel?.businessHours != null ? Utility().getOpenClose(widget.storeModel!.businessHours!.split("~")[0], widget.storeModel!.businessHours!.split("~")[1]): "",
+                  text: widget.storeModel?.businessHours != null ? Utility().getOpenClose(widget.storeModel!.businessHours!.split("~")[0], widget.storeModel!.businessHours!.split("~")[1]): "",
                   style: Theme.of(context).textTheme.displayMedium,
                   children: <TextSpan>[
-                    TextSpan(text: "  "),
+                    TextSpan(text: " "),
                     TextSpan(
-                        text: widget.storeModel?.businessHours ?? "", style: Theme.of(context).textTheme.bodyMedium),
+                        text: widget.storeModel!.businessHours, style: Theme.of(context).textTheme.bodyMedium),
                   ],
                 ),
-              )
+              ) : RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  text: "영업 시간",
+                  style: Theme.of(context).textTheme.displayMedium,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: " 영업 시간 없음", style: Theme.of(context).textTheme.bodyMedium),
+                  ],
+                ),
+              ) ,
+              Column(
+                children: [
+                  heightSizeBox(sized_10),
+                  RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                      text: "전화 번호",
+                      style: Theme.of(context).textTheme.displayMedium,
+                      children: <TextSpan>[
+                        TextSpan(text: " "),
+                        TextSpan(
+                            text: widget.storeModel?.storePhone != null && widget.storeModel?.storePhone != "" ? widget.storeModel?.storePhone : "연락처 없음", style: Theme.of(context).textTheme.bodyMedium),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ) : Container(),
@@ -248,15 +277,24 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
           heightSizeBox(sized_10),
           Row(
             children: [
-              Text('댓글 97', style: Theme.of(context).textTheme.displayMedium),
+              Text('리뷰 ${widget.storeModel?.reviewCnt}', style: Theme.of(context).textTheme.displayMedium),
               widthSizeBox(sized_6),
               buildStarRating(widget.storeModel?.score ?? 0, sized_10)
             ],
           ),
           heightSizeBox(sized_10),
           Text(widget.storeModel?.storeAddress ?? "", style: Theme.of(context).textTheme.bodyMedium),
-          heightSizeBox(sized_10),
-          Text(widget.storeModel?.storeDesc ?? "", style: Theme.of(context).textTheme.bodyMedium),
+          Visibility(
+            visible:widget.storeModel?.storeDesc != null  && widget.storeModel?.storeDesc != "",
+            child: Column(
+              children: [
+                heightSizeBox(sized_10),
+                SizedBox(
+                    width: size!.width -36,
+                    child: AutoSizeText(widget.storeModel?.storeDesc ?? "",minFontSize: 8, style: Theme.of(context).textTheme.bodyMedium,)),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -312,4 +350,5 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
   void _mainStoresNotifier() {
     Provider.of<StoreNotifier>(context, listen: false).getMainStores();
   }
+
 }

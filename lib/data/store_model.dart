@@ -16,10 +16,12 @@ class StoreModel {
     String? storeTypeNm,
     int? score,
     int? code,
+    int? reviewCnt,
     String? storeDesc,
     String? businessHours,
     String? watchYn,
     String? storePhone,
+    String? validYn,
   }) {
     _storeSrno = storeSrno;
     _storeType = storeType;
@@ -30,10 +32,12 @@ class StoreModel {
     _storeTypeNm = storeTypeNm;
     _score = score;
     _code = code;
+    _reviewCnt = reviewCnt;
     _storeDesc = storeDesc;
     _businessHours = businessHours;
     _watchYn = watchYn;
     _storePhone = storePhone;
+    _validYn = validYn;
   }
 
   StoreModel.fromJson(dynamic json) {
@@ -47,10 +51,12 @@ class StoreModel {
     _storeTypeNm = json['storeTypeNm'];
     _score = json['score'];
     _code = json['code'];
+    _reviewCnt = json['reviewCnt'];
     _storeDesc = json['storeDesc'];
     _businessHours = json['businessHours'];
     _watchYn = json['watchYn'];
     _storePhone = json['storePhone'];
+    _validYn = json['validYn'];
   }
 
   int? _storeSrno;
@@ -62,10 +68,12 @@ class StoreModel {
   String? _storeTypeNm;
   int? _score;
   int? _code;
+  int? _reviewCnt;
   String? _storeDesc;
   String? _businessHours;
   String? _watchYn;
   String? _storePhone;
+  String? _validYn;
 
   int? get storeSrno => _storeSrno;
 
@@ -79,11 +87,13 @@ class StoreModel {
   String? get businessHours => _businessHours;
 
   int? get distance => _distance;
+  int? get reviewCnt => _reviewCnt;
 
   String? get storeTypeNm => _storeTypeNm;
   String? get storeDesc => _storeDesc;
   String? get watchYn => _watchYn;
   String? get storePhone => _storePhone;
+  String? get validYn => _validYn;
 
   int? get score => _score;
 
@@ -102,10 +112,12 @@ class StoreModel {
     map['storeTypeNm'] = _storeTypeNm;
     map['score'] = _score;
     map['code'] = _code;
+    map['reviewCnt'] = _reviewCnt;
     map['businessHours'] = _businessHours;
     map['storeDesc'] = _storeDesc;
     map['watchYn'] = _watchYn;
     map['storePhone'] = _storePhone;
+    map['validYn'] = _validYn;
     return map;
   }
 }

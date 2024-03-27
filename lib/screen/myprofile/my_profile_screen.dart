@@ -187,7 +187,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   child: Container(
                     width: sized_40,
                     height: sized_26,
-                    decoration: grayDecor(sized_15),
+                   decoration: grayDecor(sized_15),
                     child: Center(
                       child: AutoSizeText('수정',
                           style: Theme.of(context)

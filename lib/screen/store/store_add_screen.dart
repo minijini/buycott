@@ -37,6 +37,7 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
   TextEditingController _storeNameController = TextEditingController();
   TextEditingController _storeAddressController = TextEditingController();
   Place? storeModel;
+  String? _storePrp;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -173,7 +174,7 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
   }
 
   bool _storeRegisterButton_click_possibility(){
-    if(storeModel != null && _storePrpReasonController.text.isNotEmpty){
+    if(storeModel != null && _storePrp != null && _storePrp != ""){
       return true;
     }else{
       return false;
@@ -194,6 +195,12 @@ class _StoreAddScreenState extends State<StoreAddScreen> {
           textAlignVertical: TextAlignVertical.top,
           validator: (text) {
             return Validator().validateNull(text?.trim(), '내용을 입력해주세요');
+          },
+          onChanged: (text){
+            setState(() {
+              _storePrp = text;
+            });
+
           },
           decoration:  textInputDecor_grey(5,
             hint: "해당 가게를 제안 하는 이유를 입력 해 주세요",

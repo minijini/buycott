@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../constants/basic_text.dart';
 import '../../data/base_model.dart';
 import '../api_end_points.dart';
 import '../api_params.dart';
@@ -51,7 +52,11 @@ class StoreApiRepo {
     };
 
     try {
-      final response = await apiUtils.post(url: url, data: queryParameters);
+      final response = await apiUtils.post(url: url, data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
         return BaseModel.fromJson(response.data);
@@ -202,7 +207,11 @@ class StoreApiRepo {
 
 
     try {
-      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -249,7 +258,11 @@ class StoreApiRepo {
     });
 
     try {
-      final response = await apiUtils.postWithProgress(url: url, data: formData,onSendProgress: (int sent, int total) {
+      final response = await apiUtils.postWithProgress(url: url, data: formData,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ),onSendProgress: (int sent, int total) {
         final progress = sent / total;
         onProgress(progress);
       });
@@ -316,7 +329,11 @@ class StoreApiRepo {
     };
 
     try {
-      final response = await apiUtils.put(url: url,data: queryParameters);
+      final response = await apiUtils.put(url: url,data: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 
@@ -349,7 +366,11 @@ class StoreApiRepo {
     };
 
     try {
-      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters,options: Options(
+          headers: {
+            "Authorization" : "Bearer $token"
+          }
+      ));
 
       if (response != null) {
 

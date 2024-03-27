@@ -369,7 +369,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: _kMapMarker,
-        zoom: 18.0,
+        zoom: 15.0,
       ),
     ));
 

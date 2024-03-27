@@ -55,7 +55,7 @@ class ApiUtils {
     var result = await _dio.get(url,
         queryParameters: queryParameters,
         options: userTokenHeader
-            ? null
+            ? options
             : Options(headers: {"Authorization": kakao_response_key}));
     return result;
   }

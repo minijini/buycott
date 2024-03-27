@@ -176,7 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<UserNotifier>(context,listen: false).login(context, userId, "$userId$signType").then((value) => Navigator.pop(context,"reset"));
       }
     });
-
   }
 
 

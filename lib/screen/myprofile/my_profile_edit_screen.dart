@@ -84,7 +84,7 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
       body: Form(
         key: _formKey,
         child: Container(
-          width: size!.width,
+          width: device_width!,
           height: size!.height,
           padding: EdgeInsets.symmetric(horizontal: padding_side),
           child: Column(
@@ -255,7 +255,7 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
   }
 
   bool _editProfileButton_click_possibility(){
-    if(nickNmCheck == true || _ximage != null){
+    if(nickNmCheck == true){
       return true;
     }else{
       return false;
@@ -354,27 +354,27 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
                   Navigator.pop(context);
                 },
               ),
-              Divider(
-                color: BasicColor.linegrey,
-              ),
-              Visibility(
-                visible: _ximage != null,
-                child: ListTile(
-                  title: Center(
-                      child: Text('사진삭제',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayMedium!
-                              .copyWith(color: BasicColor.primary2))),
-                  onTap: () {
-                    setState(() {
-                      _ximage = null;
-                    });
-
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
+              // Divider(
+              //   color: BasicColor.linegrey,
+              // ),
+              // Visibility(
+              //   visible: _ximage != null,
+              //   child: ListTile(
+              //     title: Center(
+              //         child: Text('사진삭제',
+              //             style: Theme.of(context)
+              //                 .textTheme
+              //                 .displayMedium!
+              //                 .copyWith(color: BasicColor.primary2))),
+              //     onTap: () {
+              //       setState(() {
+              //         _ximage = null;
+              //       });
+              //
+              //       Navigator.pop(context);
+              //     },
+              //   ),
+              // ),
 
 
             ],
@@ -398,7 +398,11 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
   }
 
   void modifyNickname(){
-    Provider.of<UserNotifier>(context,listen: false).modifyNickname(context, userSrno!, _nickNameTextController.text);
+    Provider.of<UserNotifier>(context,listen: false).modifyNickname(context, userSrno!, _nickNameTextController.text).then((value){
+      if(value){
+        CustomDialog(funcAction: dialogMainPop).normalDialog(context, nickName_success, '확인');
+      }
+    });
   }
 
 
@@ -410,9 +414,13 @@ class _MyProfileEditScreenState extends State<MyProfileEditScreen> {
     Navigator.pop(context);
   }
 
-  void dialogProfilePop(BuildContext context) async {
+  void goMain(){
+    context.goNamed(mainRouteName);
+  }
+
+  void dialogMainPop(BuildContext context) async {
     Navigator.pop(context);
-    Navigator.pop(context);
+    goMain();
   }
 
   void handleProgress(double progress) {

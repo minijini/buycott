@@ -52,7 +52,7 @@ class _StoreListTileState extends State<StoreListTile> {
                       children: [
                         heightSizeBox(sized_5),
                         SizedBox(
-                            width: size!.width - 75,
+                            width: device_width! - 75,
                             child: Text(widget.addressName,style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: BasicColor.lightgrey2),maxLines: 1,overflow: TextOverflow.ellipsis,)),
                       ],
                     ),

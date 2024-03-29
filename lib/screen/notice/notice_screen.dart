@@ -49,7 +49,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
               icon: Image.asset('assets/icon/icon_arrow_left.png',scale: 16,))
       ),
       body: Container(
-        width: size!.width,
+        width: device_width!,
         height: size!.height,
         child: _noticeList(),
       ) ,

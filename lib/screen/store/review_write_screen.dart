@@ -93,7 +93,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
             SingleChildScrollView(
               child:
                 Container(
-                  width: size!.width,
+                  width: device_width!,
                   child: Column(
                     children: [
                       _storeInfo(),
@@ -196,7 +196,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
                               Visibility(
                                 visible :_images.isNotEmpty,
                                 child: Container(
-                                  width: _images.length == 2 ? size!.width - 206 :size!.width - 286 ,
+                                  width: _images.length == 2 ? device_width! - 206 :device_width! - 286 ,
                                   height: sized_70,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
@@ -287,7 +287,7 @@ class _ReviewWriteScreenState extends State<ReviewWriteScreen> {
 
   RatingBar _ratingBar() {
     return RatingBar.builder(
-                            initialRating: 4,
+                            initialRating: 5,
                             minRating: 1,
                             direction: Axis.horizontal,
                             itemCount: 5,

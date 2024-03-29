@@ -417,6 +417,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
              _storeModel = storeModel;
            });
 
+           _getStoreDetail();
+
            // _mapController?.animateCamera(
            //   CameraUpdate.newLatLng(LatLng(storeModel.storeLoc!.y!, storeModel.storeLoc!.x!)),
            // );
@@ -438,6 +440,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
   }
 
 
+
+  void _getStoreDetail() {
+    Provider.of<StoreNotifier>(context, listen: false).storeDetail(_storeModel?.storeSrno ?? 0,userSrno);
+  }
 
  void _getStores(double x, double y){
    if(categorySelectData != null){

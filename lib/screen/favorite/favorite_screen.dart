@@ -52,7 +52,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           ),
         backgroundColor: Colors.white,
         body: userSrno == null ? _loginPage(context) : Container(
-          width: size!.width,
+          width: device_width!,
           height: size!.height,
           child: _favoriteList(),
         )
@@ -88,7 +88,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   Container _loginPage(BuildContext context) {
     return Container(
-        width: size!.width,
+        width: device_width!,
         height: size!.height,
         padding: EdgeInsets.only(top: sized_150),
         child:  RichText(
@@ -127,7 +127,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   Container _EmptyPage(BuildContext context) {
     return Container(
-      width: size!.width,
+      width: device_width!,
       height: size!.height,
       padding: EdgeInsets.only(top: sized_150),
       child: Column(

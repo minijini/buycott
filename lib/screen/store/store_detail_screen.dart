@@ -87,7 +87,6 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar:AppBar(
-
         title: Text(
           storeModel?.storeName ?? "",
           style: Theme.of(context).textTheme.titleLarge,
@@ -239,7 +238,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                                     heightSizeBox(sized_20),
                                     Container(
                                       height: sized_50,
-                                      width: size!.width-36,
+                                      width: device_width!-36,
                                       color: Colors.white,
                                     ),
                                   ],
@@ -328,7 +327,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             heightSizeBox(sized_10),
             Row(
               children: [
-                Text('리뷰 ${storeModel?.reviewCnt}', style: Theme.of(context).textTheme.displayMedium),
+                Text('리뷰 ${context.read<StoreNotifier>().storeModel?.reviewCnt ?? 0}', style: Theme.of(context).textTheme.displayMedium),
                 widthSizeBox(sized_6),
                 starIcons
               ],
@@ -342,7 +341,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 children: [
                   heightSizeBox(sized_10),
                   SizedBox(
-                    width: size!.width -36,
+                    width: device_width! -36,
                       child: AutoSizeText(storeModel?.storeDesc ?? "",minFontSize: 8, style: Theme.of(context).textTheme.bodyMedium,)),
                 ],
               ),
@@ -386,6 +385,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
       });
     }
   }
+
 
   scrollListener() async {
     if (_scrollController.offset  == _scrollController.position.maxScrollExtent && !_scrollController.position.outOfRange) {

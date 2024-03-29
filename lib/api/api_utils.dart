@@ -211,7 +211,7 @@ class ApiUtils {
     //   CustomDialog(funcAction: (BuildContext context) async {
     //     Navigator.pop(context);
     //   })
-    //       .normalDialog(context, errorDescription.toString(), '확인');
+    //       .normalDialog(context, '$error \n\n$errorDescription', '확인');
     // }
 
     return errorDescription;

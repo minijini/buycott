@@ -237,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Stack(
                 children: [
                   SizedBox(
-                    width: size!.width - 36,
+                    width: device_width! - 36,
                     height: 140,
                     child: PageView.builder(
                       controller: controller,
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Positioned(
-                    left: size!.width * 0.4,
+                    left: device_width! * 0.4,
                     bottom: 10,
                     child: SmoothPageIndicator(
                       controller: controller,
@@ -278,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   disableColor: Colors.white,
       //   animation: true,
       //   borderRadius: 10,
-      //   width: size!.width,
+      //   width: device_width!,
       //   onTap: (id) => print(id),
       //   indicatorBottom: false,
       //   margin: EdgeInsets.zero,
@@ -289,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _emptyBanner() {
     return EmptyScreen(
       widget: Container(
-        width: size!.width - 36,
+        width: device_width! - 36,
         height: 140,
         decoration: BoxDecoration(
           color: Colors.white,

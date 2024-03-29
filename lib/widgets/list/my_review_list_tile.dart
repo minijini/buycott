@@ -8,15 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/basic_text.dart';
+import '../../constants/constants.dart';
 import '../../states/store_notifier.dart';
+import '../dialog/custom_dialog.dart';
 import '../square_image.dart';
 import '../star_widget.dart';
 
-class MyReviewListTile extends StatelessWidget {
+class MyReviewListTile extends StatefulWidget {
   final Review review;
   final int index;
   const MyReviewListTile({super.key, required this.review, required this.index});
 
+  @override
+  State<MyReviewListTile> createState() => _MyReviewListTileState();
+}
+
+class _MyReviewListTileState extends State<MyReviewListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,13 +36,13 @@ class MyReviewListTile extends StatelessWidget {
               children: [
                 _title(context),
                 Visibility(
-                    visible: review.signedUrls != null,
+                    visible: widget.review.signedUrls != null,
                     child: _reviewImg()) ,
                 heightSizeBox(sized_20),
-                Text(review.reviewContent ?? "",style: Theme.of(context).textTheme.bodySmall!.copyWith(color: BasicColor.lightgrey2)),
+                Text(widget.review.reviewContent ?? "",style: Theme.of(context).textTheme.bodySmall!.copyWith(color: BasicColor.lightgrey2)),
                 Align(
                     alignment: Alignment.bottomRight,
-                    child: Text('작성일 ${Utility().getDateFormat(review.regDt!)}',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10,color: BasicColor.lightgrey2))),
+                    child: Text('작성일 ${Utility().getDateFormat(widget.review.regDt!)}',style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: sized_10,color: BasicColor.lightgrey2))),
                 heightSizeBox(sized_10),
               ],
             ),
@@ -54,7 +61,7 @@ class MyReviewListTile extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(review.storeName ?? "",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.black),),
+                        Text(widget.review.storeName ?? "",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.black),),
                         widthSizeBox(sized_5),
                         Text('·',style: Theme.of(context).textTheme.displayMedium,),
                         widthSizeBox(sized_5),
@@ -65,7 +72,7 @@ class MyReviewListTile extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
                         onTap: (){
-                          deleteReview(context,review.reviewSrno.toString());
+                          CustomDialog(funcAction: dialog_remove_review).actionDialog(context, review_remove, '아니오', '확인');
                         },
                         child: Container(
                           width: sized_30,
@@ -81,25 +88,34 @@ class MyReviewListTile extends StatelessWidget {
 
   Widget _reviewImg() {
     return SizedBox(
-      height: review.signedUrls!.isNotEmpty ? 120 : 0,
+      height: widget.review.signedUrls!.isNotEmpty ? 120 : 0,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: List.generate(
-            review.signedUrls!.length,
+            widget.review.signedUrls!.length,
                 (index) =>  Padding(
               padding: const EdgeInsets.only(right: sized_10,top: sized_20),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(sized_10),
-                  child: SquareImage(img: review.signedUrls![index],width:sized_100,height: sized_100,)),
+                  child: SquareImage(img: widget.review.signedUrls![index],width:sized_100,height: sized_100,)),
             )
         ),
       ),
     );
   }
 
+  void dialog_remove_review(BuildContext context) async {
+    Navigator.pop(context);
+    dialog_review_delete();
+  }
+
+  void dialog_review_delete(){
+    deleteReview(context,widget.review.reviewSrno.toString());
+  }
+
   void deleteReview(BuildContext context,String reviewSrno){
-    Provider.of<StoreNotifier>(context, listen: false).deleteReview(context, review.storeSrno.toString(), userSrno.toString(), reviewSrno).then((value){
-      context.read<StoreNotifier>().myReviewList.removeAt(index);
+    Provider.of<StoreNotifier>(context, listen: false).deleteReview(context, widget.review.storeSrno.toString(), userSrno.toString(), reviewSrno).then((value){
+      context.read<StoreNotifier>().myReviewList.removeAt(widget.index);
     }
     );
   }

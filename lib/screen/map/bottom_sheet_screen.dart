@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/basic_text.dart';
 import '../../constants/constants.dart';
 import '../../constants/padding_size.dart';
 import '../../states/store_notifier.dart';
@@ -40,6 +41,11 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
 
     super.initState();
 
+  }
+
+
+  void _getStoreDetail() {
+    Provider.of<StoreNotifier>(context, listen: false).storeDetail(widget.storeModel?.storeSrno ?? 0 ,userSrno);
   }
 
   void _onChanged() {
@@ -277,7 +283,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
           heightSizeBox(sized_10),
           Row(
             children: [
-              Text('리뷰 ${widget.storeModel?.reviewCnt}', style: Theme.of(context).textTheme.displayMedium),
+              Text('리뷰 ${context.read<StoreNotifier>().storeModel?.reviewCnt ?? 0}', style: Theme.of(context).textTheme.displayMedium),
               widthSizeBox(sized_6),
               buildStarRating(widget.storeModel?.score ?? 0, sized_10)
             ],
@@ -290,7 +296,7 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
               children: [
                 heightSizeBox(sized_10),
                 SizedBox(
-                    width: size!.width -36,
+                    width: device_width! -36,
                     child: AutoSizeText(widget.storeModel?.storeDesc ?? "",minFontSize: 8, style: Theme.of(context).textTheme.bodyMedium,)),
               ],
             ),
@@ -309,12 +315,12 @@ class _ShopBottomSheetState extends State<ShopBottomSheet> {
           title,
           style: Theme.of(context).textTheme.displayLarge,
         ),
-        Image.asset(
-          "assets/icon/icon_arrow_right.png",
-          width: 20,
-          height: 20,
-          fit: BoxFit.fill,
-        )
+        // Image.asset(
+        //   "assets/icon/icon_arrow_right.png",
+        //   width: 20,
+        //   height: 20,
+        //   fit: BoxFit.fill,
+        // )
       ],
     );
   }

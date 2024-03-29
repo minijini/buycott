@@ -5,18 +5,25 @@ import 'package:buycott/widgets/style/container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/constants.dart';
 import '../../data/review_model.dart';
 import '../../states/store_notifier.dart';
 import '../../utils/color/basic_color.dart';
+import '../dialog/custom_dialog.dart';
 import '../square_image.dart';
 import '../star_widget.dart';
 
-class ReviewListTile extends StatelessWidget {
+class ReviewListTile extends StatefulWidget {
   final Review review;
   final String storeSrno;
   final int index;
   const ReviewListTile({super.key, required this.review, required this.storeSrno, required this.index});
 
+  @override
+  State<ReviewListTile> createState() => _ReviewListTileState();
+}
+
+class _ReviewListTileState extends State<ReviewListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,11 +36,11 @@ class ReviewListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Visibility(
-                    visible: review.reviewSignedUrls != null,
+                    visible: widget.review.reviewSignedUrls != null,
                     child: _reviewImg()) ,
                 _title(context),
                 heightSizeBox(sized_10),
-                Text(review.reviewContent ?? "" ,style: Theme.of(context).textTheme.bodySmall),
+                Text(widget.review.reviewContent ?? "" ,style: Theme.of(context).textTheme.bodySmall),
                 _deleteReview(context),
                 heightSizeBox(sized_20),
 
@@ -54,13 +61,13 @@ class ReviewListTile extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleImage(img: review.userSignUrl,size: sized_24,),
+                        CircleImage(img: widget.review.userSignUrl,size: sized_24,),
                         widthSizeBox(sized_5),
-                        Text(review.nickname ?? "",style: Theme.of(context).textTheme.displayMedium,),
+                        Text(widget.review.nickname ?? "",style: Theme.of(context).textTheme.displayMedium,),
                         widthSizeBox(sized_5),
                         Text('·',style: Theme.of(context).textTheme.displayMedium,),
                         widthSizeBox(sized_5),
-                        buildStarRating(review.score??0,sized_18),
+                        buildStarRating(widget.review.score??0,sized_18),
                       ],
                     ),
 
@@ -71,12 +78,14 @@ class ReviewListTile extends StatelessWidget {
 
   Visibility _deleteReview(BuildContext context) {
     return Visibility(
-                  visible: userSrno == review.userSrno,
+                  visible: userSrno == widget.review.userSrno,
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: (){
-                        deleteReview(context,review.reviewSrno.toString());
+
+                        CustomDialog(funcAction: dialog_remove_review).actionDialog(context, review_remove, '아니오', '확인');
+
                       },
                       child: Container(
                         width: sized_30,
@@ -90,28 +99,35 @@ class ReviewListTile extends StatelessWidget {
 
   Widget _reviewImg() {
     return SizedBox(
-      height: review.reviewSignedUrls!.isNotEmpty ? 120 : 0,
+      height: widget.review.reviewSignedUrls!.isNotEmpty ? 120 : 0,
       child: ListView(
           scrollDirection: Axis.horizontal,
           children: List.generate(
-              review.reviewSignedUrls!.length,
+              widget.review.reviewSignedUrls!.length,
                   (index) =>  Padding(
                 padding: const EdgeInsets.only(right: sized_10,top: sized_20),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(sized_10),
-                    child: SquareImage(img: review.reviewSignedUrls![index],width:sized_100,height: sized_100,)),
+                    child: SquareImage(img: widget.review.reviewSignedUrls![index],width:sized_100,height: sized_100,)),
               )
           ),
         ),
     );
   }
 
+  void dialog_remove_review(BuildContext context) async {
+    Navigator.pop(context);
+    dialog_review_delete();
+  }
 
+  void dialog_review_delete(){
+    deleteReview(context,widget.review.reviewSrno.toString());
+  }
 
   void deleteReview(BuildContext context,String reviewSrno){
-    Provider.of<StoreNotifier>(context, listen: false).deleteReview(context, storeSrno, userSrno.toString(), reviewSrno).then((value){
-      debugPrint('index : $index');
-      context.read<StoreNotifier>().reviewList.removeAt(index);
+    Provider.of<StoreNotifier>(context, listen: false).deleteReview(context, widget.storeSrno, userSrno.toString(), reviewSrno).then((value){
+      debugPrint('index : ${widget.index}');
+      context.read<StoreNotifier>().reviewList.removeAt(widget.index);
     }
     );
   }

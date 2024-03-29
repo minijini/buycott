@@ -8,6 +8,7 @@ import 'package:buycott/states/place_notifier.dart';
 import 'package:buycott/states/store_notifier.dart';
 import 'package:buycott/utils/log_util.dart';
 import 'package:buycott/widgets/list/place_list_tile.dart';
+import 'package:device_screen_size/device_screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
@@ -97,6 +98,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     size ??= MediaQuery.of(context).size;
+    device_width ??= DeviceScreenSize.screenWidthInPercentage(context, percentage: 1);
 
     return WillPopScope(
       onWillPop: onWillPop,

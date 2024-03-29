@@ -280,7 +280,7 @@ class UserNotifier extends ChangeNotifier{
   /*
     * 닉네임 수정
     * */
-  Future modifyNickname( BuildContext context,int userSrno,String nickname) async{
+  Future<bool> modifyNickname( BuildContext context,int userSrno,String nickname) async{
 
     final result = await UserApiRepo().modifyNickname(userSrno,nickname);
 
@@ -290,13 +290,14 @@ class UserNotifier extends ChangeNotifier{
         var dataResult = ResultModel.fromJson(result.data);
 
         if(dataResult.code == profileSuccess){
-          _resultDialog(context, dataResult);
 
           _getUserProfile(userSrno);
 
+          return true;
         }
       }
     }
+    return false;
   }
 
  /*
@@ -402,6 +403,8 @@ class UserNotifier extends ChangeNotifier{
           var dataResult = ResultModel.fromJson(result.data);
 
           _profileImg = dataResult.signedUrl ?? "";
+
+          _resultDialog(context, dataResult);
 
           notifyListeners();
         }

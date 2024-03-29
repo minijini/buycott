@@ -15,7 +15,7 @@ class ListEmptyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size!.width,
+      width: device_width!,
       height: size!.height,
       child: Column(
         children: [

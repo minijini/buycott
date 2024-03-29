@@ -179,6 +179,8 @@ class StoreNotifier extends ChangeNotifier {
         var dataResult = ResultModel.fromJson(result.data);
 
         _reviewListReset(storeSrno,userSrno);
+        storeDetail(int.parse(storeSrno), int.parse(userSrno));
+
 
         notifyListeners();
 
@@ -231,6 +233,7 @@ class StoreNotifier extends ChangeNotifier {
 
       if (result.isSuccess(context: context)) {
         // _reviewListReset(storeSrno,userSrno);
+        storeDetail(int.parse(storeSrno), int.parse(userSrno));
         notifyListeners();
 
         return true;

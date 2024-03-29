@@ -171,7 +171,8 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           heightSizeBox(sized_90),
           Image.asset('assets/icon/icon_review.png',width: sized_75,height: sized_75,),
           heightSizeBox(sized_10),
-          Text('작성된 리뷰가 없습니다.',style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),)
+          Text('작성된 리뷰가 없습니다.',style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),),
+          heightSizeBox(size!.height / 3),
         ],
       ),
     );

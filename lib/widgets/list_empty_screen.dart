@@ -20,7 +20,7 @@ class ListEmptyScreen extends StatelessWidget {
       child: Column(
         children: [
           heightSizeBox(sized_180),
-          Text(title,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),)
+          Text(title,style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),),
         ],
       ),
     );

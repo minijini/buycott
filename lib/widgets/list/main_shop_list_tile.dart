@@ -60,7 +60,7 @@ class MainShopListTile extends StatelessWidget {
       return Image.asset(
         'assets/icon/icon_marker_${storeModel.storeType}.png', scale: 12,);
     }else{
-      return Image.asset("assets/icon/icon_marker.png", scale: 12);
+      return Image.asset("assets/icon/icon_marker_etc.png", scale: 12);
     }
 
   }

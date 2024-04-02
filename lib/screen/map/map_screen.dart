@@ -250,11 +250,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
               _mapController = controller;
             },
             onCameraIdle: (){// 카메라 이동이 멈춘 경우
-
-              _getStores(longitude!,latitude!);
+              // _getStores(longitude!,latitude!);
             },
             onCameraMove: (object) => { //카메라 이동 시 좌표가져오기
+
               setState(() {
+
                 latitude = object.target.latitude;
                 longitude = object.target.longitude;
               })
@@ -273,6 +274,31 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
                 ),
 
                 _category(),
+                heightSizeBox(sized_15),
+                GestureDetector(
+                  onTap: () {
+                    _getStores(longitude!,latitude!);
+                  },
+                  child: Container(
+                    width: 150,
+                    height: sized_30,
+                    decoration: appBarDecor(Colors.white),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.refresh),
+                        widthSizeBox(sized_5),
+                        AutoSizeText('현 지도에서 다시 검색',
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall!
+                        ),
+                      ],
+                    ),
+
+                  ),
+                )
               ],
             ),
 
@@ -399,10 +425,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin{
 
      if(storeModel.storeType == "CE7" || storeModel.storeType == "FD6") {
        _markerIcon = await getBytesFromAsset(
-           'assets/icon/icon_marker_${storeModel.storeType}.png', 130);
+           'assets/icon/icon_marker_${storeModel.storeType}.png', 80);
      }else{
        _markerIcon = await getBytesFromAsset(
-           'assets/icon/icon_marker.png', 130);
+           'assets/icon/icon_marker_etc.png', 80);
      }
 
      Marker marker = Marker(

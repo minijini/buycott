@@ -59,7 +59,14 @@ BoxDecoration appBarDecor(Color color){
   return BoxDecoration(
       color: color,
       shape: BoxShape.rectangle,
-      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.7),
+          blurRadius: 3.0,
+          spreadRadius: 0.0,
+        )
+      ],
+      borderRadius: BorderRadius.circular(15),
       );
 }
 

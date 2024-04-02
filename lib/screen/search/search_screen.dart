@@ -338,7 +338,7 @@ class _SearchScreenState extends State<SearchScreen>
                   child: StoreListTile(
                     placeName: storeModel.storeName!,
                     addressName: storeModel.storeAddress!,
-                    likeYn: false,
+                    likeYn: storeModel.watchYn?? "N",
                     storeSrno: storeModel.storeSrno.toString(),
                     searchYn: true,
                   ));

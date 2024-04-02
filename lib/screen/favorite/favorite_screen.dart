@@ -75,7 +75,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           'storeSrno' : store.storeSrno.toString()
                         });
                       },
-                      child: StoreListTile(placeName: store.storeName ?? "", addressName: store.storeAddress ?? "", likeYn: true,storeSrno: store.storeSrno.toString(),searchYn: false,));
+                      child: StoreListTile(placeName: store.storeName ?? "", addressName: store.storeAddress ?? "", likeYn: "Y",storeSrno: store.storeSrno.toString(),searchYn: false,));
                 },
                 separatorBuilder: (context, index) {
                   return divider();

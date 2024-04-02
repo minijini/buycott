@@ -12,7 +12,7 @@ class StoreListTile extends StatefulWidget {
   final String placeName;
   final String addressName;
   final String storeSrno;
-   bool likeYn;
+   String likeYn;
    final bool searchYn;
    StoreListTile({super.key, required this.placeName, required this.addressName, required this.likeYn, required this.storeSrno, required this.searchYn});
 
@@ -33,11 +33,11 @@ class _StoreListTileState extends State<StoreListTile> {
             children: [
               GestureDetector(
                 onTap: (){
-                  if(!widget.searchYn) {
+                  if(widget.searchYn) {
                     favorite();
                   }
                 },
-                child: Image.asset(widget.likeYn ? "assets/icon/icon_like_on.png" : "assets/icon/icon_like_off.png",width: 20,
+                child: Image.asset(widget.likeYn == "Y" ? "assets/icon/icon_like_on.png" : "assets/icon/icon_like_off.png",width: 20,
                   height: 20,fit: BoxFit.fill,),
               ),
               widthSizeBox(sized_14),
@@ -70,16 +70,16 @@ class _StoreListTileState extends State<StoreListTile> {
 
 
   void favorite() async{
-    if(widget.likeYn){
+    if(widget.likeYn == "Y"){
       Provider.of<UserNotifier>(context,listen: false).favoreteDelete(widget.storeSrno, userSrno!).then((value){
         setState(() {
-          widget.likeYn = false;
+          widget.likeYn = "N";
         });
       });
     }else{
       Provider.of<UserNotifier>(context,listen: false).favoreteAdd(widget.storeSrno, userSrno!).then((value){
         setState(() {
-          widget.likeYn = true;
+          widget.likeYn = "Y";
         });
       });
     }

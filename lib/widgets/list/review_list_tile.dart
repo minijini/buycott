@@ -90,7 +90,7 @@ class _ReviewListTileState extends State<ReviewListTile> {
                       child: Container(
                         width: sized_30,
                         height: sized_20,
-                        child: Center(child: Text('삭제',style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline,color:BasicColor.linegrey))),
+                        child: Center(child: Text('삭제',style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline,decorationColor: BasicColor.linegrey,color:BasicColor.linegrey))),
                       ),
                     ),
                   ),

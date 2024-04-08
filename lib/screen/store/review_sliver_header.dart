@@ -38,7 +38,7 @@ class ReviewSliverHeader extends SliverPersistentHeaderDelegate {
                           'storeSrno' : storeSrno.toString()
                         });
                       },
-                      child: Text('리뷰쓰기',style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline,color: BasicColor.lightgrey2),)))
+                      child: Text('리뷰쓰기',style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline,decorationColor: BasicColor.lightgrey2,color: BasicColor.lightgrey2),)))
               ),
             )
           ],

@@ -89,8 +89,8 @@ class StoreNotifier extends ChangeNotifier {
   /*
   * 가게이름으로 검색
   * */
-  Future searchStores(String word) async{
-    final result = await StoreApiRepo().searchStores(word);
+  Future searchStores(String word,int? userSrno) async{
+    final result = await StoreApiRepo().searchStores(word,userSrno);
 
     if (result != null) {
       if (result.isSuccess()) {

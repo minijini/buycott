@@ -98,7 +98,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4),
             children: <TextSpan>[
               TextSpan(
-                  text: "여기", style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4,decoration: TextDecoration.underline),
+                  text: "여기", style: Theme.of(context).textTheme.displayMedium!.copyWith(color: BasicColor.lightgrey4,decorationColor: BasicColor.lightgrey4,decoration: TextDecoration.underline),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
                     context.goNamed(loginRouteName);

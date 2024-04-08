@@ -94,7 +94,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   onTap: (){
                     signOut(widget.userNotifier.loginPlatform);
                   },
-                  child: Text("로그아웃",style: Theme.of(context).textTheme.displaySmall!.copyWith(color: BasicColor.lightgrey4,decoration: TextDecoration.underline),)),
+                  child: Text("로그아웃",style: Theme.of(context).textTheme.displaySmall!.copyWith(color: BasicColor.lightgrey4, decorationColor: BasicColor.lightgrey4,decoration: TextDecoration.underline),)),
             )
           ],
         ),

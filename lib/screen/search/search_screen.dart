@@ -1,3 +1,4 @@
+import 'package:buycott/constants/basic_text.dart';
 import 'package:buycott/data/keyword_Item.dart';
 import 'package:buycott/data/address_result_model.dart';
 import 'package:buycott/data/store_model.dart';
@@ -107,7 +108,7 @@ class _SearchScreenState extends State<SearchScreen>
 
   void getStores(String word) {
     Log.logs(TAG, "word :: $word");
-    Provider.of<StoreNotifier>(context, listen: false).searchStores(word);
+    Provider.of<StoreNotifier>(context, listen: false).searchStores(word,userSrno);
   }
 
   @override

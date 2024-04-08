@@ -164,7 +164,7 @@ class StoreApiRepo {
   /*
   * 가게이름으로 검색
   * */
-  Future<BaseModel?> searchStores(String word,{BuildContext? context}) async {
+  Future<BaseModel?> searchStores(String word,int? userSrno,{BuildContext? context}) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return BaseModel.withError(
@@ -173,11 +173,15 @@ class StoreApiRepo {
 
     String url = Api.baseUrl + ApiEndPoints.store_name;
 
-    Map<String, dynamic>? queryParameters = { PARAM_WORD : word};
+    Map<String, dynamic>? queryParameters = { PARAM_WORD : word,PARAM_USERSRNO : userSrno};
 
 
     try {
-      final response = await apiUtils.get(url: url,queryParameters: queryParameters);
+      final response = await apiUtils.get(url: url,queryParameters: queryParameters,options: Options(
+      headers: {
+      "Authorization" : "Bearer $token"
+      }
+      ));
 
       if (response != null) {
 
